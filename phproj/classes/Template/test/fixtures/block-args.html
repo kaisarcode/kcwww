@@ -1,0 +1,10 @@
+{{@setblock user_card}}
+<div class="user-card">
+    Name: {{name}}
+    Role: {{role}}
+</div>
+{{@endsetblock}}
+
+Users:
+{{@block user_card ['name' => 'Alice', 'role' => 'Admin']}}
+{{@block user_card ['name' => 'Bob', 'role' => 'User']}}

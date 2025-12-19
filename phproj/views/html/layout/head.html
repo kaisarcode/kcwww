@@ -1,0 +1,29 @@
+{{@setblock head}}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{app.name}}</title>
+
+<meta name="description" content="{{app.desc}}">
+<meta name="keywords" content="{{app.keywords}}">
+
+<!-- PWA Meta -->
+<meta name="theme-color" content="{{app.color}}">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="{{app.name}}">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- Icons -->
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon-180.png">
+
+<link rel="manifest" href="/manifest.json">
+
+<!-- Assets -->
+<link rel="preload" href="/styles.css" as="style">
+<link rel="preload" href="/script.js" as="script">
+
+<link rel="stylesheet" href="/styles.css">
+<script src="/script.js" defer></script>
+{{@endsetblock}}

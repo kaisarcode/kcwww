@@ -1,0 +1,23 @@
+# PHP
+*.log
+*.cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Dependencies (vendored, so we track them)
+# (none to ignore for now)
+*.gguf

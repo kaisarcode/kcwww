@@ -1,0 +1,1 @@
+nixi -a dummy --project-path "/home/kaisar/www/dummy" --common-name "localhost" --php-version "8.3" --packages "php-fpm php-cli php-sqlite3 php-gd php-zip php-curl php-mbstring php-xml php-imagick" --allow "index.php,styles.css,script.js,worker.js,manifest.json,favicon.ico,favicon-,appicon-,apple-touch-icon-180.png,img,pub"
