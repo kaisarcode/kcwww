@@ -1,6 +1,6 @@
 <?php
 /**
- * Dummy Site - Configuration Overrides
+ * KaisarCode Site - Configuration Overrides
  * Summary: Site-specific configuration that overrides core defaults.
  *
  * Author:  KaisarCode

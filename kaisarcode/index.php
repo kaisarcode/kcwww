@@ -1,7 +1,7 @@
 <?php
 /**
- * Dummy Site - Entry Point
- * Summary: Child site extending phproj core.
+ * KaisarCode Site - Entry Point
+ * Summary: Official KaisarCode website extending phproj core.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
