@@ -20,6 +20,6 @@ class HomeController extends Controller
      */
     public static function index(): string
     {
-        return self::html(VIEWS . '/html/home.html');
+        return self::html(Conf::get('VIEWS') . '/html/home.html');
     }
 }

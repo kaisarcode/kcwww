@@ -9,5 +9,6 @@
  * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-define('ROOT', __DIR__);
-require_once ROOT . '/setup.php';
+define('DIR_APP', __DIR__);
+define('DIR_CORE', __DIR__);
+require_once DIR_CORE . '/setup.php';

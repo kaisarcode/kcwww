@@ -26,21 +26,22 @@ Conf::set([
     'app.dev' => DEVM,
 
     // Paths for template access
-    'VIEWS' => VIEWS,
+    // Paths for template access
+    'VIEWS' => DIR_CORE . '/views',
 
     // Assets setup
-    'assets.css.entry' => VIEWS . '/css/styles.css',
-    'assets.js.entry' => VIEWS . '/js/script.js',
-    'assets.worker.entry' => VIEWS . '/worker/worker.js',
+    'assets.css.entry' => DIR_CORE . '/views/css/styles.css',
+    'assets.js.entry' => DIR_CORE . '/views/js/script.js',
+    'assets.worker.entry' => DIR_CORE . '/views/worker/worker.js',
 
     // Image/Icon source directories
-    'app.image.src_dir' => VIEWS . '/img',
-    'app.icon.src' => VIEWS . '/img/app.svg',
-    'app.favicon.src' => VIEWS . '/img/ico.svg',
+    'app.image.src_dir' => DIR_CORE . '/views/img',
+    'app.icon.src' => DIR_CORE . '/views/img/app.svg',
+    'app.favicon.src' => DIR_CORE . '/views/img/ico.svg',
 
     // Caching
-    'app.image.cache_dir' => APP_CACHE . '/img',
-    'tpl.conf.cache_dir' => APP_CACHE . '/tpl',
+    'app.image.cache_dir' => DIR_VAR . '/cache/img',
+    'tpl.conf.cache_dir' => DIR_VAR . '/cache/tpl',
     'tpl.conf.cache_enabled' => !DEVM,
 
     // PWA settings

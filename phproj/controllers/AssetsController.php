@@ -91,10 +91,10 @@ class AssetsController extends Controller
         }
 
         $locations = [];
-        if (defined('VIEWS_OVERRIDE')) {
-            $locations[] = VIEWS_OVERRIDE;
+        if (DIR_APP !== DIR_CORE && is_dir(DIR_APP . '/views')) {
+            $locations[] = DIR_APP . '/views';
         }
-        $locations[] = VIEWS;
+        $locations[] = DIR_CORE . '/views';
 
         $found = '';
         foreach ($locations as $loc) {

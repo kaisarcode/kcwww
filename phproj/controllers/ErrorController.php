@@ -72,9 +72,9 @@ class ErrorController extends Controller
         Conf::set('error.message', $desc);
 
         // Resolve template strictly within html/ directory
-        $template = (defined('VIEWS_OVERRIDE') && is_file(VIEWS_OVERRIDE . '/html/error.html'))
-            ? VIEWS_OVERRIDE . '/html/error.html'
-            : VIEWS . '/html/error.html';
+        $template = (DIR_APP !== DIR_CORE && is_file(DIR_APP . '/views/html/error.html'))
+            ? DIR_APP . '/views/html/error.html'
+            : DIR_CORE . '/views/html/error.html';
 
         if (is_file($template)) {
             return self::html($template);

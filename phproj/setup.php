@@ -11,60 +11,54 @@
  */
 
 // Determine if running as core for a child site
-// CORE is defined by child sites, ROOT is always the child's path
-if (!defined('CORE')) {
-    define('CORE', ROOT);
+// Determine if running as core for a child site
+// DIR_CORE is defined by child sites, DIR_APP is always the child's path
+if (!defined('DIR_CORE')) {
+    define('DIR_CORE', DIR_APP);
 }
 
 // Load Autoloader from core
-require_once CORE . '/autoload.php';
+require_once DIR_CORE . '/autoload.php';
 
 // Register autoload directories (child paths first for override capability)
 $autoloadPaths = [];
-if (ROOT !== CORE) {
-    $autoloadPaths[] = ROOT . '/classes';
-    $autoloadPaths[] = ROOT . '/controllers';
-    $autoloadPaths[] = ROOT . '/models';
+if (DIR_APP !== DIR_CORE) {
+    $autoloadPaths[] = DIR_APP . '/classes';
+    $autoloadPaths[] = DIR_APP . '/controllers';
+    $autoloadPaths[] = DIR_APP . '/models';
 }
-$autoloadPaths[] = CORE . '/classes';
-$autoloadPaths[] = CORE . '/controllers';
-$autoloadPaths[] = CORE . '/models';
+$autoloadPaths[] = DIR_CORE . '/classes';
+$autoloadPaths[] = DIR_CORE . '/controllers';
+$autoloadPaths[] = DIR_CORE . '/models';
 autoload($autoloadPaths);
 
-// Define directory constants (use child paths for runtime data)
-define('VIEWS', CORE . '/views');
-define('APP_VAR', ROOT . '/var');
-define('APP_CACHE', APP_VAR . '/cache');
-
-// Child can override views
-if (ROOT !== CORE && is_dir(ROOT . '/views')) {
-    define('VIEWS_OVERRIDE', ROOT . '/views');
-}
 
 // Initialize environment directories
-Fs::mkdirp(APP_VAR, 0775);
-Fs::mkdirp(APP_CACHE, 0775);
-Fs::mkdirp(APP_CACHE . '/img', 0775);
-Fs::mkdirp(APP_CACHE . '/tpl', 0775);
+define('DIR_VAR', DIR_APP . '/var');
+Fs::mkdirp(DIR_VAR, 0775);
+Fs::mkdirp(DIR_VAR . '/cache', 0775);
+Fs::mkdirp(DIR_VAR . '/cache/img', 0775);
+Fs::mkdirp(DIR_VAR . '/cache/tpl', 0775);
+Fs::mkdirp(DIR_VAR . '/data/db', 0775);
 
 // Development mode flag
-define('DEVM', file_exists(APP_VAR . '/dev'));
+define('DEVM', file_exists(DIR_VAR . '/dev'));
 
 // Load core configuration
-require_once CORE . '/conf.php';
+require_once DIR_CORE . '/conf.php';
 
 // Load child configuration overrides
-if (ROOT !== CORE && file_exists(ROOT . '/conf.php')) {
-    require_once ROOT . '/conf.php';
+if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/conf.php')) {
+    require_once DIR_APP . '/conf.php';
 }
 
 // Initialize base controller
 Controller::init();
 
 // Load core routes
-require_once CORE . '/routes.php';
+require_once DIR_CORE . '/routes.php';
 
 // Load child routes (additional or override)
-if (ROOT !== CORE && file_exists(ROOT . '/routes.php')) {
-    require_once ROOT . '/routes.php';
+if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/routes.php')) {
+    require_once DIR_APP . '/routes.php';
 }

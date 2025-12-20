@@ -1,0 +1,20 @@
+{{@setblock header}}
+<h1>
+    <a href="/" title="Ir al inicio">
+        {{@block fa ["name" => "ico", "path" => ROOT."/views/img"]}}
+        <span>{{app.name}}</span>
+    </a>
+</h1>
+<nav>
+    <menu>
+        <li><a href="/about" title="Acerca de este sitio">
+            {{@block fa ["name" => "circle-info"]}}
+            <span>About</span>
+        </a></li>
+        <li><a href="/contacto" title="Contacto">
+            {{@block fa ["name" => "envelope"]}}
+            <span>Contacto</span>
+        </a></li>
+    </menu>
+</nav>
+{{@endsetblock}}

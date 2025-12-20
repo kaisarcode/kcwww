@@ -143,7 +143,7 @@ abstract class Model
      */
     public function __get(string $name)
     {
-        return $this->bean->$name;
+        return $this->bean->$name ?? null;
     }
 
     /**
@@ -188,6 +188,18 @@ abstract class Model
         if (!$this->beforeSave()) {
             return 0;
         }
+
+        // Auto-fields
+        if (!$this->bean->id && !isset($this->bean->active)) {
+            $this->bean->active = 1;
+        }
+        if (!$this->bean->id && !isset($this->bean->protected)) {
+            $this->bean->protected = 0;
+        }
+        if (!$this->bean->id && !isset($this->bean->date_add)) {
+            $this->bean->date_add = date('Y-m-d H:i:s');
+        }
+        $this->bean->date_upd = date('Y-m-d H:i:s');
 
         $id = R::store($this->bean);
         $this->afterSave();
