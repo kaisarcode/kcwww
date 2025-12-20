@@ -35,6 +35,15 @@ class ApiController extends Controller
     public static function handle(string $modelName, ?string $id = null): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
+        if (empty($modelName) || $modelName === 'status') {
+             echo self::json([
+                'status' => 'ok',
+                'result' => 42,
+                'errors' => []
+            ]);
+            return;
+        }
+
         $className = self::getModelClass($modelName);
 
         if (!$className || !class_exists($className)) {

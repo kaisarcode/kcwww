@@ -82,3 +82,8 @@ Route::all('/api/([\w\d_-]+)/(\d+)', function ($matches) {
 Route::all('/api/([\w\d_-]+)', function ($matches) {
     return ApiController::handle($matches[1]);
 });
+
+// Health Check
+Route::all('/api', function () {
+    return ApiController::handle('status');
+});
