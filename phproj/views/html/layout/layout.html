@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{{@include DIR_CORE.'/views/html/layout/head.html'}}
+{{@include DIR_CORE.'/views/html/layout/header.html'}}
+{{@include DIR_CORE.'/views/html/layout/main.html'}}
+{{@include DIR_CORE.'/views/html/layout/footer.html'}}
+<html lang="{{app.lang}}">
+    <head>
+        {{@block head}}
+    </head>
+    <body>
+        <header>
+            {{@block header}}
+        </header>
+        <main>
+            {{@block main}}
+        </main>
+        <footer>
+            {{@block footer}}
+        </footer>
+    </body>
+</html>

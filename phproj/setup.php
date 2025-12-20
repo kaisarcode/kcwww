@@ -10,7 +10,10 @@
  * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-// Determine if running as core for a child site
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Determine if running as core for a child site
 // DIR_CORE is defined by child sites, DIR_APP is always the child's path
 if (!defined('DIR_CORE')) {

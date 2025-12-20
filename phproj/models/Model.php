@@ -243,6 +243,7 @@ abstract class Model
      */
     public static function find(int $id): ?static
     {
+        static::init();
         $bean = R::load(static::$table, $id);
         if (!$bean->id) {
             return null;
@@ -259,6 +260,7 @@ abstract class Model
      */
     public static function findAll(string $sql = '', array $bindings = []): array
     {
+        static::init();
         $beans = R::find(static::$table, $sql, $bindings);
         $models = [];
         foreach ($beans as $bean) {
@@ -276,6 +278,7 @@ abstract class Model
      */
     public static function findFirst(string $sql = '', array $bindings = []): ?static
     {
+        static::init();
         $bean = R::findOne(static::$table, $sql, $bindings);
         if (!$bean) {
             return null;
@@ -292,6 +295,7 @@ abstract class Model
      */
     public static function count(string $sql = '', array $bindings = []): int
     {
+        static::init();
         return R::count(static::$table, $sql, $bindings);
     }
 

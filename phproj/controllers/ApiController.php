@@ -38,7 +38,11 @@ class ApiController extends Controller
         if (empty($modelName) || $modelName === 'status') {
              echo self::json([
                 'status' => 'ok',
-                'result' => 42,
+                'result' => [
+                    'app' => Conf::get('app.id'),
+                    'version' => Conf::get('app.cache.ver'),
+                    'time' => date('Y-m-d H:i:s')
+                ],
                 'errors' => []
             ]);
             return;
