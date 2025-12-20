@@ -1,0 +1,523 @@
+@import url("vars.css");
+@import url("reset.css");
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    padding: calc(var(--pad)*1rem);
+}
+
+body>header,
+body>footer {
+    width: 100%;
+    max-width: var(--max);
+    min-width: var(--min);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: var(--min);
+    max-width: var(--max);
+    width: 100%;
+}
+
+main>section,
+main>article,
+section>article {
+    padding: 0;
+    border: 0;
+}
+
+
+/* Base panels and semantic blocks */
+.pnl,
+main,
+section,
+article,
+header,
+footer,
+aside,
+button,
+input,
+select,
+textarea,
+fieldset,
+legend,
+dialog,
+code,
+kbd,
+samp,
+var,
+output,
+progress,
+label {
+    display: block;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: calc(var(--rad)*1rem);
+    padding: calc(var(--pad)*1rem);
+    background-color: var(--bg-pnl);
+    border-color: var(--bd-pnl);
+    color: var(--tx);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    display: block;
+    margin-bottom: calc(var(--pad)*1rem);
+}
+
+fieldset {
+    padding: calc(var(--pad)*1rem);
+}
+
+fieldset:has(>legend) {
+    padding-top: 0;
+}
+
+fieldset:has(>footer) {
+    padding-bottom: 0;
+}
+
+/* Remove bottom margin on last child */
+*:last-child,
+header>*,
+footer>*,
+article {
+    margin-bottom: 0;
+}
+
+main>* {
+    margin-bottom: calc(var(--pad)*1rem);
+}
+
+/* Contextual color areas */
+.hdr,
+header,
+legend {
+    background-color: var(--bg-hdr);
+    border-color: var(--bd-hdr);
+    color: var(--tx-hdr);
+}
+
+.ftr,
+footer {
+    background-color: var(--bg-ftr);
+    border-color: var(--bd-ftr);
+    color: var(--tx-ftr);
+}
+
+.bdy,
+section {
+    background-color: var(--bg-bdy);
+    border-color: var(--bd-bdy);
+    color: var(--tx-bdy);
+}
+
+/* Article columns inside sections */
+section:has(> article) {
+    display: grid;
+    gap: calc(var(--pad)*1rem);
+    grid-template-columns: repeat(auto-fit, minmax(max(calc(100% / 4), var(--col)), 1fr));
+}
+
+section:has(> article)>article {
+    min-width: 0;
+}
+
+/* Header and footer as grid containers */
+header,
+footer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: calc(var(--pad)*1rem);
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Align header/footer children */
+header>*,
+footer>* {
+    margin: 0;
+    justify-self: center;
+    white-space: nowrap;
+}
+
+header>*:last-child,
+footer>*:last-child {
+    justify-self: end;
+}
+
+header>*:first-child,
+footer>*:first-child {
+    justify-self: start;
+}
+
+/* Headings inside header/footer */
+header h1,
+header h2,
+header h3,
+header h4,
+header h5,
+header h6,
+footer h1,
+footer h2,
+footer h3,
+footer h4,
+footer h5,
+footer h6 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    color: var(--tx-hdr);
+}
+
+footer h1,
+footer h2,
+footer h3,
+footer h4,
+footer h5,
+footer h6 {
+    color: var(--tx-ftr);
+}
+
+/* Navigation lists */
+header ul,
+footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--pad)*1rem);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header li,
+footer li {
+    display: inline-block;
+}
+
+/* Links */
+a,
+header nav a:hover,
+footer nav a:hover {
+    color: var(--bg-prm);
+    text-decoration: none;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a,
+nav a {
+    color: inherit;
+}
+
+/* Buttons */
+.btn,
+button {
+    display: inline-block;
+    background-color: var(--bg-prm);
+    border-color: var(--bd-prm);
+    color: var(--tx-prm);
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Form elements */
+
+.ipt,
+input,
+select,
+textarea {
+    color: var(--tx-sys);
+    border-color: var(--bd-sys);
+    background-color: var(--bg-sys);
+}
+
+.ipt,
+input,
+select,
+textarea {
+    width: 100%;
+    display: inline-block;
+}
+
+textarea {
+    resize: vertical;
+}
+
+[type="radio"],
+[type="checkbox"] {
+    margin-top: -4px;
+    border-color: var(--bd-sys);
+    background-color: var(--bg-sys);
+}
+
+input:invalid,
+select:invalid,
+textarea:invalid {
+    border-color: var(--bd-dng);
+}
+
+/* Dialogs */
+dialog {
+    display: none;
+    min-width: var(--min);
+    max-width: var(--max);
+}
+
+dialog[open] {
+    display: block;
+}
+
+/* I/O Elements */
+code,
+kbd,
+samp,
+var,
+output {
+    display: inline-block;
+    padding: calc(var(--pad) * 0.25rem) calc(var(--pad) * 0.5rem);
+    border-color: var(--bd-cod);
+    background-color: var(--bg-cod);
+    border-radius: calc(var(--rad) * 0.5rem);
+}
+
+pre code,
+pre kbd,
+pre samp,
+pre var,
+pre output {
+    padding: calc(var(--pad)*1rem);
+    margin-bottom: 0;
+}
+
+/* Progress */
+progress {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    border: 1px solid var(--bd-sys);
+    border-radius: calc(var(--rad)*1rem);
+    background-color: var(--bg-sys);
+    overflow: hidden;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+progress::-webkit-progress-bar {
+    background-color: var(--bg-sys);
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--bg-prm);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+progress::-moz-progress-bar {
+    background-color: var(--bg-prm);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Special overrides */
+header,
+legend {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+}
+
+legend {
+    float: left;
+    width: calc(100% + 2 * var(--pad) * 1rem);
+    margin-left: calc(-1 * var(--pad) * 1rem);
+    margin-right: calc(-1 * var(--pad) * 1rem);
+    margin-bottom: calc(var(--pad) * 1rem);
+    border: 0;
+    border-bottom: 1px solid var(--bd-pnl);
+    border-top-left-radius: calc(var(--rad)*1rem);
+    border-top-right-radius: calc(var(--rad)*1rem);
+}
+
+fieldset>footer {
+    float: left;
+    width: calc(100% + 2 * var(--pad) * 1rem);
+    margin-left: calc(-1 * var(--pad) * 1rem);
+    margin-right: calc(-1 * var(--pad) * 1rem);
+    margin-bottom: calc(-1 * var(--pad) * 1rem);
+    margin-top: 0;
+    border: 0;
+    border-top: 1px solid var(--bd-pnl);
+    border-bottom-left-radius: calc(var(--rad)*1rem);
+    border-bottom-right-radius: calc(var(--rad)*1rem);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+header+main,
+header+article,
+header+section,
+main+footer,
+article+footer,
+section+footer {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+main:has(+footer),
+section:has(+footer),
+article:has(+footer) {
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+label:has(+input:not([type="checkbox"]):not([type="radio"])),
+label:has(+textarea),
+label:has(+select) {
+    margin-bottom: 0;
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+label+input:not([type="checkbox"]):not([type="radio"]),
+label+select,
+label+textarea {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: calc(var(--pad)*1rem);
+}
+
+
+
+/* Color utility classes */
+.pnl {
+    background-color: var(--bg-pnl);
+    border-color: var(--bd-pnl);
+    color: var(--tx-pnl);
+}
+
+.prm {
+    background-color: var(--bg-prm);
+    border-color: var(--bd-prm);
+    color: var(--tx-prm);
+}
+
+.sec {
+    background-color: var(--bg-sec);
+    border-color: var(--bd-sec);
+    color: var(--tx-sec);
+}
+
+.inf {
+    background-color: var(--bg-inf);
+    border-color: var(--bd-inf);
+    color: var(--tx-inf);
+}
+
+.scc {
+    background-color: var(--bg-scc);
+    border-color: var(--bd-scc);
+    color: var(--tx-scc);
+}
+
+.wrn {
+    background-color: var(--bg-wrn);
+    border-color: var(--bd-wrn);
+    color: var(--tx-wrn);
+}
+
+.dng {
+    background-color: var(--bg-dng);
+    border-color: var(--bd-dng);
+    color: var(--tx-dng);
+}
+
+.wht {
+    background-color: var(--bg-wht);
+    border-color: var(--bd-wht);
+    color: var(--tx-wht);
+}
+
+.blk {
+    background-color: var(--bg-blk);
+    border-color: var(--bd-blk);
+    color: var(--tx-blk);
+}
+
+.sys {
+    background-color: var(--bg-sys);
+    border-color: var(--bd-sys);
+    color: var(--tx-sys);
+}
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+
+    /* Scroll smooth */
+    html,
+    body {
+        scroll-behavior: smooth;
+    }
+
+    /* Links */
+    a {
+        transition: color 0.1s ease;
+    }
+
+    /* Buttons and inputs */
+    .btn,
+    button,
+    .ipt,
+    input,
+    select,
+    textarea {
+        transition:
+            border-color 0.1s ease,
+            background-color 0.1s ease,
+            color 0.1s ease;
+    }
+
+    /* Progress easing */
+    progress::-webkit-progress-value,
+    progress::-moz-progress-bar {
+        transition: all 0.1s ease-in-out;
+    }
+
+    /* Dialog fade + zoom-in */
+    dialog {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    dialog[open] {
+        opacity: 1;
+        transform: scale(1);
+        transition:
+            opacity 0.1s ease,
+            transform 0.1s ease;
+
+        @starting-style {
+            opacity: 0;
+            transform: scale(0);
+        }
+    }
+}

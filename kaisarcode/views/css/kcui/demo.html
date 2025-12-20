@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>KCUI Demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Semantic showcase of KCUI">
+
+        <link rel="stylesheet" href="kcui.css">
+    </head>
+    <body>
+        <header>
+            <h1>
+                <a href="/">
+                    <span>KCUI Demo</span>
+                </a>
+            </h1>
+            <nav>
+                <menu>
+                    <li>
+                        <a href="#sect-2">
+                            <span>Secondary panel</span>
+                        </a>
+                    </li>
+                </menu>
+            </nav>
+        </header>
+        <main>
+
+            <!-- Main article -->
+            <article id="art1">
+                <header>
+                    <h2>
+                        <span>Main article</span>
+                    </h2>
+                </header>
+                <section>
+                    <form method="post">
+                        <fieldset>
+                            <legend>Base form</legend>
+
+                            <label>Input text</label>
+                            <input type="text" value="Initial value" autocomplete="off">
+
+                            <label>Select</label>
+                            <select>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                            </select>
+
+                            <label>Text area</label>
+                            <textarea>Editable text</textarea>
+
+                            <label>
+                                <input type="checkbox" checked>
+                                I accept the terms
+                            </label>
+
+                            <label for="browser">Choose a browser:</label>
+                            <input list="browsers" id="browser" name="browser" placeholder="Start typing...">
+                            <datalist id="browsers">
+                                <option value="Firefox">
+                                <option value="Brave">
+                                <option value="Chrome">
+                                <option value="Edge">
+                                <option value="Safari">
+                            </datalist>
+
+                            <footer>
+                                <button>Run action</button>
+                            </footer>
+
+                        </fieldset>
+                    </form>
+                </section>
+                <footer>
+                    <p><small>Article footer note</small></p>
+                </footer>
+            </article>
+
+            <section id="sect-2">
+                <header>
+                    <h2>Related content</h2>
+                </header>
+                <section>
+                    <article>
+                        <header>
+                            <h3><a href="/doc-1">Document 1</a></h3>
+                        </header>
+                        <section>
+                            <p>Document 1 summary.</p>
+                        </section>
+                    </article>
+                    <article>
+                        <header>
+                            <h3><a href="/doc-2">Document 2</a></h3>
+                        </header>
+                        <section>
+                            <p>Document 2 summary.</p>
+                        </section>
+                    </article>
+                    <article>
+                        <header>
+                            <h3><a href="/doc-3">Document 3</a></h3>
+                        </header>
+                        <section>
+                            <p>Document 3 summary.</p>
+                        </section>
+                    </article>
+                    <article>
+                        <header>
+                            <h3><a href="/doc-4">Document 4</a></h3>
+                        </header>
+                        <section>
+                            <p>Document 4 summary.</p>
+                        </section>
+                    </article>
+                </section>
+                <footer>
+                    <p><small>Pagination or footer info</small></p>
+                </footer>
+            </section>
+
+        </main>
+        <footer>
+            <p>&copy; 2025 KaisarCode</p>
+            <nav>
+                <menu>
+                    <li><a href="#art1">Back to article</a></li>
+                </menu>
+            </nav>
+        </footer>
+
+        <dialog>
+            Modal content
+        </dialog>
+
+    </body>
+</html>
