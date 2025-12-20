@@ -1,58 +1,98 @@
+/**
+ * KCUI Reset
+ * Summary: Baseline style reset and normalization for KCUI.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU General Public License v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
 html {
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-  background-color: var(--bg);
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    background-color: var(--bg);
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
-button, input, optgroup, select, textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1.15;
-  margin: 0;
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
 }
 
-button, select {
-  text-transform: none;
+button,
+select {
+    text-transform: none;
 }
 
-button, [type="button"], [type="reset"], [type="submit"] {
-  -webkit-appearance: button;
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
 }
 
 ::-moz-focus-inner {
-  border-style: none;
-  padding: 0;
+    border-style: none;
+    padding: 0;
 }
 
-html, body {
-  background-color: var(--bg);
-  font-family: sans-serif;
-  font-size: var(--fsz);
-  color: var(--tx);
+html,
+body {
+    background-color: var(--bg);
+    font-family: sans-serif;
+    font-size: var(--fsz);
+    color: var(--tx);
 }
 
 a {
-  color: var(--tx-lnk);
-  text-decoration: none;
+    color: var(--tx-lnk);
+    text-decoration: none;
 }
 
-*, ::before, ::after {
-  box-sizing: border-box;
-  tap-highlight-color: transparent;
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    tap-highlight-color: transparent;
 }
 
-a, abbr, b, cite, code, dfn,
-em, i, img, input, kbd, label,
-output, q, samp, select, small,
-span, strong, sub, sup, textarea,
-time, var {
-  display: inline-block;
-  vertical-align: middle;
+a,
+abbr,
+b,
+cite,
+code,
+dfn,
+em,
+i,
+img,
+input,
+kbd,
+label,
+output,
+q,
+samp,
+select,
+small,
+span,
+strong,
+sub,
+sup,
+textarea,
+time,
+var {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 code,
@@ -63,6 +103,7 @@ output {
     border-color: var(--bd-cod);
     background-color: var(--bg-cod);
 }
+
 pre code,
 pre kbd,
 pre samp,
@@ -73,30 +114,40 @@ pre output {
 }
 
 datalist {
-  display: none;
+    display: none;
 }
 
 input[list]::-webkit-calendar-picker-indicator {
-  display: none !important;
+    display: none !important;
 }
 
-ul, ol, p, blockquote, menu,
-h1, h2, h3, h4, h5, h6, pre {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-weight: normal;
-  line-height: 1.5rem;
+ul,
+ol,
+p,
+blockquote,
+menu,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    line-height: 1.5rem;
 }
 
 br {
-  line-height: 2rem;
+    line-height: 2rem;
 }
 
 hr {
-  height: 1px;
-  margin: 1rem 0;
-  background-color: var(--bd-sys);
-  border: none;
+    height: 1px;
+    margin: 1rem 0;
+    background-color: var(--bd-sys);
+    border: none;
 }
 
 h1 { font-size: 2rem; }
@@ -106,23 +157,26 @@ h4 { font-size: 1.4rem; }
 h5 { font-size: 1.2rem; }
 h6 { font-size: 1rem; }
 
-small, sup, sub {
-  font-size: 0.8rem;
+small,
+sup,
+sub {
+    font-size: 0.8rem;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 th {
-  text-align: left;
-  font-weight: normal;
+    text-align: left;
+    font-weight: normal;
 }
 
-th, td {
-  padding: 0;
-  vertical-align: middle;
+th,
+td {
+    padding: 0;
+    vertical-align: middle;
 }
 
 fieldset {
@@ -132,87 +186,91 @@ fieldset {
     margin-right: 0;
 }
 
-input, select, textarea, button, dialog {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  background-color: var(--bg-sys);
-  border: 1px solid var(--bd-sys);
-  padding: 0.25rem 1rem;
-  appearance: none;
-  outline: none;
-  border-radius: calc(var(--rad)*1rem);
+input,
+select,
+textarea,
+button,
+dialog {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: var(--bg-sys);
+    border: 1px solid var(--bd-sys);
+    padding: 0.25rem 1rem;
+    appearance: none;
+    outline: none;
+    border-radius: calc(var(--rad)*1rem);
 }
 
 [type="checkbox"],
 [type="radio"] {
-  width: 1rem;
-  height: 1rem;
-  padding: 0;
-  cursor: pointer;
-  appearance: none;
-  position: relative;
-  border: 1px solid var(--bd-sys);
-  background-color: var(--bg-sys);
-  background-clip: content-box;
-  vertical-align: middle;
-  transition: all 0.1s ease-in-out;
+    width: 1rem;
+    height: 1rem;
+    padding: 0;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    border: 1px solid var(--bd-sys);
+    background-color: var(--bg-sys);
+    background-clip: content-box;
+    vertical-align: middle;
+    transition: all 0.1s ease-in-out;
 }
 
 [type="radio"] {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 [type="radio"]:checked,
 [type="checkbox"]:checked {
-  background-color: var(--bg-prm);
-  box-shadow: inset 0 0 0 2px var(--bg-sys);
-  border-color: var(--bd-prm);
+    background-color: var(--bg-prm);
+    box-shadow: inset 0 0 0 2px var(--bg-sys);
+    border-color: var(--bd-prm);
 }
 
 select,
 button,
 input[type="submit"] {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 button,
 input[type="submit"] {
-  background-color: var(--bg-sys);
+    background-color: var(--bg-sys);
 }
 
 button::-moz-focus-inner,
 a::-moz-focus-inner {
-  border: none;
+    border: none;
 }
 
 ::placeholder {
-  color: inherit;
-  opacity: 0.8;
+    color: inherit;
+    opacity: 0.8;
 }
 
 summary {
-  display: block;
+    display: block;
 }
 
 summary::-webkit-details-marker {
-  display: none;
+    display: none;
 }
 
 dialog {
-  top: 50%;
-  margin-top: 0;
-  display: none;
-  position: fixed;
-  transform: translateY(-50%);
-  z-index: 999999;
+    top: 50%;
+    margin-top: 0;
+    display: none;
+    position: fixed;
+    transform: translateY(-50%);
+    z-index: 999999;
 }
 
 dialog[open] {
-  display: block;
-  outline: 0;
+    display: block;
+    outline: 0;
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
 }

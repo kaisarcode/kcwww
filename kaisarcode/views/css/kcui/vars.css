@@ -1,62 +1,71 @@
+/**
+ * KCUI Variables
+ * Summary: Global CSS tokens and theme variables for KCUI.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU General Public License v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
 :root {
-  --fsz: 15px;
-  --pad: 0.5;
-  --rad: 0.25;
-  --min: 380px;
-  --max: 768px;
-  --col: 20rem;
+    --fsz: 15px;
+    --pad: 0.5;
+    --rad: 0.25;
+    --min: 380px;
+    --max: 768px;
+    --col: 20rem;
 
-  --bg: #2D2D2D;
-  --bd: #303030;
-  --tx: #FFFFFF;
-  --tx-lnk: #F24600;
+    --bg: #2D2D2D;
+    --bd: #303030;
+    --tx: #FFFFFF;
+    --tx-lnk: #F24600;
 
-  --bg-sys: #1F1F1F;
-  --bd-sys: #303030;
-  --tx-sys: #CCCCCC;
+    --bg-sys: #1F1F1F;
+    --bd-sys: #303030;
+    --tx-sys: #CCCCCC;
 
-  --bg-cod: #121212;
-  --bd-cod: #303030;
-  --tx-cod: #FFFFFF;
+    --bg-cod: #121212;
+    --bd-cod: #303030;
+    --tx-cod: #FFFFFF;
 
-  --bg-hdr: #121212;
-  --bd-hdr: #303030;
-  --tx-hdr: #FFFFFF;
+    --bg-hdr: #121212;
+    --bd-hdr: #303030;
+    --tx-hdr: #FFFFFF;
 
-  --bg-bdy: #1A1A1A;
-  --bd-bdy: #303030;
-  --tx-bdy: #CCCCCC;
+    --bg-bdy: #1A1A1A;
+    --bd-bdy: #303030;
+    --tx-bdy: #CCCCCC;
 
-  --bg-ftr: #121212;
-  --bd-ftr: #303030;
-  --tx-ftr: #FFFFFF;
+    --bg-ftr: #121212;
+    --bd-ftr: #303030;
+    --tx-ftr: #FFFFFF;
 
-  --bg-pnl: #1A1A1A;
-  --bd-pnl: #303030;
-  --tx-pnl: #CCCCCC;
+    --bg-pnl: #1A1A1A;
+    --bd-pnl: #303030;
+    --tx-pnl: #CCCCCC;
 
-  --bg-prm: #F24600;
-  --bd-prm: #F24600;
-  --tx-prm: #FFFFFF;
+    --bg-prm: #F24600;
+    --bd-prm: #F24600;
+    --tx-prm: #FFFFFF;
 
-  --bg-sec: #A05F2C;
-  --bd-sec: #A05F2C;
-  --tx-sec: #FFFFFF;
+    --bg-sec: #A05F2C;
+    --bd-sec: #A05F2C;
+    --tx-sec: #FFFFFF;
 
-  --bg-inf: #198B9B;
-  --bd-inf: #198B9B;
-  --tx-inf: #FFFFFF;
+    --bg-inf: #198B9B;
+    --bd-inf: #198B9B;
+    --tx-inf: #FFFFFF;
 
-  --bg-scc: #23963C;
-  --bd-scc: #23963C;
-  --tx-scc: #FFFFFF;
+    --bg-scc: #23963C;
+    --bd-scc: #23963C;
+    --tx-scc: #FFFFFF;
 
-  --bg-wrn: #D4A500;
-  --bd-wrn: #D4A500;
-  --tx-wrn: #FFFFFF;
+    --bg-wrn: #D4A500;
+    --bd-wrn: #D4A500;
+    --tx-wrn: #FFFFFF;
 
-  --bg-dng: #C5303F;
-  --bd-dng: #C5303F;
-  --tx-dng: #FFFFFF;
-
+    --bg-dng: #C5303F;
+    --bd-dng: #C5303F;
+    --tx-dng: #FFFFFF;
 }

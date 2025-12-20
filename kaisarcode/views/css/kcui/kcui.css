@@ -1,5 +1,17 @@
+/**
+ * KCUI - KaisarCode User Interface
+ * Summary: Minimalist, semantic, and responsive CSS framework.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU General Public License v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
 @import url("vars.css");
 @import url("reset.css");
+
+/* Main layout */
 
 body {
     display: grid;
@@ -32,8 +44,8 @@ section>article {
     border: 0;
 }
 
-
 /* Base panels and semantic blocks */
+
 .pnl,
 main,
 section,
@@ -73,6 +85,8 @@ label {
 
 fieldset {
     padding: calc(var(--pad)*1rem);
+    display: flex;
+    flex-direction: column;
 }
 
 fieldset:has(>legend) {
@@ -83,7 +97,8 @@ fieldset:has(>footer) {
     padding-bottom: 0;
 }
 
-/* Remove bottom margin on last child */
+/* Margin management */
+
 *:last-child,
 header>*,
 footer>*,
@@ -96,6 +111,7 @@ main>* {
 }
 
 /* Contextual color areas */
+
 .hdr,
 header,
 legend {
@@ -118,7 +134,8 @@ section {
     color: var(--tx-bdy);
 }
 
-/* Article columns inside sections */
+/* Grid and column layouts */
+
 section:has(> article) {
     display: grid;
     gap: calc(var(--pad)*1rem);
@@ -129,7 +146,6 @@ section:has(> article)>article {
     min-width: 0;
 }
 
-/* Header and footer as grid containers */
 header,
 footer {
     display: grid;
@@ -137,12 +153,8 @@ footer {
     gap: calc(var(--pad)*1rem);
 }
 
-fieldset {
-    display: flex;
-    flex-direction: column;
-}
+/* Content alignment */
 
-/* Align header/footer children */
 header>*,
 footer>* {
     margin: 0;
@@ -160,7 +172,8 @@ footer>*:first-child {
     justify-self: start;
 }
 
-/* Headings inside header/footer */
+/* Typography elements */
+
 header h1,
 header h2,
 header h3,
@@ -190,6 +203,7 @@ footer h6 {
 }
 
 /* Navigation lists */
+
 header ul,
 footer ul {
     display: flex;
@@ -205,7 +219,8 @@ footer li {
     display: inline-block;
 }
 
-/* Links */
+/* Hyperlinks */
+
 a,
 header nav a:hover,
 footer nav a:hover {
@@ -223,7 +238,8 @@ nav a {
     color: inherit;
 }
 
-/* Buttons */
+/* Command buttons */
+
 .btn,
 button {
     display: inline-block;
@@ -235,7 +251,7 @@ button {
     white-space: nowrap;
 }
 
-/* Form elements */
+/* Form input elements */
 
 .ipt,
 input,
@@ -244,12 +260,6 @@ textarea {
     color: var(--tx-sys);
     border-color: var(--bd-sys);
     background-color: var(--bg-sys);
-}
-
-.ipt,
-input,
-select,
-textarea {
     width: 100%;
     display: inline-block;
 }
@@ -271,7 +281,8 @@ textarea:invalid {
     border-color: var(--bd-dng);
 }
 
-/* Dialogs */
+/* Overlay dialogs */
+
 dialog {
     display: none;
     min-width: var(--min);
@@ -282,7 +293,8 @@ dialog[open] {
     display: block;
 }
 
-/* I/O Elements */
+/* Technical input and output */
+
 code,
 kbd,
 samp,
@@ -304,7 +316,8 @@ pre output {
     margin-bottom: 0;
 }
 
-/* Progress */
+/* Interaction indicators */
+
 progress {
     display: block;
     width: 100%;
@@ -335,7 +348,8 @@ progress::-moz-progress-bar {
     box-shadow: none;
 }
 
-/* Special overrides */
+/* Compound component overrides */
+
 header,
 legend {
     border-bottom-left-radius: 0;
@@ -406,9 +420,8 @@ label+textarea {
     margin-bottom: calc(var(--pad)*1rem);
 }
 
-
-
 /* Color utility classes */
+
 .pnl {
     background-color: var(--bg-pnl);
     border-color: var(--bd-pnl);
@@ -469,21 +482,19 @@ label+textarea {
     color: var(--tx-sys);
 }
 
-/* Animations */
+/* Visual animations */
+
 @media (prefers-reduced-motion: no-preference) {
 
-    /* Scroll smooth */
     html,
     body {
         scroll-behavior: smooth;
     }
 
-    /* Links */
     a {
         transition: color 0.1s ease;
     }
 
-    /* Buttons and inputs */
     .btn,
     button,
     .ipt,
@@ -496,13 +507,11 @@ label+textarea {
             color 0.1s ease;
     }
 
-    /* Progress easing */
     progress::-webkit-progress-value,
     progress::-moz-progress-bar {
         transition: all 0.1s ease-in-out;
     }
 
-    /* Dialog fade + zoom-in */
     dialog {
         opacity: 0;
         transform: scale(0);
