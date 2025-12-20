@@ -1,0 +1,403 @@
+@import url("./classic.css");
+
+:root {
+    --quote-mark-size: 2.5rem;
+}
+
+/* Layout */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body>header,
+body>footer {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, var(--max)) 1fr;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: calc(var(--pad)*2rem);
+    padding-right: calc(var(--pad)*2rem);
+}
+
+body>header>*,
+body>footer>* {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+}
+
+body>header>h1,
+body>footer>p {
+    justify-self: start;
+}
+
+body>header>nav,
+body>footer>nav {
+    justify-self: end;
+}
+
+main {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    width: 100%;
+    max-width: 100%;
+    padding: calc(var(--pad)*2rem);
+
+    overflow-y: auto;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main>* {
+    width: 100%;
+    max-width: var(--max);
+}
+
+main>article,
+main>section {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+main>article>section,
+main>section>section {
+    padding: calc(var(--pad)*2rem);
+}
+
+main>article>header,
+main>article>footer,
+main>section>header,
+main>section>footer {
+    padding: calc(var(--pad)*1rem) calc(var(--pad)*2rem);
+}
+
+/* Visual */
+a,
+article a {
+    color: var(--bg-prm);
+    text-decoration: none;
+}
+
+a:hover,
+article a:hover {
+    text-decoration: none;
+}
+
+article h2,
+article h3 {
+    border-left: 5px solid var(--bg-prm);
+    padding-left: calc(var(--pad)*1rem);
+    margin-block: calc(var(--pad)*3rem);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+article h2 {
+    margin-top: 0;
+}
+
+header h1,
+header h2,
+header h3 {
+    border-left: none;
+    padding-left: 0;
+    margin: 0;
+    color: var(--tx-hdr);
+}
+
+header h1 a,
+header h2 a,
+header h3 a,
+article header h2 a,
+article header h3 a {
+    color: var(--tx-hdr);
+}
+
+header nav a {
+    color: var(--tx-hdr);
+}
+
+header nav a:hover {
+    color: var(--bg-prm);
+}
+
+footer nav a,
+article footer nav a {
+    color: var(--tx-hdr);
+}
+
+footer nav a:hover,
+article footer nav a:hover {
+    color: var(--bg-prm);
+}
+
+header h1 svg,
+header h2 svg,
+header h3 svg,
+article header h2 svg,
+article header h3 svg {
+    color: var(--bg-prm);
+}
+
+header nav a svg {
+    vertical-align: text-bottom;
+}
+
+footer nav a svg {
+    vertical-align: text-bottom;
+}
+
+header nav a::after,
+footer nav a::after {
+    content: '|';
+    margin: 0 calc(var(--pad)*0.5rem);
+    color: #ffffff;
+    margin-right: 0;
+}
+
+header nav a:last-child::after,
+footer nav a:last-child::after {
+    content: none;
+}
+
+/* Elements */
+li::marker {
+    color: var(--bg-prm);
+    font-weight: bold;
+}
+
+ul,
+ol,
+p,
+blockquote {
+    line-height: 2rem;
+}
+
+.btn,
+button {
+    background-color: var(--bg-sys);
+    border-color: var(--bd-sys);
+    color: var(--tx-sys);
+}
+
+.btn:hover,
+button:hover {
+    filter: brightness(0.9);
+    color: var(--tx);
+}
+
+table {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+th,
+td {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+}
+
+th {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+main>section>section {
+    display: block;
+    columns: var(--col) 4;
+    column-gap: calc(var(--pad)*1rem);
+}
+
+main>section>section article {
+    margin-bottom: calc(var(--pad)*1rem);
+    break-inside: avoid-column;
+    -webkit-column-break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+
+main>section>section article header {
+    padding: 0;
+}
+
+main>section>section article header h3 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+main>section>section article header h3 a,
+main>section>section article section a {
+    display: block;
+    text-decoration: none;
+}
+
+main>section>section article header h3 a {
+    padding: calc(var(--pad)*1rem) calc(var(--pad)*2rem);
+}
+
+main>section>section article section a {
+    color: inherit;
+    font-style: italic;
+    padding: calc(var(--pad)*2rem);
+    font-size: 0.9rem;
+}
+
+main>section>section article section {
+    padding: 0;
+}
+
+main>section>section article figure {
+    display: block;
+    margin: 0;
+    height: 120px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--bd-hdr);
+    position: relative;
+}
+
+main>section>section article figure img {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+main>section>section article:hover figure img {
+    transform: translateY(-50%) scale(1.05);
+}
+
+main>section>section article figure+header {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 0;
+}
+
+main>section>header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bd-dark);
+    margin-bottom: 0;
+}
+
+main>section>section article:not(:has(header)) {
+    position: relative;
+}
+
+main>section>section article:not(:has(header)) section a {
+    padding-top: calc(var(--pad)*6rem);
+    padding-bottom: calc(var(--pad)*6rem);
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+}
+
+main>section>section article:not(:has(header))::before,
+main>section>section article:not(:has(header))::after {
+    content: "";
+    position: absolute;
+    width: var(--quote-mark-size);
+    height: var(--quote-mark-size);
+    background-color: var(--tx-sys);
+    opacity: 0.3;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    pointer-events: none;
+}
+
+main>section>section article:not(:has(header))::before {
+    top: 0.5rem;
+    left: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-left-h100.png);
+    mask-image: url(/img/fa/solid/quote-left-h100.png);
+}
+
+main>section>section article:not(:has(header))::after {
+    bottom: 0.5rem;
+    right: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-right-h100.png);
+    mask-image: url(/img/fa/solid/quote-right-h100.png);
+}
+
+article blockquote {
+    position: relative;
+    margin: 0;
+    padding: calc(var(--pad)*6rem) calc(var(--pad)*2rem);
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+    color: var(--tx-sys);
+    font-style: italic;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--bd-pnl);
+    border-radius: calc(var(--rad)*1rem);
+}
+
+article blockquote::before,
+article blockquote::after {
+    content: "";
+    position: absolute;
+    width: var(--quote-mark-size);
+    height: var(--quote-mark-size);
+    background-color: var(--tx-sys);
+    opacity: 0.3;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    pointer-events: none;
+}
+
+article blockquote::before {
+    top: 0.5rem;
+    left: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-left-h50.png);
+    mask-image: url(/img/fa/solid/quote-left-h50.png);
+}
+
+article blockquote::after {
+    bottom: 0.5rem;
+    right: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-right-h50.png);
+    mask-image: url(/img/fa/solid/quote-right-h50.png);
+}
+
+/* Fixes */
+main>section>footer nav a span,
+main>article>footer nav a span,
+article header nav a span {
+    vertical-align: baseline;
+}

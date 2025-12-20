@@ -16,10 +16,14 @@
     --max: 768px;
     --col: 20rem;
 
-    --bg: #2D2D2D;
+    --bg: #222222;
+    --bg-pat: #3A3A3A;
     --bd: #303030;
     --tx: #FFFFFF;
     --tx-lnk: #F24600;
+
+    --bg-hdr-pat: #222222;
+    --bg-pnl-pat: #242424;
 
     --bg-sys: #1F1F1F;
     --bd-sys: #303030;

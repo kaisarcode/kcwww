@@ -133,8 +133,8 @@ article > section {
 body {
     background-size: 4px 4px;
     background-attachment: fixed;
-    background-color: #222222;
-    background-image: repeating-linear-gradient(45deg, #3A3A3A 0, #3A3A3A 0.4px, #222222 0, #222222 50%);
+    background-color: var(--bg);
+    background-image: repeating-linear-gradient(45deg, var(--bg-pat) 0, var(--bg-pat) 0.4px, var(--bg) 0, var(--bg) 50%);
 }
 
 header,
@@ -142,17 +142,16 @@ footer,
 legend {
     background-size: 4px 4px;
     background-attachment: fixed;
-    background-color: #121212;
-    background-image: repeating-linear-gradient(45deg, #222222 0, #222222 0.4px, #121212 0, #121212 50%);
+    background-color: var(--bg-hdr);
+    background-image: repeating-linear-gradient(45deg, var(--bg-hdr-pat) 0, var(--bg-hdr-pat) 0.4px, var(--bg-hdr) 0, var(--bg-hdr) 50%);
 }
 
-main,
 section,
 fieldset {
     background-size: 4px 4px;
     background-attachment: fixed;
-    background-color: #1A1A1A;
-    background-image: repeating-linear-gradient(45deg, #242424 0, #242424 0.4px, #1A1A1A 0, #1A1A1A 50%);
+    background-color: var(--bg-pnl);
+    background-image: repeating-linear-gradient(45deg, var(--bg-pnl-pat) 0, var(--bg-pnl-pat) 0.4px, var(--bg-pnl) 0, var(--bg-pnl) 50%);
 }
 
 /* Navigations and buttons */
@@ -254,9 +253,14 @@ main > section > section article {
     flex-direction: column;
     padding: 0;
     overflow: hidden;
-    background-color: var(--bg-pnl);
+    background-color: transparent;
     border: 1px solid var(--bd-pnl);
     border-radius: calc(var(--rad)*1rem);
+}
+
+main > section > section article header,
+main > section > section article footer {
+    background-color: var(--bg-pnl);
 }
 
 main > section > section article figure {
@@ -266,6 +270,7 @@ main > section > section article figure {
     overflow: hidden;
     border-bottom: 1px solid var(--bd-hdr);
     position: relative;
+    background-color: var(--bg-pnl);
 }
 
 main > section > section article figure img {
