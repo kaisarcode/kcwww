@@ -63,8 +63,27 @@ class ErrorController extends Controller
         Conf::set('page.desc', $desc);
         Conf::set('page.cont', $desc);
 
-        $template = Conf::get('error.template');
-        if ($template && file_exists($template)) {
+        // Explicit error variables for templates
+        Conf::set('error.code', $code);
+        Conf::set('error.message', $desc);
+
+        // Try to find error.html in override then core
+        $template = null;
+        if (defined('VIEWS_OVERRIDE') && is_file(VIEWS_OVERRIDE . '/error.html')) {
+            $template = VIEWS_OVERRIDE . '/error.html';
+        } elseif (is_file(VIEWS . '/error.html')) {
+            $template = VIEWS . '/error.html';
+        }
+
+        // Use custom template if set in Conf
+        if (!$template) {
+            $confTpl = Conf::get('error.template');
+            if ($confTpl && is_file($confTpl)) {
+                $template = $confTpl;
+            }
+        }
+
+        if ($template) {
             return self::html($template);
         }
 
