@@ -52,9 +52,13 @@ class ErrorController extends Controller
         if (str_starts_with($path, '/api')) {
             return self::json([
                 'status' => 'error',
-                'code' => $code,
-                'message' => $desc,
                 'result' => null,
+                'errors' => [
+                    [
+                        'code' => $code,
+                        'message' => $desc,
+                    ]
+                ],
             ]);
         }
 
@@ -67,23 +71,12 @@ class ErrorController extends Controller
         Conf::set('error.code', $code);
         Conf::set('error.message', $desc);
 
-        // Try to find error.html in override then core
-        $template = null;
-        if (defined('VIEWS_OVERRIDE') && is_file(VIEWS_OVERRIDE . '/error.html')) {
-            $template = VIEWS_OVERRIDE . '/error.html';
-        } elseif (is_file(VIEWS . '/error.html')) {
-            $template = VIEWS . '/error.html';
-        }
+        // Resolve template strictly within html/ directory
+        $template = (defined('VIEWS_OVERRIDE') && is_file(VIEWS_OVERRIDE . '/html/error.html'))
+            ? VIEWS_OVERRIDE . '/html/error.html'
+            : VIEWS . '/html/error.html';
 
-        // Use custom template if set in Conf
-        if (!$template) {
-            $confTpl = Conf::get('error.template');
-            if ($confTpl && is_file($confTpl)) {
-                $template = $confTpl;
-            }
-        }
-
-        if ($template) {
+        if (is_file($template)) {
             return self::html($template);
         }
 

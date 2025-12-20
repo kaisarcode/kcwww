@@ -1,0 +1,12 @@
+{{@include $VIEWS.'/html/layout/layout.html'}}
+
+{{@setblock main}}
+    <section>
+        <header>
+            <h2>{{ page.name }}</h2>
+        </header>
+        <section>
+            <p>{{ error.message }}</p>
+        </section>
+    </section>
+{{@endsetblock}}

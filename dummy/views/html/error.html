@@ -1,0 +1,13 @@
+{{@include $VIEWS.'/html/layout/layout.html'}}
+
+{{@setblock main}}
+    <article>
+        <header>
+            <h2>{{ page.name }}</h2>
+        </header>
+        <section>
+            <p>{{ error.message }}</p>
+            <p><small>This is the Dummy Site error page.</small></p>
+        </section>
+    </article>
+{{@endsetblock}}

@@ -39,7 +39,11 @@ class ApiController extends Controller
 
         if (!$className || !class_exists($className)) {
             self::status(404);
-            echo self::json(['error' => 'Model not found: ' . $modelName]);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Model not found: ' . $modelName]]
+            ]);
             return;
         }
 
@@ -66,20 +70,32 @@ class ApiController extends Controller
                         self::remove($className, (int) $id);
                     } else {
                         self::status(400);
-                        echo self::json(['error' => 'ID required for deletion']);
+                        echo self::json([
+                            'status' => 'error',
+                            'result' => null,
+                            'errors' => [['message' => 'ID required for deletion']]
+                        ]);
                     }
                     break;
 
                 default:
                     self::status(405);
-                    echo self::json(['error' => 'Method not allowed']);
+                    echo self::json([
+                        'status' => 'error',
+                        'result' => null,
+                        'errors' => [['message' => 'Method not allowed']]
+                    ]);
                     break;
             }
         } catch (Exception $e) {
             self::status(500);
             echo self::json([
-                'error' => 'Internal server error',
-                'message' => self::isDev() ? $e->getMessage() : null
+                'status' => 'error',
+                'result' => null,
+                'errors' => [[
+                    'message' => 'Internal server error',
+                    'detail' => self::isDev() ? $e->getMessage() : null
+                ]]
             ]);
         }
     }
@@ -93,7 +109,11 @@ class ApiController extends Controller
     {
         $models = $className::all();
         $data = array_map(fn($m) => $m->toArray(), $models);
-        echo self::json($data);
+        echo self::json([
+            'status' => 'ok',
+            'result' => $data,
+            'errors' => []
+        ]);
     }
 
     /**
@@ -107,10 +127,18 @@ class ApiController extends Controller
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
-            echo self::json(['error' => 'Record not found']);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Record not found']]
+            ]);
             return;
         }
-        echo self::json($model->toArray());
+        echo self::json([
+            'status' => 'ok',
+            'result' => $model->toArray(),
+            'errors' => []
+        ]);
     }
 
     /**
@@ -126,10 +154,18 @@ class ApiController extends Controller
 
         if ($id > 0) {
             self::status(201);
-            echo self::json($model->toArray());
+            echo self::json([
+                'status' => 'ok',
+                'result' => $model->toArray(),
+                'errors' => []
+            ]);
         } else {
             self::status(400);
-            echo self::json(['error' => 'Failed to create record']);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Failed to create record']]
+            ]);
         }
     }
 
@@ -144,7 +180,11 @@ class ApiController extends Controller
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
-            echo self::json(['error' => 'Record not found']);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Record not found']]
+            ]);
             return;
         }
 
@@ -154,10 +194,18 @@ class ApiController extends Controller
         }
 
         if ($model->save()) {
-            echo self::json($model->toArray());
+            echo self::json([
+                'status' => 'ok',
+                'result' => $model->toArray(),
+                'errors' => []
+            ]);
         } else {
             self::status(400);
-            echo self::json(['error' => 'Failed to update record']);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Failed to update record']]
+            ]);
         }
     }
 
@@ -172,12 +220,20 @@ class ApiController extends Controller
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
-            echo self::json(['error' => 'Record not found']);
+            echo self::json([
+                'status' => 'error',
+                'result' => null,
+                'errors' => [['message' => 'Record not found']]
+            ]);
             return;
         }
 
         $model->delete();
-        echo self::json(['success' => true]);
+        echo self::json([
+            'status' => 'ok',
+            'result' => ['success' => true],
+            'errors' => []
+        ]);
     }
 
     /**
