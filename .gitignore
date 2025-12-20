@@ -22,3 +22,6 @@ Thumbs.db
 # Compiled
 *.pyc
 __pycache__/
+
+# Heavy Assets
+kaisarcode/views/img/fa/
