@@ -1,0 +1,21 @@
+/**
+ * Dummy Site - Styles
+ * Summary: Simple dark mode styles protected for light sensitivity.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+body {
+    background-color: #222222;
+    color: #e0e0e0;
+    font-family: sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+}
+
+a {
+    color: #bb86fc;
+}
