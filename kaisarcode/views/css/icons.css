@@ -1,0 +1,23 @@
+a svg,
+h1 svg,
+h2 svg,
+h3 svg,
+h4 svg,
+h5 svg,
+h6 svg,
+label svg {
+    width: auto;
+    height: 0.8rem;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+svg+span {
+    top: 1px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+h1 svg {
+    height: 1.2rem;
+}

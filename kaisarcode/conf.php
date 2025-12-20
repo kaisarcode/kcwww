@@ -14,4 +14,5 @@ Conf::set([
     'app.desc' => 'KaisarCode es un repositorio de documentos dinámicos, volátiles, y ligeramente categorizados.',
     'app.color' => '#222222',
     'assets.css.entry' => VIEWS_OVERRIDE . '/css/styles.css',
+    'app.image.src_dir' => VIEWS_OVERRIDE . '/img',
 ]);

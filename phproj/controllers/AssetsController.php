@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AssetsController - Asset bundling controller
  * Summary: Serves bundled CSS and JavaScript files
@@ -56,5 +57,61 @@ class AssetsController extends Controller
 
         $out = Bundler::js($file);
         return self::minify($out);
+    }
+
+    /**
+     * Serve a static file from views directory
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function file(string $path): string
+    {
+        self::noRobots();
+
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $mimes = [
+            'woff2' => 'font/woff2',
+            'woff' => 'font/woff',
+            'ttf' => 'font/ttf',
+            'otf' => 'font/otf',
+            'svg' => 'image/svg+xml',
+            'png' => 'image/png',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'webp' => 'image/webp',
+            'pdf' => 'application/pdf',
+            'json' => 'application/json',
+            'txt' => 'text/plain',
+        ];
+
+        if (!isset($mimes[$ext])) {
+            self::status(404);
+            return '';
+        }
+
+        $locations = [];
+        if (defined('VIEWS_OVERRIDE')) {
+            $locations[] = VIEWS_OVERRIDE;
+        }
+        $locations[] = VIEWS;
+
+        $found = '';
+        foreach ($locations as $loc) {
+            $candidate = $loc . '/' . $path;
+            if (file_exists($candidate) && is_file($candidate)) {
+                $found = $candidate;
+                break;
+            }
+        }
+
+        if (!$found) {
+            self::status(404);
+            return '';
+        }
+
+        header("Content-Type: " . $mimes[$ext]);
+        header('Cache-Control: max-age=31536000, public');
+        return file_get_contents($found);
     }
 }

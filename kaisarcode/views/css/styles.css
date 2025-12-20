@@ -1,1 +1,10 @@
-@import url("kcui/kcui.css");
+/**
+ * KaisarCode Styles Entry
+ * Summary: Main entry point for site styles, importing the definitive theme.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ */
+
+@import url("themes/kaisarcode.css");

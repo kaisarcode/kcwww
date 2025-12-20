@@ -1,0 +1,360 @@
+/**
+ * KaisarCode Theme
+ * Summary: Definitive theme for kaisarcode.com.
+ * Definitive site-wide theme with a pixel-perfect vintage aesthetic.
+ *
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
+@import url("../kcui/kcui.css");
+@import url("../fonts.css");
+@import url("../icons.css");
+
+:root {
+    --quote-mark-size: 2.5rem;
+}
+
+/* Layout logic */
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body > header,
+body > footer {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, var(--max)) 1fr;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: calc(var(--pad)*2rem);
+    padding-right: calc(var(--pad)*2rem);
+    z-index: 10;
+}
+
+body > header > *,
+body > footer > * {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+}
+
+body > header > h1,
+body > footer > p {
+    justify-self: start;
+}
+
+body > header > nav,
+body > footer > nav {
+    justify-self: end;
+    display: flex;
+    gap: calc(var(--pad)*1rem);
+}
+
+main {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: calc(var(--pad)*2rem);
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main > * {
+    width: 100%;
+    max-width: var(--max);
+}
+
+main > article,
+main > section {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+main > article > section,
+main > section > section {
+    padding: calc(var(--pad)*2rem);
+}
+
+main > article > header,
+main > article > footer,
+main > section > header,
+main > section > footer {
+    padding: calc(var(--pad)*1rem) calc(var(--pad)*2rem);
+}
+
+/* Visual aesthetics */
+
+html,
+body,
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+code,
+kbd,
+samp,
+var,
+output,
+article > section {
+    font-family: "Roboto Mono", monospace;
+}
+
+body {
+    background-size: 4px 4px;
+    background-attachment: fixed;
+    background-color: #222222;
+    background-image: repeating-linear-gradient(45deg, #3A3A3A 0, #3A3A3A 0.4px, #222222 0, #222222 50%);
+}
+
+header,
+footer,
+legend {
+    background-size: 4px 4px;
+    background-attachment: fixed;
+    background-color: #121212;
+    background-image: repeating-linear-gradient(45deg, #222222 0, #222222 0.4px, #121212 0, #121212 50%);
+}
+
+main,
+section,
+fieldset {
+    background-size: 4px 4px;
+    background-attachment: fixed;
+    background-color: #1A1A1A;
+    background-image: repeating-linear-gradient(45deg, #242424 0, #242424 0.4px, #1A1A1A 0, #1A1A1A 50%);
+}
+
+/* Navigations and buttons */
+
+header nav a,
+footer nav a {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--tx-hdr);
+    text-decoration: none;
+}
+
+header nav a:hover,
+footer nav a:hover {
+    color: var(--bg-prm);
+}
+
+header nav > a:after,
+footer nav > a:after {
+    content: '|';
+    margin-left: calc(var(--pad)*1rem);
+    color: rgba(255, 255, 255, 0.3);
+}
+
+header nav > a:last-child:after,
+footer nav > a:last-child:after {
+    content: none;
+}
+
+/* Article styling */
+
+article h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+article h2,
+article h3 {
+    border-left: 5px solid var(--bg-prm);
+    padding-left: calc(var(--pad)*1rem);
+    margin-block: calc(var(--pad)*3rem);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Heading resets for headers and legends */
+
+header h1,
+header h2,
+header h3,
+header h4,
+header h5,
+header h6,
+legend h1,
+legend h2,
+legend h3,
+legend h4,
+legend h5,
+legend h6 {
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin: 0 !important;
+    font-size: 1rem !important;
+}
+
+header h1 a,
+header h2 a,
+header h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+article blockquote {
+    position: relative;
+    margin: 0;
+    padding: calc(var(--pad)*6rem) calc(var(--pad)*2rem);
+    font-style: italic;
+    color: var(--tx-sys);
+    border: 1px solid var(--bd-pnl);
+    border-radius: calc(var(--rad)*1rem);
+    background: transparent;
+}
+
+/* Masonry column layout for explore */
+
+main > section > section {
+    display: block;
+    columns: var(--col) 4;
+    column-gap: calc(var(--pad)*1rem);
+}
+
+main > section > section article {
+    break-inside: avoid;
+    margin-bottom: calc(var(--pad)*1rem);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--bg-pnl);
+    border: 1px solid var(--bd-pnl);
+    border-radius: calc(var(--rad)*1rem);
+}
+
+main > section > section article figure {
+    display: block;
+    margin: 0;
+    height: 120px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--bd-hdr);
+    position: relative;
+}
+
+main > section > section article figure img {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+    object-fit: cover;
+}
+
+main > section > section article:hover figure img {
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Quote marks and article decoration */
+
+main > section > section article:not(:has(header)) {
+    position: relative;
+}
+
+main > section > section article:not(:has(header)) section a {
+    padding-top: calc(var(--pad)*6rem);
+    padding-bottom: calc(var(--pad)*6rem);
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+}
+
+main > section > section article:not(:has(header))::before,
+main > section > section article:not(:has(header))::after {
+    content: "";
+    position: absolute;
+    width: var(--quote-mark-size);
+    height: var(--quote-mark-size);
+    background-color: var(--tx-sys);
+    opacity: 0.1;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    pointer-events: none;
+}
+
+main > section > section article:not(:has(header))::before {
+    top: 0.5rem;
+    left: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-left-h100.png);
+    mask-image: url(/img/fa/solid/quote-left-h100.png);
+}
+
+main > section > section article:not(:has(header))::after {
+    bottom: 0.5rem;
+    right: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-right-h100.png);
+    mask-image: url(/img/fa/solid/quote-right-h100.png);
+}
+
+/* Links */
+
+a,
+article a {
+    color: var(--tx-lnk);
+    text-decoration: none;
+}
+
+a:hover,
+article a:hover {
+    text-decoration: none;
+    filter: brightness(1.2);
+}
+
+/* Extra refinements */
+
+header h1 svg,
+header h2 svg,
+header h3 svg,
+legend svg {
+    color: var(--bg-prm) !important;
+    margin-right: 0.5rem;
+}
+
+.page-indicator {
+    font-size: 0.8rem;
+    font-style: italic;
+    text-transform: uppercase;
+    color: var(--tx-sys);
+    margin-top: 1rem;
+}

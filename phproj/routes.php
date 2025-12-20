@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Routes - Route definitions for core controllers
  * Summary: Maps URL patterns to core controller methods
@@ -61,6 +62,11 @@ Route::all('/img/([\w\d_/-]+)-(w\d+h\d+|w\d+|h\d+)\.(png|jpg|jpeg|webp)', functi
     return ImagesController::process($matches);
 });
 
+// Generic asset server for files in views
+Route::all('/(font|asset|file|img)/(.*)', function ($matches) {
+    return AssetsController::file($matches[1] . '/' . $matches[2]);
+});
+
 // API Routes - Automatic Model Exposure
 // Pattern: /api/{model}/{id}
 Route::all('/api/([\w\d_-]+)/(\d+)', function ($matches) {
@@ -71,4 +77,3 @@ Route::all('/api/([\w\d_-]+)/(\d+)', function ($matches) {
 Route::all('/api/([\w\d_-]+)', function ($matches) {
     return ApiController::handle($matches[1]);
 });
-
