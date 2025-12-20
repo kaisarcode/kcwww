@@ -125,6 +125,13 @@ th, td {
   vertical-align: middle;
 }
 
+fieldset {
+    margin-inline-end: 0;
+    margin-inline-start: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 input, select, textarea, button, dialog {
   font-family: inherit;
   font-size: inherit;
