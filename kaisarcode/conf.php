@@ -12,5 +12,5 @@
 Conf::set([
     'app.name' => 'KaisarCode',
     'app.desc' => 'KaisarCode es un repositorio de documentos dinámicos, volátiles, y ligeramente categorizados.',
-    'app.color' => '#222221',
+    'app.color' => '#222222',
 ]);
