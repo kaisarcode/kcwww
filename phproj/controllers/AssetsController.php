@@ -102,8 +102,13 @@ class AssetsController extends Controller
             $realCandidate = realpath($candidate);
             $realLoc = realpath($loc);
 
+            if (!$realCandidate || !$realLoc) {
+                continue;
+            }
+
             // Security: File must be within base directory
-            if ($realCandidate && is_file($realCandidate) && strpos($realCandidate, $realLoc) === 0) {
+            $realLoc = rtrim($realLoc, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            if (is_file($realCandidate) && str_starts_with($realCandidate, $realLoc)) {
                 $found = $realCandidate;
                 break;
             }
