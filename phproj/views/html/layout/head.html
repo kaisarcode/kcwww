@@ -1,7 +1,13 @@
 {{@setblock head}}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{app.name}}</title>
+
+<!-- Page Title -->
+{{@if ($page->name == $app->name) :}}
+<title>{{page.name}}</title>
+{{@else:}}
+<title>{{page.name}} | {{app.name}}</title>
+{{@endif}}
 
 <meta name="description" content="{{app.desc}}">
 <meta name="keywords" content="{{app.keywords}}">

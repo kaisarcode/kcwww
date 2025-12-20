@@ -1,10 +1,5 @@
 {{@include $VIEWS.'/html/layout/layout.html'}}
 
-{{@setblock head}}
-    {{@parent}}
-    <title>{{ error.code }} | {{ app.name }}</title>
-{{@endsetblock}}
-
 {{@setblock header}}
     <h1>{{ error.code }}</h1>
 {{@endsetblock}}

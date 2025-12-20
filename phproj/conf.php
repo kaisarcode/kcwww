@@ -15,7 +15,9 @@
 
 // Application Configuration
 Conf::set([
-    'app.name' => 'phproj',
+    'app.id' => 'phproj',
+    'app.name' => 'PHProj',
+    'page.name' => 'PHProj',
     'app.desc' => 'Portable PHP Utility Toolkit',
     'app.keywords' => 'php, utilities, portable, zero-dependency, kaisarcode',
     'app.lang' => 'en',

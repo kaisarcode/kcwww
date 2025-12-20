@@ -1,4 +1,8 @@
+{{@include $VIEWS.'/html/layout/layout.html'}}
+
+{{@setblock main}}
 <section>
     <h1>{{ error.code }}</h1>
     <p>{{ error.message }}</p>
 </section>
+{{@endsetblock}}
