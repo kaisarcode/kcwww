@@ -63,7 +63,12 @@ Route::all('/img/([\w\d_/-]+)-(w\d+h\d+|w\d+|h\d+)\.(png|jpg|jpeg|webp)', functi
 });
 
 // Generic asset server for files in views
-Route::all('/(font|asset|file|img)/(.*)', function ($matches) {
+Route::all('/asset/(.*)', function ($matches) {
+    return AssetsController::file($matches[1]);
+});
+
+// Shortcut routes for common assets
+Route::all('/(font|file|img)/(.*)', function ($matches) {
     return AssetsController::file($matches[1] . '/' . $matches[2]);
 });
 

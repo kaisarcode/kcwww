@@ -99,8 +99,12 @@ class AssetsController extends Controller
         $found = '';
         foreach ($locations as $loc) {
             $candidate = $loc . '/' . $path;
-            if (file_exists($candidate) && is_file($candidate)) {
-                $found = $candidate;
+            $realCandidate = realpath($candidate);
+            $realLoc = realpath($loc);
+
+            // Security: File must be within base directory
+            if ($realCandidate && is_file($realCandidate) && strpos($realCandidate, $realLoc) === 0) {
+                $found = $realCandidate;
                 break;
             }
         }
