@@ -1,3 +1,12 @@
+/**
+ * Icons
+ * Summary: Icon sizing and positioning.
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
 a svg,
 h1 svg,
 h2 svg,
@@ -12,12 +21,14 @@ label svg {
     display: inline-block;
     vertical-align: middle;
 }
+
 svg+span {
     top: 1px;
     position: relative;
     display: inline-block;
     vertical-align: middle;
 }
+
 h1 svg {
     height: 1.2rem;
 }

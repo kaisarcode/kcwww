@@ -7,12 +7,10 @@
  * License: GNU General Public License v3.0
  * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
  */
-
 @import url("vars.css");
 @import url("reset.css");
 
 /* Main layout */
-
 body {
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -45,7 +43,6 @@ section>article {
 }
 
 /* Base panels and semantic blocks */
-
 .pnl,
 main,
 section,
@@ -98,7 +95,6 @@ fieldset:has(>footer) {
 }
 
 /* Margin management */
-
 *:last-child,
 header>*,
 footer>*,
@@ -111,7 +107,6 @@ main>* {
 }
 
 /* Contextual color areas */
-
 .hdr,
 header,
 legend {
@@ -135,7 +130,6 @@ section {
 }
 
 /* Grid and column layouts */
-
 section:has(> article) {
     display: grid;
     gap: calc(var(--pad)*1rem);
@@ -154,7 +148,6 @@ footer {
 }
 
 /* Content alignment */
-
 header>*,
 footer>* {
     margin: 0;
@@ -173,7 +166,6 @@ footer>*:first-child {
 }
 
 /* Typography elements */
-
 header h1,
 header h2,
 header h3,
@@ -203,7 +195,6 @@ footer h6 {
 }
 
 /* Navigation lists */
-
 header ul,
 footer ul {
     display: flex;
@@ -220,7 +211,6 @@ footer li {
 }
 
 /* Hyperlinks */
-
 a,
 header nav a:hover,
 footer nav a:hover {
@@ -239,7 +229,6 @@ nav a {
 }
 
 /* Command buttons */
-
 .btn,
 button {
     display: inline-block;
@@ -252,7 +241,6 @@ button {
 }
 
 /* Form input elements */
-
 .ipt,
 input,
 select,
@@ -282,7 +270,6 @@ textarea:invalid {
 }
 
 /* Overlay dialogs */
-
 dialog {
     display: none;
     min-width: var(--min);
@@ -294,7 +281,6 @@ dialog[open] {
 }
 
 /* Technical input and output */
-
 code,
 kbd,
 samp,
@@ -317,7 +303,6 @@ pre output {
 }
 
 /* Interaction indicators */
-
 progress {
     display: block;
     width: 100%;
@@ -349,7 +334,6 @@ progress::-moz-progress-bar {
 }
 
 /* Compound component overrides */
-
 header,
 legend {
     border-bottom-left-radius: 0;
@@ -421,7 +405,6 @@ label+textarea {
 }
 
 /* Color utility classes */
-
 .pnl {
     background-color: var(--bg-pnl);
     border-color: var(--bd-pnl);
@@ -483,7 +466,6 @@ label+textarea {
 }
 
 /* Visual animations */
-
 @media (prefers-reduced-motion: no-preference) {
 
     html,

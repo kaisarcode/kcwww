@@ -8,7 +8,6 @@
  * License: GNU GPL v3.0
  * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
  */
-
 @import url("../kcui/kcui.css");
 @import url("../fonts.css");
 @import url("../icons.css");
@@ -18,7 +17,6 @@
 }
 
 /* Layout logic */
-
 html,
 body {
     height: 100%;
@@ -109,7 +107,6 @@ main > section > footer {
 }
 
 /* Visual aesthetics */
-
 html,
 body,
 article h1,
@@ -160,7 +157,6 @@ footer p {
 }
 
 /* Navigations and buttons */
-
 header nav,
 footer nav {
     display: flex;
@@ -234,9 +230,7 @@ footer menu a:hover {
     color: var(--bg-prm);
 }
 
-/* Icons */
-
-/* General SVG sizing */
+/* General icon sizing */
 a svg,
 h1 svg,
 h2 svg,
@@ -300,7 +294,6 @@ footer menu a:hover svg {
 }
 
 /* Article styling */
-
 article h1 {
     font-size: 1.5rem;
     font-weight: bold;
@@ -318,7 +311,6 @@ article h3 {
 }
 
 /* Heading resets for headers and legends */
-
 header h1,
 header h2,
 header h3,
@@ -365,7 +357,6 @@ article blockquote {
 }
 
 /* Masonry column layout for explore */
-
 main > section > section {
     display: block;
     columns: var(--col) 4;
@@ -416,7 +407,6 @@ main > section > section article:hover figure img {
 }
 
 /* Quote marks and article decoration */
-
 main > section > section article:not(:has(header)) {
     position: relative;
 }
@@ -459,7 +449,6 @@ main > section > section article:not(:has(header))::after {
 }
 
 /* Links */
-
 a,
 article a {
     color: var(--tx-lnk);

@@ -1,35 +1,48 @@
+/**
+ * Fonts
+ * Summary: Font definitions.
+ * Author: KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
 @font-face {
-  font-display: swap;
-  font-family: 'Roboto Condensed';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/asset/font/roboto-condensed-v30-latin-regular.woff2') format('woff2');
+    font-display: swap;
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/asset/font/roboto-condensed-v30-latin-regular.woff2') format('woff2');
 }
+
 @font-face {
-  font-display: swap;
-  font-family: 'Roboto Condensed';
-  font-style: italic;
-  font-weight: 400;
-  src: url('/asset/font/roboto-condensed-v30-latin-italic.woff2') format('woff2');
+    font-display: swap;
+    font-family: 'Roboto Condensed';
+    font-style: italic;
+    font-weight: 400;
+    src: url('/asset/font/roboto-condensed-v30-latin-italic.woff2') format('woff2');
 }
+
 @font-face {
-  font-display: swap;
-  font-family: 'Roboto Condensed';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/asset/font/roboto-condensed-v30-latin-600.woff2') format('woff2');
+    font-display: swap;
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/asset/font/roboto-condensed-v30-latin-600.woff2') format('woff2');
 }
+
 @font-face {
-  font-display: swap;
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/asset/font/roboto-mono-v30-latin-regular.woff2') format('woff2');
+    font-display: swap;
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/asset/font/roboto-mono-v30-latin-regular.woff2') format('woff2');
 }
+
 @font-face {
-  font-display: swap;
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/asset/font/roboto-mono-v30-latin-600.woff2') format('woff2');
+    font-display: swap;
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/asset/font/roboto-mono-v30-latin-600.woff2') format('woff2');
 }
