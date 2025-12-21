@@ -83,10 +83,10 @@ if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/conf.php')) {
 // Initialize base controller
 Controller::init();
 
-// Load core routes
-require_once DIR_CORE . '/routes.php';
-
 // Load child routes (additional or override)
 if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/routes.php')) {
     require_once DIR_APP . '/routes.php';
 }
+
+// Load core routes
+require_once DIR_CORE . '/routes.php';
