@@ -235,6 +235,71 @@ footer menu a:hover {
     color: var(--bg-prm);
 }
 
+/* Icons */
+
+/* General SVG sizing */
+a svg,
+h1 svg,
+h2 svg,
+h3 svg,
+h4 svg,
+h5 svg,
+h6 svg,
+legend svg,
+label svg {
+    width: auto;
+    height: 0.8rem;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+svg+span {
+    top: 1px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Specific Header Icon Sizes */
+header h1 svg {
+    height: 1.2rem;
+}
+
+header h2 svg,
+header h3 svg,
+header h4 svg,
+header h5 svg,
+header h6 svg {
+    height: 0.8rem;
+}
+
+/* Header Icon Colors */
+header h1 svg,
+header h2 svg,
+header h3 svg,
+header h4 svg,
+header h5 svg,
+header h6 svg,
+legend svg {
+    color: var(--bg-prm);
+}
+
+/* Nav/menu link icons - inherit color, orange on hover */
+header nav a svg,
+header menu a svg,
+footer nav a svg,
+footer menu a svg {
+    color: inherit;
+}
+
+header nav a:hover svg,
+header menu a:hover svg,
+footer nav a:hover svg,
+footer menu a:hover svg {
+    color: var(--bg-prm);
+}
+
 /* Article styling */
 
 article h1 {
@@ -278,6 +343,15 @@ header h2 a,
 header h3 a {
     color: inherit;
     text-decoration: none;
+}
+
+/* Panel Headers Flex Layout */
+main header h1, main header h2, main header h3, main header h4, main header h5, main header h6,
+article header h1, article header h2, article header h3, article header h4, article header h5, article header h6,
+section header h1, section header h2, section header h3, section header h4, section header h5, section header h6 {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 article blockquote {
@@ -398,91 +472,6 @@ article a:hover {
     text-decoration: none;
     filter: brightness(1.2);
 }
-
-/* Extra refinements */
-
-/* SVG icons in headings - always orange */
-header h1 svg,
-header h2 svg,
-header h3 svg,
-legend svg {
-    color: var(--bg-prm);
-}
-
-/* SVG icons general sizing - matches kaisarcode.com */
-a svg,
-h1 svg,
-h2 svg,
-h3 svg,
-h4 svg,
-h5 svg,
-h6 svg,
-legend svg,
-label svg {
-    width: auto;
-    height: 0.8rem;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-svg+span {
-    top: 1px;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-/* Header heading layout */
-main header h1, main header h2, main header h3, main header h4, main header h5, main header h6,
-article header h1, article header h2, article header h3, article header h4, article header h5, article header h6,
-section header h1, section header h2, section header h3, section header h4, section header h5, section header h6 {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-/* Header heading icons - size and color */
-header h1 svg {
-    height: 1.2rem;
-}
-
-header h2 svg,
-header h3 svg,
-header h4 svg,
-header h5 svg,
-header h6 svg {
-    height: 0.8rem;
-}
-
-header h1 svg,
-header h2 svg,
-header h3 svg,
-header h4 svg,
-header h5 svg,
-header h6 svg,
-legend svg {
-    color: var(--bg-prm);
-}
-
-/* Nav/menu link icons - inherit color, orange on hover */
-header nav a svg,
-header menu a svg,
-footer nav a svg,
-footer menu a svg {
-    color: inherit;
-}
-
-header nav a:hover svg,
-header menu a:hover svg,
-footer nav a:hover svg,
-footer menu a:hover svg {
-    color: var(--bg-prm);
-}
-
-
-
-
 
 .page-indicator {
     font-size: 0.8rem;
