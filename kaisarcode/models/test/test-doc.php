@@ -109,14 +109,14 @@ class DocModelTest
     {
         $result = DocModel::paginate(1, 2);
         
-        if (count($result['data']) === 2 && isset($result['meta']['total'])) {
+        if (count($result['result']) === 2 && isset($result['pagination']['total'])) {
             $this->pass("DocModel::paginate() returns 2 items and metadata");
         } else {
-            $this->fail("DocModel::paginate() failed: count=" . count($result['data']));
+            $this->fail("DocModel::paginate() failed: count=" . count($result['result']));
         }
 
         $result2 = DocModel::paginate(1, 100);
-        if ($result2['meta']['total'] === count($result2['data'])) {
+        if ($result2['pagination']['total'] === count($result2['result'])) {
             $this->pass("DocModel::paginate() returns all items when limit is high");
         } else {
             $this->fail("DocModel::paginate() high limit failed");

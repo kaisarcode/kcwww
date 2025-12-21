@@ -340,8 +340,8 @@ abstract class Model
         $totalPages = (int) ceil($total / $limit);
 
         return [
-            'data' => $models,
-            'meta' => [
+            'result' => $models,
+            'pagination' => [
                 'page' => $page,
                 'limit' => $limit,
                 'total' => $total,
