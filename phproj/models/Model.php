@@ -300,6 +300,59 @@ abstract class Model
     }
 
     /**
+     * Get paginated models
+     *
+     * @param int $page Page number (1-indexed)
+     * @param int $limit Items per page
+     * @param string $sql SQL condition
+     * @param array $bindings
+     * @return array ['data' => Model[], 'meta' => pagination info]
+     */
+    public static function paginate(
+        int $page = 1,
+        int $limit = 20,
+        string $sql = '',
+        array $bindings = []
+    ): array {
+        static::init();
+
+        $page = max(1, $page);
+        $limit = max(1, min(100, $limit));
+        $offset = ($page - 1) * $limit;
+
+        // Get total count
+        $total = R::count(static::$table, $sql, $bindings);
+
+        // Build query with LIMIT/OFFSET
+        $orderSql = $sql;
+        if (!empty($sql)) {
+            $orderSql .= " LIMIT $limit OFFSET $offset";
+        } else {
+            $orderSql = "1 LIMIT $limit OFFSET $offset";
+        }
+
+        $beans = R::find(static::$table, $orderSql, $bindings);
+        $models = [];
+        foreach ($beans as $bean) {
+            $models[] = new static($bean);
+        }
+
+        $totalPages = (int) ceil($total / $limit);
+
+        return [
+            'data' => $models,
+            'meta' => [
+                'page' => $page,
+                'limit' => $limit,
+                'total' => $total,
+                'total_pages' => $totalPages,
+                'has_next' => $page < $totalPages,
+                'has_prev' => $page > 1
+            ]
+        ];
+    }
+
+    /**
      * Get all models
      *
      * @return array

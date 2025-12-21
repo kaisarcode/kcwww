@@ -33,7 +33,7 @@ class Route
     private static $errorHandler = null;
     private static $errorRegistered = false;
     private static $inputCache = null;
-    private static $authParam = 'routepassw';
+    private static $authParam = 'routepassword';
 
     /**
      * Registers a route for a specific HTTP method.

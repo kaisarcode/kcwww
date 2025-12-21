@@ -44,6 +44,31 @@ Fs::mkdirp(DIR_VAR . '/cache/img', 0775);
 Fs::mkdirp(DIR_VAR . '/cache/tpl', 0775);
 Fs::mkdirp(DIR_VAR . '/data/db', 0775);
 
+// Load local environment variables
+// Priority: 1. Child App (.env in DIR_VAR), 2. Core App (.env in DIR_CORE/var)
+$envPath = null;
+if (file_exists(DIR_VAR . '/.env')) {
+    $envPath = DIR_VAR . '/.env';
+} elseif (file_exists(DIR_CORE . '/var/.env')) {
+    $envPath = DIR_CORE . '/var/.env';
+}
+
+if ($envPath) {
+    $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === '' || strpos($line, '#') === 0) continue;
+        $parts = explode('=', $line, 2);
+        if (count($parts) === 2) {
+            $name = trim($parts[0]);
+            $value = trim($parts[1]);
+            putenv("$name=$value");
+            $_ENV[$name] = $value;
+            $_SERVER[$name] = $value;
+        }
+    }
+}
+
 // Development mode flag
 define('DEVM', file_exists(DIR_VAR . '/dev'));
 

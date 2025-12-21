@@ -17,7 +17,7 @@ class DocModel extends Model
     /**
      * Table name
      */
-    protected static string $table = 'docs';
+    protected static string $table = 'kcdoc';
 
     /**
      * Override init to set specific DSN for this model

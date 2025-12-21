@@ -72,6 +72,9 @@ Route::all('/(font|file|img)/(.*)', function ($matches) {
     return AssetsController::file($matches[1] . '/' . $matches[2]);
 });
 
+// Security: Protect ALL API routes
+Route::protect('all', '/api(/.*)?', Conf::get('api.secret'));
+
 // API Routes - Automatic Model Exposure
 // Pattern: /api/{model}/{id}
 Route::all('/api/([\w\d_-]+)/(\d+)', function ($matches) {

@@ -114,17 +114,22 @@ class ApiController extends Controller
     }
 
     /**
-     * List all records
+     * List records with pagination
      *
      * @param string $className
      */
     private static function listAll(string $className): void
     {
-        $models = $className::all();
-        $data = array_map(fn($m) => $m->toArray(), $models);
+        $page = (int) ($_GET['page'] ?? 1);
+        $limit = (int) ($_GET['limit'] ?? 20);
+
+        $result = $className::paginate($page, $limit);
+        $data = array_map(fn($m) => $m->toArray(), $result['data']);
+
         echo self::json([
             'status' => 'ok',
             'result' => $data,
+            'meta' => $result['meta'],
             'errors' => []
         ]);
     }
