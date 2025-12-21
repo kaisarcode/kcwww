@@ -16,6 +16,8 @@ Conf::set([
     'app.name' => 'KaisarCode',
     'page.name' => 'KaisarCode',
     'app.desc' => 'KaisarCode es un repositorio de documentos dinámicos, volátiles, y ligeramente categorizados.',
+    'app.keywords' => 'kaisarcode, software, opinion, analitica, articulos',
+    'app.lang' => 'es',
     'app.color' => '#222222',
     'VIEWS' => DIR_APP . '/views',
     'assets.css.entry' => DIR_APP . '/views/css/styles.css',

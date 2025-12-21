@@ -30,14 +30,18 @@ class PageController extends Controller
             return false;
         }
 
+        // Parse content as Markdown
+        $parsedown = new ParsedownExtra();
+        $content = $parsedown->text($doc->cont);
+
         // Prepare data for view
         $data = [
             'doc' => new DocModel($doc),
             'title' => $doc->title,
-            'content' => $doc->cont
+            'content' => $content
         ];
 
-        // Reuse home.html as requested
-        return self::html(DIR_APP . '/views/html/home.html', $data);
+        // Page view
+        return self::html(DIR_APP . '/views/html/page.html', $data);
     }
 }

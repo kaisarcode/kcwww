@@ -7,7 +7,7 @@
     $svg = Fs::get($path, '');
     if ($svg !== '') {
         $svg = preg_replace('/<svg\b([^>]+)>/',
-        '<svg width="'.$size.'" height="'.$size.'" aria-hidden="true" $1>',
+        '<svg width="'.$size.'" height="'.$size.'" fill="currentColor" aria-hidden="true" $1>',
         $svg);
         echo Str::rmc($svg);
     }

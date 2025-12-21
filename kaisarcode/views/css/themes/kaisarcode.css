@@ -171,6 +171,7 @@ footer nav a {
     font-weight: bold;
     color: var(--tx-hdr);
     text-decoration: none;
+    transition: all 0.1s ease-in-out;
 }
 
 header nav a:hover,
@@ -223,6 +224,7 @@ footer menu a {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    transition: all 0.1s ease-in-out;
 }
 
 header menu a:hover,
@@ -245,6 +247,7 @@ label svg {
     position: relative;
     display: inline-block;
     vertical-align: middle;
+    transition: all 0.1s ease-in-out;
 }
 
 svg+span {
@@ -278,19 +281,12 @@ legend svg {
     color: var(--bg-prm);
 }
 
-/* Nav/menu link icons - inherit color, orange on hover */
+/* Nav/menu link icons - inherit color */
 header nav a svg,
 header menu a svg,
 footer nav a svg,
 footer menu a svg {
     color: inherit;
-}
-
-header nav a:hover svg,
-header menu a:hover svg,
-footer nav a:hover svg,
-footer menu a:hover svg {
-    color: var(--bg-prm);
 }
 
 /* Article styling */
@@ -299,6 +295,27 @@ article h1 {
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 1rem;
+    line-height: 1.5rem;
+}
+
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+    line-height: 1.5rem;
+}
+
+article p,
+article ul,
+article ol,
+article blockquote {
+    line-height: 2rem;
+}
+
+article li::marker {
+    color: var(--bg-prm);
+    font-weight: bold;
 }
 
 article h2,
@@ -334,6 +351,13 @@ header h2 a,
 header h3 a {
     color: inherit;
     text-decoration: none;
+    transition: color 0.1s ease-in-out;
+}
+
+header h1 a:hover,
+header h2 a:hover,
+header h3 a:hover {
+    color: var(--bg-prm);
 }
 
 /* Panel Headers Flex Layout */
@@ -349,11 +373,42 @@ article blockquote {
     position: relative;
     margin: 0;
     padding: calc(var(--pad)*6rem) calc(var(--pad)*2rem);
+    font-size: 1rem;
+    font-weight: normal;
     font-style: italic;
     color: var(--tx-sys);
     border: 1px solid var(--bd-pnl);
     border-radius: calc(var(--rad)*1rem);
     background: transparent;
+}
+
+article blockquote::before,
+article blockquote::after {
+    content: "";
+    position: absolute;
+    width: var(--quote-mark-size);
+    height: var(--quote-mark-size);
+    background-color: var(--tx-sys);
+    opacity: 0.3;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    mask-size: var(--quote-mark-size) var(--quote-mark-size);
+    pointer-events: none;
+}
+
+article blockquote::before {
+    top: 0.5rem;
+    left: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-left.svg);
+    mask-image: url(/img/fa/solid/quote-left.svg);
+}
+
+article blockquote::after {
+    bottom: 0.5rem;
+    right: 1rem;
+    -webkit-mask-image: url(/img/fa/solid/quote-right.svg);
+    mask-image: url(/img/fa/solid/quote-right.svg);
 }
 
 /* Masonry column layout for explore */
@@ -426,7 +481,7 @@ main > section > section article:not(:has(header))::after {
     width: var(--quote-mark-size);
     height: var(--quote-mark-size);
     background-color: var(--tx-sys);
-    opacity: 0.1;
+    opacity: 0.3;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-size: var(--quote-mark-size) var(--quote-mark-size);
@@ -437,15 +492,15 @@ main > section > section article:not(:has(header))::after {
 main > section > section article:not(:has(header))::before {
     top: 0.5rem;
     left: 1rem;
-    -webkit-mask-image: url(/img/fa/solid/quote-left-h100.png);
-    mask-image: url(/img/fa/solid/quote-left-h100.png);
+    -webkit-mask-image: url(/img/fa/solid/quote-left.svg);
+    mask-image: url(/img/fa/solid/quote-left.svg);
 }
 
 main > section > section article:not(:has(header))::after {
     bottom: 0.5rem;
     right: 1rem;
-    -webkit-mask-image: url(/img/fa/solid/quote-right-h100.png);
-    mask-image: url(/img/fa/solid/quote-right-h100.png);
+    -webkit-mask-image: url(/img/fa/solid/quote-right.svg);
+    mask-image: url(/img/fa/solid/quote-right.svg);
 }
 
 /* Links */
@@ -455,7 +510,7 @@ article a {
     text-decoration: none;
 }
 
-a:hover,
+a:hover:not(header a):not(footer a),
 article a:hover {
     text-decoration: none;
     filter: brightness(1.2);

@@ -31,8 +31,18 @@
  * $user->save();
  * ```
  */
-abstract class Model
+abstract class Model implements JsonSerializable
 {
+    /**
+     * JSON serialization
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
     /**
      * Table name - override in child class
      */
