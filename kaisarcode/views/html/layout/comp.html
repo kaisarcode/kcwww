@@ -1,6 +1,6 @@
-{{@setblock fa}}
+{{@setblock ico}}
     {{@var type $type??"solid"}}
-    {{@var path $path??ROOT."/src/img/fa/$type"}}
+    {{@var path $path??DIR_APP."/views/img/fa/$type"}}
     {{@var size $size??32}}
     <?php
     $path = "$path/$name.svg";
@@ -22,7 +22,7 @@
     {{@var backLabel $back_label??'Back'}}
     {{@if ($backUrlSafe !== ''):}}
     <a href="{{backUrlSafe}}" class="pnl btn">
-        {{@block fa ['name' => $backIcon, 'type' => $backIconType]}}
+        {{@block ico ['name' => $backIcon, 'type' => $backIconType]}}
         <span>{{backLabel}}</span>
     </a>
     {{@endif}}

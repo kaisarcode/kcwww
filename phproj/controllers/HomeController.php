@@ -20,6 +20,9 @@ class HomeController extends Controller
      */
     public static function index(): string
     {
-        return self::html(Conf::get('VIEWS') . '/html/home.html');
+        $home = (DIR_APP !== DIR_CORE && is_file(DIR_APP . '/views/html/home.html'))
+            ? DIR_APP . '/views/html/home.html'
+            : DIR_CORE . '/views/html/home.html';
+        return self::html($home);
     }
 }
