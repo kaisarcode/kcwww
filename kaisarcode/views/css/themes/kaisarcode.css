@@ -227,7 +227,7 @@ footer menu a {
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
 }
 
 header menu a:hover,
@@ -433,6 +433,15 @@ svg+span {
     vertical-align: middle;
 }
 
+/* Header heading layout */
+main header h1, main header h2, main header h3, main header h4, main header h5, main header h6,
+article header h1, article header h2, article header h3, article header h4, article header h5, article header h6,
+section header h1, section header h2, section header h3, section header h4, section header h5, section header h6 {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
 /* Header heading icons - size and color */
 header h1 svg {
     height: 1.2rem;
@@ -470,6 +479,8 @@ footer nav a:hover svg,
 footer menu a:hover svg {
     color: var(--bg-prm);
 }
+
+
 
 
 
