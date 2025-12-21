@@ -312,7 +312,8 @@ abstract class Model
         int $page = 1,
         int $limit = 20,
         string $sql = '',
-        array $bindings = []
+        array $bindings = [],
+        string $order = ''
     ): array {
         static::init();
 
@@ -320,16 +321,15 @@ abstract class Model
         $limit = max(1, min(100, $limit));
         $offset = ($page - 1) * $limit;
 
-        // Get total count
+        // Get total count (using only WHERE part)
         $total = R::count(static::$table, $sql, $bindings);
 
-        // Build query with LIMIT/OFFSET
-        $orderSql = $sql;
-        if (!empty($sql)) {
-            $orderSql .= " LIMIT $limit OFFSET $offset";
-        } else {
-            $orderSql = "1 LIMIT $limit OFFSET $offset";
+        // Build query for find
+        $orderSql = $sql ?: '1';
+        if (!empty($order)) {
+            $orderSql .= " ORDER BY $order";
         }
+        $orderSql .= " LIMIT $limit OFFSET $offset";
 
         $beans = R::find(static::$table, $orderSql, $bindings);
         $models = [];

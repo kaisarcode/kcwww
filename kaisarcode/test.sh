@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# kaisarcode - Test Suite
-# Validates site-specific functionality and model operations
+# KaisarCode - Master Test Runner
+# Validates standards compliance and runs subdirectory tests
 #
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -19,7 +19,7 @@ pass() { printf "${GREEN}[PASS]${NC} %s\n" "$1"; }
 fail() { printf "${RED}[FAIL]${NC} %s\n" "$1"; exit 1; }
 info() { printf "${YELLOW}[INFO]${NC} %s\n" "$1"; }
 
-header "kaisarcode Test Suite"
+header "KaisarCode Test Suite"
 
 # Validation
 header "Validation"
@@ -30,30 +30,37 @@ else
     info "kcval not found, skipping validation"
 fi
 
-# Test DocModel
-header "Testing DocModel"
+TOTAL=0
+PASSED=0
+FAILED=0
 
-php "$SCRIPT_DIR/test/test_doc_model.php"
-TEST_RESULT=$?
+# Find all test.sh files in subdirectories
+for test_file in $(find "$SCRIPT_DIR/models" "$SCRIPT_DIR/controllers" -name "test.sh" | sort); do
+    rel_path="${test_file#"$SCRIPT_DIR"/}"
+    dir_name=$(dirname "$rel_path")
 
-if [ $TEST_RESULT -ne 0 ]; then
-    fail "DocModel tests failed"
-fi
+    TOTAL=$((TOTAL + 1))
 
-pass "DocModel tests passed"
+    header "Testing $dir_name"
 
-# Test API endpoint
-header "Testing API Endpoint"
+    if "$test_file"; then
+        PASSED=$((PASSED + 1))
+    else
+        FAILED=$((FAILED + 1))
+        printf "${RED}[FAIL]${NC} %s tests failed\n" "$dir_name"
+    fi
 
-php "$SCRIPT_DIR/test/test_api.php"
-API_RESULT=$?
-
-if [ $API_RESULT -ne 0 ]; then
-    fail "API tests failed"
-fi
-
-pass "API tests passed"
+    echo ""
+done
 
 # Summary
-pass "All kaisarcode tests passed"
+if [ "$TOTAL" -gt 0 ]; then
+    info "Total: $TOTAL | Passed: $PASSED | Failed: $FAILED"
+fi
+
+if [ "$FAILED" -gt 0 ]; then
+    fail "Some tests failed"
+fi
+
+pass "All tests passed"
 exit 0

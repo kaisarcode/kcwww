@@ -1,0 +1,129 @@
+<?php
+/**
+ * Test suite for RssController
+ */
+
+$root = getenv('PROJECT_ROOT');
+$core = getenv('CORE_ROOT');
+if (!$root || !$core) {
+    echo "[FAIL] PROJECT_ROOT or CORE_ROOT not set\n";
+    exit(1);
+}
+
+// Bootstrap
+define('DIR_APP', $root);
+define('DIR_CORE', $core);
+define('DIR_VAR', $root . '/var');
+
+require_once $core . '/autoload.php';
+
+autoload([
+    $root . '/classes',
+    $root . '/controllers',
+    $root . '/models',
+    $core . '/classes',
+    $core . '/controllers',
+    $core . '/models',
+]);
+
+// Initialize base controller and config
+$_SERVER['HTTP_HOST'] = 'localhost';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+require_once DIR_APP . '/conf.php';
+Controller::init();
+
+class RssControllerTest
+{
+    private int $passed = 0;
+    private int $failed = 0;
+
+    public function run(): int
+    {
+        $this->testRssOutput();
+        $this->testRssPagination();
+        $this->testRssPath();
+
+        printf(
+            "\nTotal: %d | Passed: %d | Failed: %d\n",
+            $this->passed + $this->failed,
+            $this->passed,
+            $this->failed
+        );
+
+        return $this->failed > 0 ? 1 : 0;
+    }
+
+    private function pass(string $msg): void
+    {
+        printf("\033[0;32m[PASS]\033[0m %s\n", $msg);
+        $this->passed++;
+    }
+
+    private function fail(string $msg): void
+    {
+        printf("\033[0;31m[FAIL]\033[0m %s\n", $msg);
+        $this->failed++;
+    }
+
+    private function testRssOutput(): void
+    {
+        $_GET = [];
+        ob_start();
+        RssController::handle();
+        $output = ob_get_clean();
+
+        if (strpos($output, '<?xml') !== false && strpos($output, '<rss') !== false) {
+            $this->pass("RssController::handle() returns valid XML");
+        } else {
+            $this->fail("RssController::handle() returned invalid output");
+        }
+
+        if (strpos($output, '<title>KaisarCode</title>') !== false) {
+            $this->pass("RssController output contains site title");
+        } else {
+            $this->fail("RssController output missing site title");
+        }
+    }
+
+    private function testRssPagination(): void
+    {
+        $_GET['l'] = 1;
+        ob_start();
+        RssController::handle();
+        $output = ob_get_clean();
+
+        if (strpos($output, '<documentAmount>1</documentAmount>') !== false) {
+            $this->pass("RssController respects limit parameter 'l'");
+        } else {
+            $this->fail("RssController ignored limit parameter 'l'");
+        }
+
+        $_GET['p'] = 2;
+        ob_start();
+        RssController::handle();
+        $output = ob_get_clean();
+        
+        if (strpos($output, '<currentPage>2</currentPage>') !== false) {
+            $this->pass("RssController respects page parameter 'p'");
+        } else {
+            $this->fail("RssController ignored page parameter 'p'");
+        }
+    }
+
+    private function testRssPath(): void
+    {
+        $_GET = ['path' => '/non-existent'];
+        ob_start();
+        RssController::handle();
+        $output = ob_get_clean();
+
+        if (strpos($output, '<totalDocuments>0</totalDocuments>') !== false) {
+            $this->pass("RssController handles non-existent path correctly (0 items)");
+        } else {
+            $this->fail("RssController failed to handle empty path query");
+        }
+    }
+}
+
+$test = new RssControllerTest();
+exit($test->run());

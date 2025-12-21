@@ -12,6 +12,11 @@ autoload([
     $root . '/models',
 ]);
 
+// Define test model
+class TestModel extends Model {
+    protected static string $table = 'testitems';
+}
+
 class ApiTest
 {
     private int $passed = 0;
@@ -51,34 +56,42 @@ class ApiTest
     private function testListDummy(): void
     {
         // Add a record first so we have data
-        DummyModel::create(['name' => 'API List Test'])->save();
+        TestModel::create(['name' => 'API List Test'])->save();
 
         ob_start();
-        ApiController::handle('dummy');
+        ApiController::handle('test');
         $output = ob_get_clean();
+        $data = json_decode($output, true);
 
-        if (strpos($output, 'API List Test') !== false) {
-            $this->pass("ApiController::handle('dummy') lists records");
+        if (
+            isset($data['status'], $data['result'], $data['pagination'], $data['errors']) &&
+            $data['status'] === 'ok' &&
+            !empty($data['result'])
+        ) {
+            $this->pass("ApiController structure and data valid for listing");
         } else {
-            $this->fail("ApiController::handle('dummy') failed to list records");
+            $this->fail("ApiController listing failed or structure invalid");
         }
     }
 
     private function testCreateDummy(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        // Mock POST data via our Http helper (it reads php://input if not in $_POST)
-        // For testing we'll just put it in $_POST
         $_POST['name'] = 'API Create Test';
 
         ob_start();
-        ApiController::handle('dummy');
+        ApiController::handle('test');
         $output = ob_get_clean();
+        $data = json_decode($output, true);
 
-        if (strpos($output, 'API Create Test') !== false) {
-            $this->pass("ApiController::handle('dummy') creates record via POST");
+        if (
+            isset($data['status'], $data['result']) &&
+            $data['status'] === 'ok' &&
+            $data['result']['name'] === 'API Create Test'
+        ) {
+            $this->pass("ApiController correctly creates record and returns standard structure");
         } else {
-            $this->fail("ApiController::handle('dummy') failed to create record");
+            $this->fail("ApiController creation failed or structure invalid");
         }
 
         // Clean up
@@ -91,11 +104,16 @@ class ApiTest
         ob_start();
         ApiController::handle('non_existent_model');
         $output = ob_get_clean();
+        $data = json_decode($output, true);
 
-        if (strpos($output, 'Model not found') !== false) {
-            $this->pass("ApiController::handle handle missing model correctly");
+        if (
+            isset($data['status'], $data['errors']) &&
+            $data['status'] === 'error' &&
+            strpos($data['errors'][0]['message'], 'Model not found') !== false
+        ) {
+            $this->pass("ApiController handle missing model correctly with standard error structure");
         } else {
-            $this->fail("ApiController::handle failed to notify missing model");
+            $this->fail("ApiController failed to notify missing model with correct structure");
         }
     }
 }

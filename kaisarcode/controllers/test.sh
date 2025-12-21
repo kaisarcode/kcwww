@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Test harness for Controllers
+# Test harness for KaisarCode Controllers
 #
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -31,9 +31,11 @@ fi
 # Functional tests
 header "Controller Tests"
 
-# Export phproj root for tests
+# Export paths for tests
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CORE_ROOT="$(cd "$PROJECT_ROOT/../phproj" && pwd)"
 export PROJECT_ROOT
+export CORE_ROOT
 
 # Run all test-*.php files in test/ directory
 for testfile in "$SCRIPT_DIR/test"/test-*.php; do
