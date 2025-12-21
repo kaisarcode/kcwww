@@ -433,14 +433,25 @@ svg+span {
     vertical-align: middle;
 }
 
-h1 svg {
+/* Header heading icons - size and color */
+header h1 svg {
     height: 1.2rem;
 }
 
-/* Header icon color */
+header h2 svg,
+header h3 svg,
+header h4 svg,
+header h5 svg,
+header h6 svg {
+    height: 0.8rem;
+}
+
 header h1 svg,
 header h2 svg,
 header h3 svg,
+header h4 svg,
+header h5 svg,
+header h6 svg,
 legend svg {
     color: var(--bg-prm);
 }
@@ -460,12 +471,7 @@ footer menu a:hover svg {
     color: var(--bg-prm);
 }
 
-svg+span {
-    top: 1px;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-}
+
 
 .page-indicator {
     font-size: 0.8rem;
