@@ -1,7 +1,7 @@
 {{@setblock ico}}
     {{@var type $type??"solid"}}
     {{@var path $path??DIR_APP."/views/img/fa/$type"}}
-    {{@var size $size??32}}
+    {{@var size $size??16}}
     <?php
     $path = "$path/$name.svg";
     $svg = Fs::get($path, '');

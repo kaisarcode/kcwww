@@ -154,7 +154,20 @@ fieldset {
     background-image: repeating-linear-gradient(45deg, var(--bg-pnl-pat) 0, var(--bg-pnl-pat) 0.4px, var(--bg-pnl) 0, var(--bg-pnl) 50%);
 }
 
+/* Footer text */
+footer p {
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
 /* Navigations and buttons */
+
+header nav,
+footer nav {
+    display: flex;
+    gap: calc(var(--pad)*1rem);
+    align-items: center;
+}
 
 header nav a,
 footer nav a {
@@ -180,6 +193,46 @@ footer nav > a:after {
 header nav > a:last-child:after,
 footer nav > a:last-child:after {
     content: none;
+}
+
+/* Menu list styling */
+header menu,
+footer menu {
+    display: flex;
+    gap: calc(var(--pad)*1rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+header menu li,
+footer menu li {
+    display: flex;
+    align-items: center;
+}
+
+header menu li:not(:last-child):after,
+footer menu li:not(:last-child):after {
+    content: '|';
+    margin-left: calc(var(--pad)*1rem);
+    color: rgba(255, 255, 255, 0.3);
+}
+
+header menu a,
+footer menu a {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--tx-hdr);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+header menu a:hover,
+footer menu a:hover {
+    color: var(--bg-prm);
 }
 
 /* Article styling */
@@ -348,12 +401,70 @@ article a:hover {
 
 /* Extra refinements */
 
+/* SVG icons in headings - always orange */
 header h1 svg,
 header h2 svg,
 header h3 svg,
 legend svg {
-    color: var(--bg-prm) !important;
-    margin-right: 0.5rem;
+    color: var(--bg-prm);
+}
+
+/* SVG icons general sizing - matches kaisarcode.com */
+a svg,
+h1 svg,
+h2 svg,
+h3 svg,
+h4 svg,
+h5 svg,
+h6 svg,
+legend svg,
+label svg {
+    width: auto;
+    height: 0.8rem;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+svg+span {
+    top: 1px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+h1 svg {
+    height: 1.2rem;
+}
+
+/* Header icon color */
+header h1 svg,
+header h2 svg,
+header h3 svg,
+legend svg {
+    color: var(--bg-prm);
+}
+
+/* Nav/menu link icons - inherit color, orange on hover */
+header nav a svg,
+header menu a svg,
+footer nav a svg,
+footer menu a svg {
+    color: inherit;
+}
+
+header nav a:hover svg,
+header menu a:hover svg,
+footer nav a:hover svg,
+footer menu a:hover svg {
+    color: var(--bg-prm);
+}
+
+svg+span {
+    top: 1px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .page-indicator {
