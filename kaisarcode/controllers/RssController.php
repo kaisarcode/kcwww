@@ -28,18 +28,16 @@ class RssController extends Controller
         $page = (int) Http::getHttpVar('p', 1);
         $limit = (int) Http::getHttpVar('l', 20);
 
+        // Load base document if exists for better title/desc
+        $baseDoc = DocModel::findFirst('path = ? AND active = ?', [$path, 1]);
+
         // Build query logic
         $prefix = $path === '/' ? '/' : $path . '/';
         $like = $prefix === '/' ? '/%' : $prefix . '%';
         $notLast = $prefix . '%/%';
 
-        $sql = "path LIKE ? AND active = ? AND path NOT LIKE ?";
-        $bindings = [$like, 1, $notLast];
-
-        if ($path !== '/') {
-            $sql .= " AND path != ?";
-            $bindings[] = $path;
-        }
+        $sql = "path LIKE ? AND active = ? AND path NOT LIKE ? AND path != ?";
+        $bindings = [$like, 1, $notLast, $path];
 
         // Fetch data using DocModel
         $res = DocModel::paginate($page, $limit, $sql, $bindings, 'date_add DESC');
@@ -59,7 +57,17 @@ class RssController extends Controller
         }
 
         $lastBuildDate = $lastBuildTimestamp ? date(DATE_RSS, $lastBuildTimestamp) : date(DATE_RSS);
-        $pathSuffix = ($path !== '/' && $path !== '') ? ' - ' . $path : '';
+        
+        // Site metadata defaults
+        $rssTitle = Conf::get('app.name');
+        $rssDesc = Conf::get('app.desc');
+
+        if ($baseDoc) {
+            if ($path !== '/') {
+                $rssTitle = $baseDoc->title;
+            }
+            $rssDesc = $baseDoc->desc;
+        }
 
         // Handle pagination for legacy XML format
         $pagination = $res['pagination'];
@@ -75,7 +83,8 @@ class RssController extends Controller
             ],
             'path' => $path,
             'siteUrl' => $siteUrl,
-            'pathSuffix' => $pathSuffix,
+            'rssTitle' => $rssTitle,
+            'rssDesc' => $rssDesc,
             'lastBuildDate' => $lastBuildDate,
         ];
 
