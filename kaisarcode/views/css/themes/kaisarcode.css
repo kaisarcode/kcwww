@@ -519,3 +519,24 @@ article a:hover {
     color: var(--tx-sys);
     margin-top: 1rem;
 }
+
+/* Explore item section text */
+main > section > section article section {
+    padding: calc(var(--pad)*2rem);
+}
+
+main > section > section article section p {
+    line-height: 2rem;
+    font-style: italic;
+    color: var(--tx-pnl);
+    margin: 0;
+}
+
+main > section > section article section a {
+    color: inherit;
+    text-decoration: none;
+}
+
+main > section > section article section a:hover {
+    filter: brightness(1.2);
+}
