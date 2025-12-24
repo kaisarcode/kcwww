@@ -536,3 +536,12 @@ main > section > section article section a {
 main > section > section article section a:hover {
     filter: brightness(1.2);
 }
+
+/* Blog mode: single column layout */
+main > section > section.mode-blog {
+    columns: 1;
+}
+
+main > section > section.mode-blog article {
+    width: 100%;
+}
