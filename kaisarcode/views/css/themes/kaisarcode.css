@@ -523,6 +523,9 @@ article a:hover {
 /* Explore item section text */
 main > section > section article section {
     padding: calc(var(--pad)*2rem);
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 main > section > section article section p {
