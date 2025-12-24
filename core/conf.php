@@ -1,7 +1,7 @@
 <?php
 /**
  * Configuration Registry
- * Summary: Central configuration definitions for the phproj application.
+ * Summary: Central configuration definitions for the core application.
  *
  * This file defines all application settings via Conf::set(). It is loaded
  * after setup.php to ensure directory constants (VIEWS, APP_CACHE, DEVM)
@@ -15,9 +15,9 @@
 
 // Application Configuration
 Conf::set([
-    'app.id' => 'phproj',
-    'app.name' => 'PHProj',
-    'page.name' => 'PHProj',
+    'app.id' => 'core',
+    'app.name' => 'KaisarCode Core',
+    'page.name' => 'KaisarCode Core',
     'app.desc' => 'Portable PHP Utility Toolkit',
     'app.keywords' => 'php, utilities, portable, zero-dependency, kaisarcode',
     'app.lang' => 'en',

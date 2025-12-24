@@ -13,7 +13,7 @@ class ImgTest
 
     public function __construct()
     {
-        $this->tempDir = sys_get_temp_dir() . '/phproj_img_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir() . '/core_img_test_' . uniqid();
         mkdir($this->tempDir);
     }
 

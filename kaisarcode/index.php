@@ -1,7 +1,7 @@
 <?php
 /**
  * KaisarCode Site - Entry Point
- * Summary: Official KaisarCode website extending phproj core.
+ * Summary: Official KaisarCode website extending core core.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -10,5 +10,5 @@
  */
 
 define('DIR_APP', __DIR__);
-define('DIR_CORE', dirname(__DIR__) . '/phproj');
+define('DIR_CORE', dirname(__DIR__) . '/core');
 require_once DIR_CORE . '/setup.php';

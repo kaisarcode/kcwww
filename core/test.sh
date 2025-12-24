@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# phproj - Master Test Runner
+# core - Master Test Runner
 # Validates standards compliance and runs subdirectory tests
 #
 
@@ -19,7 +19,7 @@ pass() { printf "${GREEN}[PASS]${NC} %s\n" "$1"; }
 fail() { printf "${RED}[FAIL]${NC} %s\n" "$1"; exit 1; }
 info() { printf "${YELLOW}[INFO]${NC} %s\n" "$1"; }
 
-header "phproj Test Suite"
+header "core Test Suite"
 
 # Validation
 header "Validation"

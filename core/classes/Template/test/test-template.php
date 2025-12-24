@@ -16,7 +16,7 @@ class TemplateTest
     public function __construct()
     {
         $this->fixturesDir = __DIR__ . '/fixtures';
-        $this->cacheDir = '/tmp/phproj-template-test-' . uniqid();
+        $this->cacheDir = '/tmp/core-template-test-' . uniqid();
         mkdir($this->cacheDir, 0755, true);
 
         // Define constant for template includes

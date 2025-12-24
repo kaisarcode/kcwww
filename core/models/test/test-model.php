@@ -47,7 +47,7 @@ class ModelTest
         TestModel::init('sqlite::memory:');
 
         // Re-init with the same PDO is tricky with :memory:, so let's use a temp file
-        $dbPath = '/tmp/phproj-test-model.db';
+        $dbPath = '/tmp/core-test-model.db';
         @unlink($dbPath);
         $pdo = new PDO("sqlite:$dbPath");
         $pdo->exec('CREATE TABLE testitems (id INTEGER PRIMARY KEY, name TEXT, created_at TEXT)');

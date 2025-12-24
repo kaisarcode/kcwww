@@ -1,10 +1,10 @@
-# phproj - Modern PHP Project Baseline
+# core - Modern PHP Project Baseline
 
 **The ultimate minimalist, PWA-ready, standards-compliant PHP baseline for modern web applications.**
 
 ## Philosophy
 
-`phproj` follows the **Unix Philosophy** (small, composable tools) and **KaisarCode Software Standards (KCS)** to provide a zero-dependency foundation that is portable, high-performance, and "engine-first".
+`core` follows the **Unix Philosophy** (small, composable tools) and **KaisarCode Software Standards (KCS)** to provide a zero-dependency foundation that is portable, high-performance, and "engine-first".
 
 ### Core Principles
 
@@ -19,7 +19,7 @@
 The project is organized in a flat structure for simplicity and clarity.
 
 ```text
-phproj/
+core/
 ├── index.php           # Entry point
 ├── autoload.php        # Global PSR-4 autoloader
 ├── setup.php           # Environment initialization
@@ -67,7 +67,7 @@ Models in `models/` are automatically exposed via a semantic REST API:
 
 ## Core Utilities
 
-`phproj` includes a suite of engine-room utilities (Http, Fs, Str, Db, etc.) designed for speed and portability. For detailed documentation on individual classes, see:
+`core` includes a suite of engine-room utilities (Http, Fs, Str, Db, etc.) designed for speed and portability. For detailed documentation on individual classes, see:
 See: **[classes/README.md](classes/README.md)**
 
 ## Testing

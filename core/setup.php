@@ -1,7 +1,7 @@
 <?php
 /**
  * Setup - Application Bootstrap
- * Summary: Initializes autoloader, constants, configuration and routes for phproj.
+ * Summary: Initializes autoloader, constants, configuration and routes for core.
  * Can be used standalone or as a core for child sites.
  *
  * Author:  KaisarCode

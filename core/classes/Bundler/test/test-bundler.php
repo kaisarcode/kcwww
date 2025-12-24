@@ -13,7 +13,7 @@ class BundlerTest
 
     public function __construct()
     {
-        $this->tempDir = sys_get_temp_dir() . '/phproj_bundler_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir() . '/core_bundler_test_' . uniqid();
         mkdir($this->tempDir);
     }
 

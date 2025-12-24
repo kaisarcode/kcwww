@@ -33,7 +33,7 @@ header "Controller Tests"
 
 # Export paths for tests
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-CORE_ROOT="$(cd "$PROJECT_ROOT/../phproj" && pwd)"
+CORE_ROOT="$(cd "$PROJECT_ROOT/../core" && pwd)"
 export PROJECT_ROOT
 export CORE_ROOT
 

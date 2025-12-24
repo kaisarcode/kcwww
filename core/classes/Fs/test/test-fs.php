@@ -13,7 +13,7 @@ class FsTest
 
     public function __construct()
     {
-        $this->tempDir = sys_get_temp_dir() . '/phproj_fs_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir() . '/core_fs_test_' . uniqid();
         mkdir($this->tempDir);
     }
 

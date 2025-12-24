@@ -14,7 +14,7 @@ Conf::set([
     'app.id' => 'dummy',
     'app.name' => 'Dummy Site',
     'page.name' => 'Dummy Site',
-    'app.desc' => 'A demonstration child site extending phproj core',
+    'app.desc' => 'A demonstration child site extending core',
     'app.color' => '#2a4a6a',
     'assets.css.entry' => DIR_APP . '/views/css/styles.css',
 ]);
