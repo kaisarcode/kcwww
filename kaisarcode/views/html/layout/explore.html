@@ -29,7 +29,7 @@
                 <li>
                     <a href="{{order.url}}" title="Cambiar orden">
                         {{@block ico ['name' => ($order->current === 'asc' ? 'chevron-up' : 'chevron-down')]}}
-                        <span>{{order->current === 'asc' ? 'Ascender' : 'Descender'}}</span>
+                        <span>{{order->current === 'asc' ? 'ASC' : 'DESC'}}</span>
                     </a>
                 </li>
                 {{@endif}}
@@ -61,7 +61,7 @@
         {{@endif}}
 
         {{@foreach ($items as $item):}}
-        <article>
+        <article onclick="location.href='{{item.url}}'">
             {{@if (!empty($item->image)):}}
             <figure>
                 <a href="{{item.url}}">

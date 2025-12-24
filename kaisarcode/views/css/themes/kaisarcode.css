@@ -424,6 +424,7 @@ main > section > section article {
     background-color: transparent;
     border: 1px solid var(--bd-pnl);
     border-radius: calc(var(--rad)*1rem);
+    cursor: pointer;
 }
 
 main > section > section article header,
@@ -463,8 +464,8 @@ main > section > section article:not(:has(header)) {
 }
 
 main > section > section article:not(:has(header)) section a {
-    padding-top: calc(var(--pad)*6rem);
-    padding-bottom: calc(var(--pad)*6rem);
+    padding-top: calc(var(--pad)*4rem);
+    padding-bottom: calc(var(--pad)*4rem);
     font-size: 1rem;
     font-weight: normal;
     font-style: normal;
