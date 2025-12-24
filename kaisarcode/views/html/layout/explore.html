@@ -1,0 +1,101 @@
+{{@setblock explore}}
+{{@var title $title??'Explorar'}}
+{{@var items $items??[]}}
+{{@var pagination $pagination??null}}
+{{@var order $order??null}}
+{{@var mode $mode??null}}
+{{@var pagingInfo $pagination}}
+{{@var currentPage (int)($pagingInfo->page ?? 1)}}
+{{@var totalPages (int)($pagingInfo->total_pages ?? 1)}}
+
+<section class="explore">
+    <header>
+        <h3>
+            {{@block ico ['name' => 'layer-group']}}
+            <span>{{title}}</span>
+        </h3>
+        <nav>
+            {{@if (!empty($mode->url ?? '')):}}
+            <a href="{{mode.url}}" title="Cambiar modo">
+                {{@block ico ['name' => ($mode->current === 'blog' ? 'folder' : 'list')]}}
+                <span>{{mode->current === 'blog' ? 'Docs' : 'Blog'}}</span>
+            </a>
+            {{@endif}}
+
+            {{@if (!empty($order->url ?? '')):}}
+            <a href="{{order.url}}" title="Cambiar orden">
+                {{@block ico ['name' => ($order->current === 'asc' ? 'chevron-down' : 'chevron-up')]}}
+                <span>Orden</span>
+            </a>
+            {{@endif}}
+
+            {{@if (!empty($pagination->prev_url ?? '')):}}
+            <a href="{{pagination.prev_url}}" title="Anterior">
+                {{@block ico ['name' => 'chevron-left']}}
+            </a>
+            {{@endif}}
+
+            {{@if (!empty($pagination->next_url ?? '')):}}
+            <a href="{{pagination.next_url}}" title="Siguiente">
+                {{@block ico ['name' => 'chevron-right']}}
+            </a>
+            {{@endif}}
+        </nav>
+    </header>
+
+    <div class="items mode-{{mode.current}}">
+        {{@if (empty($items)):}}
+            <p>No hay documentos aquí.</p>
+        {{@endif}}
+
+        {{@foreach ($items as $item):}}
+        <article>
+            {{@if (!empty($item->image)):}}
+            <figure>
+                <a href="{{item.url}}">
+                    <img src="{{item.image}}" alt="{{item.title}}" loading="lazy">
+                </a>
+            </figure>
+            {{@endif}}
+
+            <div>
+                <header>
+                    <h4>
+                        <a href="{{item.url}}">
+                            {{@block ico ['name' => ($item->icon ?? 'file')]}}
+                            <span>{{item.title}}</span>
+                        </a>
+                    </h4>
+                </header>
+                <section>
+                    <a href="{{item.url}}">{{item.desc}}</a>
+                </section>
+                {{@if (!empty($item->tags)):}}
+                <footer>
+                    {{@foreach ($item->tags as $tag):}}
+                        {{@if (trim((string)$tag) !== ''):}}
+                        <span class="tag">{{tag}}</span>
+                        {{@endif}}
+                    {{@endforeach}}
+                </footer>
+                {{@endif}}
+            </div>
+        </article>
+        {{@endforeach}}
+    </div>
+
+    {{@if ($totalPages > 1):}}
+    <footer>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <nav>
+            {{@if (!empty($pagination->first_url)):}}
+            <a href="{{pagination.first_url}}">Primera</a>
+            {{@endif}}
+            {{@if (!empty($pagination->last_url)):}}
+            <a href="{{pagination.last_url}}">Última</a>
+            {{@endif}}
+        </nav>
+    </footer>
+    {{@endif}}
+</section>
+{{@endsetblock}}

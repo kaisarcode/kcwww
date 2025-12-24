@@ -13,4 +13,13 @@
         {{content}}
     </section>
 </article>
-{{@endsetblock}}
+{{@if (!empty($explore->items)):}}
+    {{@block explore [
+        'title' => 'Explorar',
+        'items' => $explore->items,
+        'pagination' => $explore->pagination,
+        'mode' => $explore->mode,
+        'order' => $explore->order
+    ]}}
+{{@endif}}
+ {{@endsetblock}}

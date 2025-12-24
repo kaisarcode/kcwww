@@ -23,25 +23,83 @@ class PageController extends Controller
 
         // Search for document by path
         DocModel::init();
-        $doc = R::findOne('kcdoc', 'path = ? AND active = ?', [$path, 1]);
+        $doc = DocModel::findFirst('path = ? AND active = ?', [$path, 1]);
 
-        if (!$doc) {
-            // Return false to continue to next route (core routes)
+        if (!$doc && $path !== '/') {
             return false;
         }
 
-        // Parse content as Markdown
-        $parsedown = new ParsedownExtra();
-        $content = $parsedown->text($doc->cont);
+        // Params for Explore with cookie persistence
+        $page = (int) self::param('p', 1);
+        $limit = (int) self::param('l', 10);
+        
+        $mode = (string) self::param('mode');
+        if ($mode === '') {
+            $mode = Http::getHttpVar('explore_mode', 'docs');
+        } else {
+            setcookie('explore_mode', $mode, time() + 86400 * 30, '/');
+        }
 
-        // Prepare data for view
+        $order = (string) self::param('order');
+        if ($order === '') {
+            $order = Http::getHttpVar('explore_order', 'asc');
+        } else {
+            setcookie('explore_order', $order, time() + 86400 * 30, '/');
+        }
+
+        // Explore items
+        $explore = DocModel::explore($path, $page, $limit, $mode, $order);
+        
+        // Content rendering
+        $parsedown = new ParsedownExtra();
+        $content = $doc ? $parsedown->text($doc->cont) : '';
+
+        // Helper for building explore URLs
+        $buildUrl = function(array $overrides) {
+            return Http::getPathUri() . '?' . Http::getQueryString($overrides);
+        };
+
+        // Format explore items
+        $items = [];
+        foreach ($explore['result'] as $item) {
+            $parsedownItem = new ParsedownExtra();
+            $preview = $item->desc ?: Str::truncate(strip_tags($parsedownItem->text($item->cont)), 200);
+            
+            $items[] = [
+                'title' => $item->title ?: $item->path,
+                'desc' => $preview,
+                'url' => $item->path,
+                'image' => DocModel::convertImageUrl($item->image),
+                'date' => $item->date_add,
+                'tags' => explode(',', $item->tags ?: ''),
+                'icon' => (DocModel::count('path LIKE ? AND path != ?', [$item->path . '/%', $item->path]) > 0) ? 'folder' : 'file'
+            ];
+        }
+
+        // View data
         $data = [
-            'doc' => new DocModel($doc),
-            'title' => $doc->title,
-            'content' => $content
+            'doc' => $doc,
+            'title' => $doc ? $doc->title : Conf::get('app.name'),
+            'content' => $content,
+            'explore' => [
+                'items' => $items,
+                'pagination' => array_merge($explore['pagination'], [
+                    'first_url' => $buildUrl(['p' => 1]),
+                    'prev_url'  => $explore['pagination']['has_prev'] ? $buildUrl(['p' => $page - 1]) : '',
+                    'next_url'  => $explore['pagination']['has_next'] ? $buildUrl(['p' => $page + 1]) : '',
+                    'last_url'  => $buildUrl(['p' => $explore['pagination']['total_pages']])
+                ]),
+                'mode' => [
+                    'current' => $mode,
+                    'url' => $buildUrl(['mode' => ($mode === 'docs' ? 'blog' : 'docs'), 'p' => 1])
+                ],
+                'order' => [
+                    'current' => $order,
+                    'url' => $buildUrl(['order' => ($order === 'asc' ? 'desc' : 'asc'), 'p' => 1])
+                ]
+            ]
         ];
 
-        // Page view
         return self::html(DIR_APP . '/views/html/page.html', $data);
     }
 }

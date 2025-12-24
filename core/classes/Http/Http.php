@@ -336,7 +336,7 @@ class Http
      */
     static function getPathUri(): string
     {
-        $url = $_SERVER['REQUEST_URI'];
+        $url = $_SERVER['REQUEST_URI'] ?? '/';
         $parsedUrl = parse_url($url);
         if (!is_array($parsedUrl) || !isset($parsedUrl['path']))
             return '/';
