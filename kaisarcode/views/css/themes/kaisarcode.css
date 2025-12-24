@@ -512,13 +512,6 @@ article a:hover {
     filter: brightness(1.2);
 }
 
-.page-indicator {
-    font-size: 0.8rem;
-    font-style: italic;
-    text-transform: uppercase;
-    color: var(--tx-sys);
-    margin-top: 1rem;
-}
 
 /* Explore item section text */
 main > section > section article section {
