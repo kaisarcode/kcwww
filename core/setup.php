@@ -88,6 +88,24 @@ Http::setHeaderHsts();
 Http::setHeaderCoop();
 Http::setHeaderXfo();
 
+// Set cache headers based on request type
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$staticPatterns = [
+    '/^\/styles\.css/',
+    '/^\/script\.js/',
+    '/^\/img\//',
+    '/^\/assets\//',
+    '/\.(css|js|woff2?|ttf|otf|png|jpe?g|webp|svg|ico|pdf)(\?|$)/i',
+];
+$isStatic = false;
+foreach ($staticPatterns as $pattern) {
+    if (preg_match($pattern, $requestUri)) {
+        $isStatic = true;
+        break;
+    }
+}
+Http::setHeaderCache($isStatic ? 31536000 : 0);
+
 // Load child routes
 if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/routes.php')) {
     require_once DIR_APP . '/routes.php';
