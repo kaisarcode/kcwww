@@ -45,6 +45,21 @@ class Str {
     }
 
     /**
+     * Minify JavaScript by removing comments and unnecessary whitespace.
+     *
+     * @param string $js JavaScript content to minify.
+     *
+     * @return string Minified JavaScript.
+     */
+    public static function minJs(string $js = ''): string {
+        $js = preg_replace('/\/\*[\s\S]*?\*\//', '', $js);
+        $js = preg_replace('/(?<!:)\/\/[^\n]*/', '', $js);
+        $js = preg_replace('/\s*([{}();,:<>+\-*\/=!&|?])\s*/', '$1', $js);
+        $js = preg_replace('/\s+/', ' ', $js);
+        return trim($js);
+    }
+
+    /**
      * Remove HTML and JS comments from string.
      *
      * @param string $str

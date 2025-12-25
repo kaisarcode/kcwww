@@ -24,6 +24,7 @@ Conf::set([
     'app.color' => '#1a1a1a',
     'app.cache.ver' => '1.0.0',
     'app.dev' => DEVM,
+    'app.minify' => !DEVM,
 
     // Paths for template access
     'VIEWS' => DIR_CORE . '/views',

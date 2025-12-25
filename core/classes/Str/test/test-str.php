@@ -16,6 +16,7 @@ class StrTest {
         $this->testRandom();
         $this->testMin();
         $this->testMinCss();
+        $this->testMinJs();
         $this->testNormalize();
 
         return $this->failed;
@@ -85,11 +86,21 @@ class StrTest {
         $css = "body { margin: 0px; padding: 0.5em; }";
         $min = Str::minCss($css);
 
-        // Should remove space around {}, :, ; and convert 0px to 0
         if (strpos($min, ' {') === false && strpos($min, '0px') === false) {
             $this->pass('MinCss works');
         } else {
             $this->fail('MinCss failed: ' . $min);
+        }
+    }
+
+    private function testMinJs(): void {
+        $js = "function test() { // comment\n    return true; }";
+        $min = Str::minJs($js);
+
+        if (strpos($min, '// comment') === false && strpos($min, '    ') === false) {
+            $this->pass('MinJs works');
+        } else {
+            $this->fail('MinJs failed: ' . $min);
         }
     }
 

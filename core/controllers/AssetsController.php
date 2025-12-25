@@ -53,7 +53,8 @@ class AssetsController extends Controller {
         }
 
         $out = Bundler::js($file);
-        return self::minify($out);
+        $minify = Conf::get('app.minify', !self::isDev());
+        return $minify ? Str::minJs($out) : $out;
     }
 
     /**
