@@ -1,6 +1,12 @@
 <?php
 /**
  * Test suite for RssController
+ * Summary: Tests RssController RSS feed generation.
+ *
+ * Author:  KaisarCode
+ * Website: https://kaisarcode.com
+ * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 $root = getenv('PROJECT_ROOT');
@@ -26,19 +32,36 @@ autoload([
     $core . '/models',
 ]);
 
-// Initialize base controller and config
+// Initialize
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 require_once DIR_APP . '/conf.php';
 Controller::init();
 
-class RssControllerTest
-{
+/**
+ * RssController test runner.
+ */
+class RssControllerTest {
+    /**
+     * Passed count.
+     *
+     * @var int
+     */
     private int $passed = 0;
+
+    /**
+     * Failed count.
+     *
+     * @var int
+     */
     private int $failed = 0;
 
-    public function run(): int
-    {
+    /**
+     * Run all tests.
+     *
+     * @return int Exit code.
+     */
+    public function run(): int {
         $this->testRssOutput();
         $this->testRssPagination();
         $this->testRssPath();
@@ -53,29 +76,48 @@ class RssControllerTest
         return $this->failed > 0 ? 1 : 0;
     }
 
-    private function pass(string $msg): void
-    {
+    /**
+     * Record a pass.
+     *
+     * @param string $msg Message to display.
+     *
+     * @return void
+     */
+    private function pass(string $msg): void {
         printf("\033[0;32m[PASS]\033[0m %s\n", $msg);
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    /**
+     * Record a fail.
+     *
+     * @param string $msg Message to display.
+     *
+     * @return void
+     */
+    private function fail(string $msg): void {
         printf("\033[0;31m[FAIL]\033[0m %s\n", $msg);
         $this->failed++;
     }
 
-    private function testRssOutput(): void
-    {
+    /**
+     * Test RSS output.
+     *
+     * @return void
+     */
+    private function testRssOutput(): void {
         $_GET = [];
         ob_start();
         RssController::handle();
         $output = ob_get_clean();
 
-        if (strpos($output, '<?xml') !== false && strpos($output, '<rss') !== false) {
-            $this->pass("RssController::handle() returns valid XML");
+        $hasXml = strpos($output, '<?xml') !== false;
+        $hasRss = strpos($output, '<rss') !== false;
+
+        if ($hasXml && $hasRss) {
+            $this->pass("RssController::handle returns valid XML");
         } else {
-            $this->fail("RssController::handle() returned invalid output");
+            $this->fail("RssController::handle returned invalid output");
         }
 
         if (strpos($output, '<title>KaisarCode</title>') !== false) {
@@ -85,14 +127,19 @@ class RssControllerTest
         }
     }
 
-    private function testRssPagination(): void
-    {
+    /**
+     * Test RSS pagination.
+     *
+     * @return void
+     */
+    private function testRssPagination(): void {
         $_GET['l'] = 1;
         ob_start();
         RssController::handle();
         $output = ob_get_clean();
 
-        if (strpos($output, '<documentAmount>1</documentAmount>') !== false) {
+        $hasLimit = strpos($output, '<documentAmount>1</documentAmount>');
+        if ($hasLimit !== false) {
             $this->pass("RssController respects limit parameter 'l'");
         } else {
             $this->fail("RssController ignored limit parameter 'l'");
@@ -102,25 +149,31 @@ class RssControllerTest
         ob_start();
         RssController::handle();
         $output = ob_get_clean();
-        
-        if (strpos($output, '<currentPage>2</currentPage>') !== false) {
+
+        $hasPage = strpos($output, '<currentPage>2</currentPage>');
+        if ($hasPage !== false) {
             $this->pass("RssController respects page parameter 'p'");
         } else {
             $this->fail("RssController ignored page parameter 'p'");
         }
     }
 
-    private function testRssPath(): void
-    {
+    /**
+     * Test RSS path.
+     *
+     * @return void
+     */
+    private function testRssPath(): void {
         $_GET = ['path' => '/non-existent'];
         ob_start();
         RssController::handle();
         $output = ob_get_clean();
 
-        if (strpos($output, '<totalDocuments>0</totalDocuments>') !== false) {
-            $this->pass("RssController handles non-existent path correctly (0 items)");
+        $hasZero = strpos($output, '<totalDocuments>0</totalDocuments>');
+        if ($hasZero !== false) {
+            $this->pass("RssController handles non-existent path");
         } else {
-            $this->fail("RssController failed to handle empty path query");
+            $this->fail("RssController failed to handle empty path");
         }
     }
 }

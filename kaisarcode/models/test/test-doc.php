@@ -6,6 +6,7 @@
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
  * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 $root = getenv('PROJECT_ROOT');
@@ -32,13 +33,30 @@ autoload([
 // Define DSN for DocModel
 define('DSN_DOC', 'sqlite:' . DIR_VAR . '/data/db/doc.sqlite');
 
-class DocModelTest
-{
+/**
+ * DocModel test runner.
+ */
+class DocModelTest {
+    /**
+     * Passed count.
+     *
+     * @var int
+     */
     private int $passed = 0;
+
+    /**
+     * Failed count.
+     *
+     * @var int
+     */
     private int $failed = 0;
 
-    public function run(): int
-    {
+    /**
+     * Run all tests.
+     *
+     * @return int Exit code.
+     */
+    public function run(): int {
         $this->testConnection();
         $this->testAll();
         $this->testFind();
@@ -54,43 +72,67 @@ class DocModelTest
         return $this->failed > 0 ? 1 : 0;
     }
 
-    private function pass(string $msg): void
-    {
+    /**
+     * Record a pass.
+     *
+     * @param string $msg Message to display.
+     *
+     * @return void
+     */
+    private function pass(string $msg): void {
         printf("\033[0;32m[PASS]\033[0m %s\n", $msg);
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    /**
+     * Record a fail.
+     *
+     * @param string $msg Message to display.
+     *
+     * @return void
+     */
+    private function fail(string $msg): void {
         printf("\033[0;31m[FAIL]\033[0m %s\n", $msg);
         $this->failed++;
     }
 
-    private function testConnection(): void
-    {
+    /**
+     * Test database connection.
+     *
+     * @return void
+     */
+    private function testConnection(): void {
         try {
             DocModel::init();
-            $this->pass("DocModel::init() connects to database");
+            $this->pass("DocModel::init connects to database");
         } catch (Exception $e) {
-            $this->fail("DocModel::init() failed: " . $e->getMessage());
+            $this->fail("DocModel::init failed: " . $e->getMessage());
         }
     }
 
-    private function testAll(): void
-    {
+    /**
+     * Test all method.
+     *
+     * @return void
+     */
+    private function testAll(): void {
         $all = DocModel::all();
         if (is_array($all) && count($all) > 0) {
-            $this->pass("DocModel::all() returns records");
+            $this->pass("DocModel::all returns records");
         } else {
-            $this->fail("DocModel::all() returned empty or invalid");
+            $this->fail("DocModel::all returned empty or invalid");
         }
     }
 
-    private function testFind(): void
-    {
+    /**
+     * Test find method.
+     *
+     * @return void
+     */
+    private function testFind(): void {
         $all = DocModel::all();
         if (empty($all)) {
-            $this->fail("No records to test find()");
+            $this->fail("No records to test find");
             return;
         }
 
@@ -99,27 +141,34 @@ class DocModelTest
         $found = DocModel::find($id);
 
         if ($found && $found->id == $id) {
-            $this->pass("DocModel::find() retrieves correct record");
+            $this->pass("DocModel::find retrieves correct record");
         } else {
-            $this->fail("DocModel::find() did not retrieve record");
+            $this->fail("DocModel::find did not retrieve record");
         }
     }
 
-    private function testPaginate(): void
-    {
+    /**
+     * Test paginate method.
+     *
+     * @return void
+     */
+    private function testPaginate(): void {
         $result = DocModel::paginate(1, 2);
-        
-        if (count($result['result']) === 2 && isset($result['pagination']['total'])) {
-            $this->pass("DocModel::paginate() returns 2 items and metadata");
+
+        $count = count($result['result']);
+        $hasTotal = isset($result['pagination']['total']);
+
+        if ($count === 2 && $hasTotal) {
+            $this->pass("DocModel::paginate returns 2 items and metadata");
         } else {
-            $this->fail("DocModel::paginate() failed: count=" . count($result['result']));
+            $this->fail("DocModel::paginate failed: count=" . $count);
         }
 
         $result2 = DocModel::paginate(1, 100);
         if ($result2['pagination']['total'] === count($result2['result'])) {
-            $this->pass("DocModel::paginate() returns all items when limit is high");
+            $this->pass("DocModel::paginate returns all with high limit");
         } else {
-            $this->fail("DocModel::paginate() high limit failed");
+            $this->fail("DocModel::paginate high limit failed");
         }
     }
 }

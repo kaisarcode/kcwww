@@ -1,21 +1,22 @@
 <?php
 /**
- * RssController - Dynamic RSS feed generator
- * Summary: Generates paginated RSS feeds for documents with caching support.
+ * RssController
+ * Summary: Generates paginated RSS feeds for documents with caching.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
  * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
-
-class RssController extends Controller
-{
+class RssController extends Controller {
     /**
-     * Handle RSS request
+     * Handle RSS request.
+     *
+     * @return void
      */
-    public static function handle(): void
-    {
+    public static function handle(): void {
         $path = Http::getHttpVar('path', '/');
+
         // Normalize path
         if ($path !== '/' && str_ends_with($path, '/')) {
             $path = rtrim($path, '/');
@@ -24,11 +25,11 @@ class RssController extends Controller
             $path = '/' . $path;
         }
 
-        // Use p and l but map to page and limit for Model::paginate
+        // Use p and l for pagination params
         $page = (int) Http::getHttpVar('p', 1);
         $limit = (int) Http::getHttpVar('l', 20);
 
-        // Load base document if exists for better title/desc
+        // Load base document if exists for title/desc
         $baseDoc = DocModel::findFirst('path = ? AND active = ?', [$path, 1]);
 
         // Build query logic
@@ -41,7 +42,7 @@ class RssController extends Controller
 
         // Fetch data using DocModel
         $res = DocModel::paginate($page, $limit, $sql, $bindings, 'date_add DESC');
-        
+
         $siteUrl = Http::getBaseUri();
         $items = [];
         $lastBuildTimestamp = 0;
@@ -56,8 +57,10 @@ class RssController extends Controller
             $items[] = $item;
         }
 
-        $lastBuildDate = $lastBuildTimestamp ? date(DATE_RSS, $lastBuildTimestamp) : date(DATE_RSS);
-        
+        $lastBuildDate = $lastBuildTimestamp
+            ? date(DATE_RSS, $lastBuildTimestamp)
+            : date(DATE_RSS);
+
         // Site metadata defaults
         $rssTitle = Conf::get('app.name');
         $rssDesc = Conf::get('app.desc');
@@ -78,8 +81,12 @@ class RssController extends Controller
                 'total_pages' => $pagination['total_pages'],
                 'limit' => $pagination['limit'],
                 'total' => $pagination['total'],
-                'nextPage' => $pagination['has_next'] ? $pagination['page'] + 1 : '',
-                'prevPage' => $pagination['has_prev'] ? $pagination['page'] - 1 : '',
+                'nextPage' => $pagination['has_next']
+                    ? $pagination['page'] + 1
+                    : '',
+                'prevPage' => $pagination['has_prev']
+                    ? $pagination['page'] - 1
+                    : '',
             ],
             'path' => $path,
             'siteUrl' => $siteUrl,
@@ -90,16 +97,20 @@ class RssController extends Controller
 
         // Render using template
         $tplFile = DIR_APP . '/views/html/rss.xml';
-        
+
         Http::setHeaderXml();
         echo self::html($tplFile, $data);
     }
 
     /**
-     * Internal HTML renderer (XML in this case)
+     * Render template.
+     *
+     * @param string $template Path to template file.
+     * @param array  $data     Data to pass to template.
+     *
+     * @return string Rendered output.
      */
-    protected static function html(string $template, array $data = []): string
-    {
+    protected static function html(string $template, array $data = []): string {
         $cfg = Conf::get('tpl.conf', []);
         $tpl = new Template($cfg);
         $merged = array_merge(Conf::all(), $data);
