@@ -22,4 +22,5 @@ Conf::set([
     'VIEWS' => DIR_APP . '/views',
     'assets.css.entry' => DIR_APP . '/views/css/styles.css',
     'app.image.src_dir' => DIR_APP . '/views/img',
+    'app.image.preview.size' => 200,
 ]);
