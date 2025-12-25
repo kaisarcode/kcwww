@@ -50,9 +50,9 @@ class PageController extends Controller
         // Explore items
         $explore = DocModel::explore($path, $page, $limit, $mode, $order);
         
-        // Content rendering
+        // Content rendering - fallback to desc for tweet-style docs
         $parsedown = new ParsedownExtra();
-        $content = $doc ? $parsedown->text($doc->cont) : '';
+        $content = $doc && $doc->cont ? $parsedown->text($doc->cont) : ($doc ? '<p>' . htmlspecialchars($doc->desc) . '</p>' : '');
 
         // Helper for building explore URLs
         $buildUrl = function(array $overrides) {
@@ -79,7 +79,7 @@ class PageController extends Controller
         // View data
         $data = [
             'doc' => $doc,
-            'title' => $doc ? $doc->title : Conf::get('app.name'),
+            'title' => $doc ? ($doc->title ?: $doc->path) : Conf::get('app.name'),
             'content' => $content,
             'explore' => [
                 'items' => $items,
