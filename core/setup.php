@@ -82,6 +82,12 @@ if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/conf.php')) {
 // Initialize base controller
 Controller::init();
 
+// Set security headers
+Http::setHeaderCsp(true);
+Http::setHeaderHsts();
+Http::setHeaderCoop();
+Http::setHeaderXfo();
+
 // Load child routes
 if (DIR_APP !== DIR_CORE && file_exists(DIR_APP . '/routes.php')) {
     require_once DIR_APP . '/routes.php';
