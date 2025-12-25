@@ -78,7 +78,7 @@ pass "JSON response works"
 output=$(php -r '
 $_SERVER["REQUEST_METHOD"] = "GET";
 $_SERVER["REQUEST_URI"] = "/secret";
-$_REQUEST["routepassword"] = "correct";
+$_GET["routepassword"] = "correct";
 require_once "'"$SCRIPT_DIR"'/Route.php";
 Route::protect("GET", "/secret", "correct");
 Route::get("/secret", function() { return "SECRET_ACCESS"; });
@@ -94,7 +94,7 @@ pass "Protect works with default routepassword"
 output=$(php -r '
 $_SERVER["REQUEST_METHOD"] = "GET";
 $_SERVER["REQUEST_URI"] = "/token-secret";
-$_REQUEST["token"] = "valid-token";
+$_GET["token"] = "valid-token";
 require_once "'"$SCRIPT_DIR"'/Route.php";
 Route::setAuthParam("token");
 Route::protect("GET", "/token-secret", "valid-token");
@@ -111,7 +111,7 @@ pass "Protect works after changing authParam to token via setter"
 output=$(php -r '
 $_SERVER["REQUEST_METHOD"] = "GET";
 $_SERVER["REQUEST_URI"] = "/secret";
-$_REQUEST["routepassword"] = "wrong";
+$_GET["routepassword"] = "wrong";
 require_once "'"$SCRIPT_DIR"'/Route.php";
 Route::protect("GET", "/secret", "correct");
 Route::get("/secret", function() { return "SECRET_ACCESS"; });

@@ -234,8 +234,26 @@ class Route {
         $p = self::$authParam;
         
         // Check query/post parameter
-        if (isset($_REQUEST[$p])) {
-            return (string) $_REQUEST[$p];
+        if (isset($_GET[$p])) {
+            return (string) $_GET[$p];
+        }
+        if (isset($_POST[$p])) {
+            return (string) $_POST[$p];
+        }
+        
+        // Check Raw Body
+        $raw = self::readRawInput();
+        if ($raw !== '') {
+            parse_str($raw, $parsed);
+            if (isset($parsed[$p])) {
+                return (string) $parsed[$p];
+            }
+            $json = json_decode($raw, true);
+            if (is_array($json)) {
+                if (isset($json[$p])) {
+                    return (string) $json[$p];
+                }
+            }
         }
 
         // Check Authorization header
@@ -252,22 +270,6 @@ class Route {
         // Check Cookies
         if (isset($_COOKIE[$p])) {
             return (string) $_COOKIE[$p];
-        }
-
-        // Check Raw Body
-        $raw = self::readRawInput();
-        if ($raw !== '') {
-            parse_str($raw, $parsed);
-            if (isset($parsed[$p])) {
-                return (string) $parsed[$p];
-            }
-
-            $json = json_decode($raw, true);
-            if (is_array($json)) {
-                if (isset($json[$p])) {
-                    return (string) $json[$p];
-                }
-            }
         }
 
         return null;
