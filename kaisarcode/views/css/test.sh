@@ -23,7 +23,7 @@ header "CSS Validation"
 
 if command -v "$KCVAL" >/dev/null; then
 
-    # Run kcval on all CSS files in current directory
+    # Run kc-val on all CSS files in current directory
     if find "$SCRIPT_DIR" -name "*.css" -print0 | xargs -0 -r "$KCVAL"; then
         pass "CSS validation passed"
     else

@@ -4,7 +4,7 @@
 #
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-KCVAL="${KCVAL:-kcval}"
+KCVAL="${KCVAL:-kc-val}"
 
 # Colors
 RED='\033[0;31m'
@@ -26,7 +26,7 @@ if command -v "$KCVAL" > /dev/null; then
     "$KCVAL" "$SCRIPT_DIR/test.sh" > /dev/null 2>&1 || fail "test.sh failed validation"
     pass "KCS validation passed"
 else
-    info "kcval not found, skipping validation"
+    info "kc-val not found, skipping validation"
 fi
 
 # Functional tests

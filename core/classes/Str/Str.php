@@ -35,17 +35,11 @@ class Str {
      * @return string Minified CSS.
      */
     public static function minCss(string $css = ''): string {
-        // Remove comments
         $css = preg_replace('/\/\*[\s\S]*?\*\//', '', $css);
-        // Remove whitespace around special characters
         $css = preg_replace('/\s*([{}:;,>+~])\s*/', '$1', $css);
-        // Remove trailing semicolons before closing braces
         $css = str_replace(';}', '}', $css);
-        // Collapse remaining whitespace
         $css = preg_replace('/\s+/', ' ', $css);
-        // Remove leading zeros from decimals
         $css = preg_replace('/(:|\s)0\.(\d+)/', '${1}.${2}', $css);
-        // Remove units from zero values
         $css = preg_replace('/(:|\s)0(px|em|rem|%|pt|cm|mm|in|pc|ex|ch|vw|vh|vmin|vmax)/', '${1}0', $css);
         return trim($css);
     }
