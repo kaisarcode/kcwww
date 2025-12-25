@@ -61,7 +61,7 @@
         {{@endif}}
 
         {{@foreach ($items as $item):}}
-        <article onclick="location.href='{{item.url}}'">
+        <article data-href="{{item.url}}">
             {{@if (!empty($item->image)):}}
             <figure>
                 <a href="{{item.url}}">
