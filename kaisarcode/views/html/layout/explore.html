@@ -16,7 +16,7 @@
         </h2>
         <nav>
             <menu>
-                {{@if (!empty($mode->url ?? '') && !Http::isMobile()):}}
+                {{@if (!empty($mode->url ?? '') && Http::isStandardBrowser() && !Http::isMobile()):}}
                 <li>
                     <a href="{{mode.url}}" title="Cambiar modo">
                         {{@block ico ['name' => ($mode->current === 'blog' ? 'folder' : 'list')]}}
