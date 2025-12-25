@@ -12,7 +12,7 @@
 define('DSN_DOC', 'sqlite:' . DIR_VAR . '/data/db/doc.sqlite');
 
 Conf::set([
-    'app.minify' => true,
+    'app.minify' => DEVM,
     'app.id' => 'kaisarcode',
     'app.name' => 'KaisarCode',
     'page.name' => 'KaisarCode',
