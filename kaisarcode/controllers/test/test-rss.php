@@ -20,6 +20,7 @@ if (!$root || !$core) {
 define('DIR_APP', $root);
 define('DIR_CORE', $core);
 define('DIR_VAR', $root . '/var');
+define('DEVM', true);
 
 require_once $core . '/autoload.php';
 

@@ -27,7 +27,7 @@ Provides safe access to system commands (kcap/kcai apps) through whitelisting an
 require_once __DIR__ . '/../../../../../../autoload.php';
 
 // Register a command
-Cmd::register('nixi', '/home/kaisar/bin/kaisarcode/kcap/nixi/nixi');
+Cmd::register('nixi', '/path/to/kcap/nixi/nixi');
 
 // Execute command
 $result = Cmd::exec('nixi', ['--version']);
@@ -48,7 +48,7 @@ if (Cmd::test('nixi', ['--help'])) {
 
 ```php
 // Register with allowed arguments
-Cmd::register('kcai-search', '/home/kaisar/bin/kaisarcode/kcai/core/kcai-search/kcai-search', [
+Cmd::register('kcai-search', '/path/to/kcai/core/kcai-search/kcai-search', [
     '--help',
     '--version',
     '--query'
@@ -65,9 +65,9 @@ Cmd::run('kcai-search', ['--dangerous-flag']); // RuntimeException
 
 ```php
 // Register multiple kcai apps
-Cmd::register('nixi', '/home/kaisar/bin/kaisarcode/kcap/nixi/nixi');
-Cmd::register('kcai-search', '/home/kaisar/bin/kaisarcode/kcai/core/kcai-search/kcai-search');
-Cmd::register('kcai-gen', '/home/kaisar/bin/kaisarcode/kcai/core/kcai-gen/kcai-gen');
+Cmd::register('nixi', '/path/to/kcap/nixi/nixi');
+Cmd::register('kcai-search', '/path/to/kcai/core/kcai-search/kcai-search');
+Cmd::register('kcai-gen', '/path/to/kcai/core/kcai-gen/kcai-gen');
 
 // Check what's available
 $commands = Cmd::getWhitelist();
@@ -145,7 +145,7 @@ Clear all registered commands.
 require_once 'autoload.php';
 
 // Register kcai-search
-Cmd::register('kcai-search', '/home/kaisar/bin/kaisarcode/kcai/core/kcai-search/kcai-search');
+Cmd::register('kcai-search', '/path/to/kcai/core/kcai-search/kcai-search');
 
 // Get search query from user
 $query = $_GET['q'] ?? '';

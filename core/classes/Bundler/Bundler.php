@@ -15,8 +15,35 @@
 
 /**
  * Asset bundling utility.
+ *
+ * Uses Template engine to pre-process assets, allowing template syntax
+ * like {{@ DIR_CORE }} for cross-project imports.
  */
 class Bundler {
+    /**
+     * Gets template data for asset preprocessing.
+     *
+     * @return array Data variables available in assets.
+     */
+    private static function getTemplateData(): array {
+        return [
+            'DIR_CORE' => defined('DIR_CORE') ? DIR_CORE : '',
+            'DIR_APP' => defined('DIR_APP') ? DIR_APP : '',
+        ];
+    }
+
+    /**
+     * Pre-processes file content through Template.
+     *
+     * @param string $file Path to file.
+     *
+     * @return string Processed content.
+     */
+    private static function preprocess(string $file): string {
+        $tpl = new Template(['cache_enabled' => false]);
+        return $tpl->parse($file, self::getTemplateData());
+    }
+
     /**
      * Bundles CSS files by resolving @import and CSS variables.
      *
@@ -38,13 +65,21 @@ class Bundler {
      */
     public static function js(string $file): string {
         $baseDir = dirname($file);
-        $str = file_get_contents($file);
+        $str = self::preprocess($file);
         $pattern = '/import\s+[^;]*?["\'](.+?)["\']\s*;/';
 
         $str = preg_replace_callback(
             $pattern,
             function ($m) use ($baseDir) {
-                $importPath = realpath($baseDir . '/' . $m[1]);
+                $path = $m[1];
+
+                // Handle absolute vs relative paths
+                if (str_starts_with($path, '/')) {
+                    $importPath = realpath($path);
+                } else {
+                    $importPath = realpath($baseDir . '/' . $path);
+                }
+
                 if (!$importPath || !is_file($importPath)) {
                     return '';
                 }
@@ -71,11 +106,19 @@ class Bundler {
      */
     private static function inlineCssImports(string $file): string {
         $baseDir = dirname($file);
-        $str = file_get_contents($file);
+        $str = self::preprocess($file);
         $pattern = '/@import\s+url\(["\']?(.+?)["\']?\)\s*;/';
 
         return preg_replace_callback($pattern, function ($m) use ($baseDir) {
-            $importPath = realpath($baseDir . '/' . $m[1]);
+            $path = $m[1];
+
+            // Handle absolute vs relative paths
+            if (str_starts_with($path, '/')) {
+                $importPath = realpath($path);
+            } else {
+                $importPath = realpath($baseDir . '/' . $path);
+            }
+
             if (!$importPath || !is_file($importPath)) {
                 return '';
             }

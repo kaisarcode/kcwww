@@ -2,8 +2,10 @@
 /**
  * Test suite for Bundler utility
  */
-
-require_once __DIR__ . '/../Bundler.php';
+define('DIR_CORE', dirname(__DIR__, 3));
+define('DIR_APP', DIR_CORE);
+require_once DIR_CORE . '/autoload.php';
+autoload([DIR_CORE . '/classes']);
 
 class BundlerTest {
     private int $passed = 0;
