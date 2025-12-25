@@ -469,6 +469,12 @@ main > section > section article:not(:has(header)) section a {
     font-size: 1rem;
     font-weight: normal;
     font-style: normal;
+    display: block;
+}
+
+main > section > section article:not(:has(header)) section a:hover {
+    color: inherit;
+    filter: brightness(1.2);
 }
 
 main > section > section article:not(:has(header))::before,
@@ -532,10 +538,6 @@ main > section > section article section p {
 main > section > section article section a {
     color: inherit;
     text-decoration: none;
-}
-
-main > section > section article section a:hover {
-    filter: brightness(1.2);
 }
 
 /* Blog mode: single column layout */
