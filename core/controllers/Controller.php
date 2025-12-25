@@ -72,14 +72,15 @@ abstract class Controller {
     }
 
     /**
-     * Minify content based on dev mode.
+     * Minify content based on config.
      *
      * @param string $content Content to minify.
      *
      * @return string Minified content.
      */
     protected static function minify(string $content): string {
-        if (self::$dev) {
+        $minify = Conf::get('app.minify', !self::$dev);
+        if (!$minify) {
             return trim($content);
         }
         $content = Str::keepPre($content);
