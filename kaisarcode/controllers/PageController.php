@@ -25,7 +25,7 @@ class PageController extends Controller {
 
         // Search for document by path
         DocModel::init();
-        $doc = DocModel::findFirst('path = ? AND active = ?', [$path, 1]);
+        $doc = DocModel::findFirst('path = ?', [$path]);
 
         if (!$doc && $path !== '/') {
             return false;

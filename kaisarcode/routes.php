@@ -10,7 +10,7 @@
  */
 
 // RSS Route
-Route::all('/rss\.xml', function () {
+Route::all('/rss', function () {
     return RssController::handle();
 });
 
