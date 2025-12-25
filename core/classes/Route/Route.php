@@ -51,7 +51,7 @@ class Route {
      *
      * @var string
      */
-    public static $authParam = 'routepassword';
+    private static $authParam = 'routepassword';
 
     /**
      * Registers a route for a specific HTTP method.

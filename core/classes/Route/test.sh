@@ -89,22 +89,22 @@ if [ "$output" != "SECRET_ACCESS" ]; then
 fi
 pass "Protect works with default routepassword"
 
-# Test protect manually changing public authParam to 'token'
+# Test protect manually changing authParam to 'token'
 # shellcheck disable=SC2016
 output=$(php -r '
 $_SERVER["REQUEST_METHOD"] = "GET";
 $_SERVER["REQUEST_URI"] = "/token-secret";
 $_REQUEST["token"] = "valid-token";
 require_once "'"$SCRIPT_DIR"'/Route.php";
-Route::$authParam = "token";
+Route::setAuthParam("token");
 Route::protect("GET", "/token-secret", "valid-token");
 Route::get("/token-secret", function() { return "TOKEN_ACCESS"; });
 ')
 
 if [ "$output" != "TOKEN_ACCESS" ]; then
-    fail "Protect failed after changing public authParam to token"
+    fail "Protect failed after changing authParam to token via setter"
 fi
-pass "Protect works after changing public authParam to token"
+pass "Protect works after changing authParam to token via setter"
 
 # Test protect with WRONG password
 # shellcheck disable=SC2016
