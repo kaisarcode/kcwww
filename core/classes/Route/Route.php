@@ -232,13 +232,29 @@ class Route {
      */
     private static function readPassword(): ?string {
         $p = self::$authParam;
+        
+        // Check query/post parameter
         if (isset($_REQUEST[$p])) {
             return (string) $_REQUEST[$p];
         }
+
+        // Check Authorization header
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+        if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+            return trim($matches[1]);
+        }
+
+        // Check Session
+        if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION[$p])) {
+            return (string) $_SESSION[$p];
+        }
+
+        // Check Cookies
         if (isset($_COOKIE[$p])) {
             return (string) $_COOKIE[$p];
         }
 
+        // Check Raw Body
         $raw = self::readRawInput();
         if ($raw !== '') {
             parse_str($raw, $parsed);

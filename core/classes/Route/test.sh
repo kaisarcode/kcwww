@@ -122,5 +122,38 @@ if [ "$output" = "SECRET_ACCESS" ]; then
 fi
 pass "Protect blocks wrong password"
 
+# Test protect with Authorization Bearer header
+# shellcheck disable=SC2016
+output=$(php -r '
+$_SERVER["REQUEST_METHOD"] = "GET";
+$_SERVER["REQUEST_URI"] = "/secret";
+$_SERVER["HTTP_AUTHORIZATION"] = "Bearer correct-token";
+require_once "'"$SCRIPT_DIR"'/Route.php";
+Route::protect("GET", "/secret", "correct-token");
+Route::get("/secret", function() { return "BEARER_ACCESS"; });
+')
+
+if [ "$output" != "BEARER_ACCESS" ]; then
+    fail "Protect failed with Authorization Bearer header"
+fi
+pass "Protect works with Authorization Bearer header"
+
+# Test protect with Session
+# shellcheck disable=SC2016
+output=$(php -r '
+$_SERVER["REQUEST_METHOD"] = "GET";
+$_SERVER["REQUEST_URI"] = "/secret";
+session_start();
+$_SESSION["routepassword"] = "session-pass";
+require_once "'"$SCRIPT_DIR"'/Route.php";
+Route::protect("GET", "/secret", "session-pass");
+Route::get("/secret", function() { return "SESSION_ACCESS"; });
+')
+
+if [ "$output" != "SESSION_ACCESS" ]; then
+    fail "Protect failed with Session password"
+fi
+pass "Protect works with Session password"
+
 printf "\n%bAll tests passed%b\n" "${GREEN}" "${NC}"
 
