@@ -88,13 +88,7 @@
             {{@endif}}
 
             <section>
-                <p>
-                    {{@if (!$item->title || str_starts_with($item->title, '/')):}}
-                        <a href="{{item.url}}">{{item.desc}}</a>
-                    {{@else:}}
-                        {{item.desc}}
-                    {{@endif}}
-                </p>
+                <p>{{item.desc}}</p>
             </section>
         </article>
         {{@endforeach}}
