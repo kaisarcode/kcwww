@@ -16,15 +16,13 @@
 /**
  * PWA controller
  */
-class PwaController extends Controller
-{
+class PwaController extends Controller {
     /**
      * Serve manifest.json
      *
      * @return string
      */
-    public static function manifest(): string
-    {
+    public static function manifest(): string {
         self::noRobots();
 
         $manifest = [
@@ -51,8 +49,7 @@ class PwaController extends Controller
      *
      * @return string
      */
-    public static function worker(): string
-    {
+    public static function worker(): string {
         self::noRobots();
         Http::setHeaderJs();
 
@@ -73,11 +70,10 @@ class PwaController extends Controller
     /**
      * Serve app icon at specified size
      *
-     * @param int $size
+     * @param integer $size
      * @return string
      */
-    public static function icon(int $size): string
-    {
+    public static function icon(int $size): string {
         Http::setHeaderPng();
 
         $srcDir = Conf::get('app.image.src_dir');
@@ -94,11 +90,10 @@ class PwaController extends Controller
     /**
      * Serve favicon at specified size
      *
-     * @param int $size
+     * @param integer $size
      * @return string
      */
-    public static function favicon(int $size): string
-    {
+    public static function favicon(int $size): string {
         Http::setHeaderPng();
 
         $srcDir = Conf::get('app.image.src_dir');
@@ -117,8 +112,7 @@ class PwaController extends Controller
      *
      * @return array
      */
-    private static function buildIcons(): array
-    {
+    private static function buildIcons(): array {
         $icons = [];
         $sizes = Conf::get('app.icon.sizes', [192, 512]);
 
@@ -141,8 +135,7 @@ class PwaController extends Controller
      *
      * @return array
      */
-    private static function buildScreenshots(): array
-    {
+    private static function buildScreenshots(): array {
         $screenshots = Conf::get('app.screenshots', []);
         if (empty($screenshots)) {
             return [];
@@ -164,12 +157,11 @@ class PwaController extends Controller
     /**
      * Get cached icon or generate and cache
      *
-     * @param string $src
-     * @param int $size
+     * @param string  $src
+     * @param integer $size
      * @return string
      */
-    private static function getCachedIcon(string $src, int $size): string
-    {
+    private static function getCachedIcon(string $src, int $size): string {
         $cacheDir = Conf::get('app.image.cache_dir', sys_get_temp_dir());
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir, 0775, true);

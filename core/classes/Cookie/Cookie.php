@@ -1,7 +1,7 @@
 <?php
 /**
  * Cookie - Cookie handler
- * Summary: Provides secure cookie management with encryption support
+ * Summary: Provides secure cookie management with encryption support.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,26 +14,32 @@
  */
 
 /**
- * Cookie handler
+ * Cookie handler.
  */
-class Cookie
-{
-
+class Cookie {
     /**
      * Sets a cookie.
      *
-     * @param string $name Cookie name
-     * @param string $value Cookie value
-     * @param int|null $expires Duration in seconds from now. Null = session cookie.
-     * @param string|null $key Encryption key. If provided, value will be encrypted.
+     * @param string       $name    Cookie name.
+     * @param string       $value   Cookie value.
+     * @param integer|null $expires Duration in seconds from now.
+     * @param string|null  $key     Encryption key if provided.
+     *
      * @return void
      */
-    public static function set(string $name, string $value, ?int $expires = null, ?string $key = null): void
-    {
+    public static function set(
+        string $name,
+        string $value,
+        ?int $expires = null,
+        ?string $key = null
+    ): void {
         $expireTime = ($expires > 0) ? time() + $expires : 0;
 
         // Encrypt value if key is provided
-        $finalValue = ($key !== null && $value !== '') ? self::encrypt($value, $key) : $value;
+        $finalValue = $value;
+        if ($key !== null && $value !== '') {
+            $finalValue = self::encrypt($value, $key);
+        }
 
         setcookie(
             $name,
@@ -52,12 +58,12 @@ class Cookie
     /**
      * Retrieves a cookie value.
      *
-     * @param string $name Cookie name
-     * @param string|null $key Decryption key. If provided, value will be decrypted.
-     * @return string|false Cookie value or false if not found
+     * @param string      $name Cookie name.
+     * @param string|null $key  Decryption key if provided.
+     *
+     * @return string|false Cookie value or false if not found.
      */
-    public static function get(string $name, ?string $key = null): string|false
-    {
+    public static function get(string $name, ?string $key = null): string|false {
         $value = $_COOKIE[$name] ?? false;
 
         if ($value === false || $value === '') {
@@ -76,22 +82,22 @@ class Cookie
     /**
      * Checks if a cookie exists.
      *
-     * @param string $name Cookie name
-     * @return bool
+     * @param string $name Cookie name.
+     *
+     * @return boolean True if exists.
      */
-    public static function has(string $name): bool
-    {
+    public static function has(string $name): bool {
         return isset($_COOKIE[$name]);
     }
 
     /**
      * Deletes a cookie.
      *
-     * @param string $name Cookie name
+     * @param string $name Cookie name.
+     *
      * @return void
      */
-    public static function delete(string $name): void
-    {
+    public static function delete(string $name): void {
         setcookie($name, '', [
             'expires' => time() - 3600,
             'path' => '/',
@@ -105,46 +111,60 @@ class Cookie
     /**
      * Checks if request is using HTTPS.
      *
-     * @return bool
+     * @return boolean True if HTTPS.
      */
-    private static function isHttps(): bool
-    {
+    private static function isHttps(): bool {
         return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
     }
 
     /**
      * Encrypts a value using AES-256-CBC.
      *
-     * @param string $value Value to encrypt
-     * @param string $key Encryption key
-     * @return string Base64-encoded encrypted value with IV
+     * @param string $value Value to encrypt.
+     * @param string $key   Encryption key.
+     *
+     * @return string Base64-encoded encrypted value with IV.
      */
-    private static function encrypt(string $value, string $key): string
-    {
-        if ($value === '')
+    private static function encrypt(string $value, string $key): string {
+        if ($value === '') {
             return '';
+        }
         $iv = random_bytes(16);
-        $encrypted = openssl_encrypt($value, 'AES-256-CBC', hash('sha256', $key, true), 0, $iv);
+        $encrypted = openssl_encrypt(
+            $value,
+            'AES-256-CBC',
+            hash('sha256', $key, true),
+            0,
+            $iv
+        );
         return base64_encode($iv . $encrypted);
     }
 
     /**
      * Decrypts a value using AES-256-CBC.
      *
-     * @param string $encrypted Base64-encoded encrypted value with IV
-     * @param string $key Encryption key
-     * @return string Decrypted value or empty string on failure
+     * @param string $encrypted Base64-encoded encrypted value.
+     * @param string $key       Encryption key.
+     *
+     * @return string Decrypted value or empty on failure.
      */
-    private static function decrypt(string $encrypted, string $key): string
-    {
-        if ($encrypted === '')
+    private static function decrypt(string $encrypted, string $key): string {
+        if ($encrypted === '') {
             return '';
+        }
         $data = base64_decode($encrypted);
-        if ($data === false || strlen($data) < 16)
+        if ($data === false || strlen($data) < 16) {
             return '';
+        }
         $iv = substr($data, 0, 16);
         $ciphertext = substr($data, 16);
-        $decrypted = openssl_decrypt($ciphertext, 'AES-256-CBC', hash('sha256', $key, true), 0, $iv);
+        $decrypted = openssl_decrypt(
+            $ciphertext,
+            'AES-256-CBC',
+            hash('sha256', $key, true),
+            0,
+            $iv
+        );
         return $decrypted !== false ? $decrypted : '';
     }
 }

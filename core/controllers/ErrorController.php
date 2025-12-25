@@ -1,7 +1,7 @@
 <?php
 /**
  * ErrorController - Global error handler
- * Summary: Handles HTTP errors with JSON for API routes and HTML otherwise
+ * Summary: Handles HTTP errors with JSON for API routes and HTML otherwise.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,12 +14,13 @@
  */
 
 /**
- * Global error handler controller
+ * Global error handler controller.
  */
-class ErrorController extends Controller
-{
+class ErrorController extends Controller {
     /**
-     * HTTP status descriptions
+     * HTTP status descriptions.
+     *
+     * @var array
      */
     private static array $descriptions = [
         400 => 'Bad Request',
@@ -36,13 +37,13 @@ class ErrorController extends Controller
     ];
 
     /**
-     * Handle error response
+     * Handle error response.
      *
-     * @param int $code HTTP status code
-     * @return string
+     * @param integer $code HTTP status code.
+     *
+     * @return string Rendered error response.
      */
-    public static function handle(int $code): string
-    {
+    public static function handle(int $code): string {
         $desc = self::$descriptions[$code] ?? 'Error';
         $path = Http::getPathUri();
 
@@ -71,10 +72,11 @@ class ErrorController extends Controller
         Conf::set('error.code', $code);
         Conf::set('error.message', $desc);
 
-        // Resolve template strictly within html/ directory
-        $template = (DIR_APP !== DIR_CORE && is_file(DIR_APP . '/views/html/error.html'))
-            ? DIR_APP . '/views/html/error.html'
-            : DIR_CORE . '/views/html/error.html';
+        // Resolve template strictly within html directory
+        $template = DIR_APP . '/views/html/error.html';
+        if (DIR_APP !== DIR_CORE && !is_file($template)) {
+            $template = DIR_CORE . '/views/html/error.html';
+        }
 
         if (is_file($template)) {
             return self::html($template);
@@ -85,10 +87,11 @@ class ErrorController extends Controller
     }
 
     /**
-     * Register as Route error handler
+     * Register as Route error handler.
+     *
+     * @return void
      */
-    public static function register(): void
-    {
+    public static function register(): void {
         Route::error(function (int $code) {
             echo ErrorController::handle($code);
         });

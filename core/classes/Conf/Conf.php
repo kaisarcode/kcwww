@@ -1,7 +1,7 @@
 <?php
 /**
  * Conf - Configuration container
- * Summary: Provides associative and nested key support for configuration management
+ * Summary: Provides associative and nested key support for config management.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -16,20 +16,35 @@
 /**
  * Configuration container with associative and nested key support.
  */
-class Conf
-{
+class Conf {
+    /**
+     * Configuration storage.
+     *
+     * @var array
+     */
     private static array $conf = [];
+
+    /**
+     * Excluded paths.
+     *
+     * @var array
+     */
     private static array $excl = [];
 
     /**
      * Set a single key or multiple values.
      *
-     * @param string|array $key
-     * @param mixed|null $value
-     * @param bool $hide
+     * @param string|array $key   Key or array of key-value pairs.
+     * @param mixed|null   $value Value to set.
+     * @param integer|boolean $hide  Whether to hide from all output.
+     *
+     * @return void
      */
-    public static function set(string|array $key, mixed $value = null, int|bool $hide = false): void
-    {
+    public static function set(
+        string|array $key,
+        mixed $value = null,
+        int|bool $hide = false
+    ): void {
         if (is_array($key)) {
             foreach ($key as $k => $v) {
                 self::set($k, $v);
@@ -49,13 +64,14 @@ class Conf
     }
 
     /**
-     * Retrieve a value by key, supporting dot notation.
+     * Retrieve a value by key with dot notation.
      *
-     * @param string $key
-     * @return mixed
+     * @param string $key     Key to retrieve.
+     * @param mixed  $default Default value if not found.
+     *
+     * @return mixed Retrieved value or default.
      */
-    public static function get(string $key, mixed $default = null): mixed
-    {
+    public static function get(string $key, mixed $default = null): mixed {
         $segments = explode('.', $key);
         $ref = self::$conf;
         foreach ($segments as $segment) {
@@ -68,12 +84,13 @@ class Conf
     }
 
     /**
-     * Remove a value by key, supporting dot notation.
+     * Remove a value by key with dot notation.
      *
-     * @param string $key
+     * @param string $key Key to remove.
+     *
+     * @return void
      */
-    public static function del(string $key): void
-    {
+    public static function del(string $key): void {
         $segments = explode('.', $key);
         $last = array_pop($segments);
         $ref = &self::$conf;
@@ -87,12 +104,13 @@ class Conf
     }
 
     /**
-     * Mark paths as excluded from all().
+     * Mark paths as excluded from all output.
      *
-     * @param string|array $paths
+     * @param string|array $paths Paths to exclude.
+     *
+     * @return void
      */
-    public static function exc(string|array $paths): void
-    {
+    public static function exc(string|array $paths): void {
         $paths = is_array($paths) ? $paths : [$paths];
         self::$excl = array_unique(array_merge(self::$excl, $paths));
     }
@@ -100,11 +118,11 @@ class Conf
     /**
      * Get the entire config array.
      *
-     * @param bool $hidden
-     * @return array
+     * @param integer|boolean $hidden Include hidden values.
+     *
+     * @return array Configuration array.
      */
-    public static function all(int|bool $hidden = false): array
-    {
+    public static function all(int|bool $hidden = false): array {
         $data = self::$conf;
         if ($hidden) {
             return $data;

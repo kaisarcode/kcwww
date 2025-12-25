@@ -6,23 +6,23 @@
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
  * License: GNU GPL v3.0
+ * License URL: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /**
- * Home page controller
+ * Home page controller.
  */
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     /**
-     * Render the home page
+     * Render the home page.
      *
-     * @return string
+     * @return string Rendered HTML.
      */
-    public static function index(): string
-    {
-        $home = (DIR_APP !== DIR_CORE && is_file(DIR_APP . '/views/html/home.html'))
-            ? DIR_APP . '/views/html/home.html'
-            : DIR_CORE . '/views/html/home.html';
+    public static function index(): string {
+        $home = DIR_APP . '/views/html/home.html';
+        if (DIR_APP !== DIR_CORE && !is_file($home)) {
+            $home = DIR_CORE . '/views/html/home.html';
+        }
         return self::html($home);
     }
 }

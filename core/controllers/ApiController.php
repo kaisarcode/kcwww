@@ -1,7 +1,7 @@
 <?php
 /**
  * ApiController - Generic API handler for models
- * Summary: Automatically exposes models via REST-like API
+ * Summary: Automatically exposes models via REST-like API.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,29 +14,29 @@
  */
 
 /**
- * Generic API Controller
+ * Generic API Controller.
  *
  * Exposes all models to the API automatically.
  * Routes:
- * - GET /api/{model}          -> List all
- * - GET /api/{model}/{id}     -> Get one
- * - POST /api/{model}         -> Create
- * - POST /api/{model}/{id}    -> Update
- * - DELETE /api/{model}/{id}  -> Delete
+ * - GET /api/model          List all
+ * - GET /api/model/id       Get one
+ * - POST /api/model         Create
+ * - POST /api/model/id      Update
+ * - DELETE /api/model/id    Delete
  */
-class ApiController extends Controller
-{
+class ApiController extends Controller {
     /**
-     * Handle API request
+     * Handle API request.
      *
-     * @param string $modelName Name of the model (from URL)
-     * @param string|null $id Optional ID
+     * @param string      $modelName Name of the model from URL.
+     * @param string|null $id        Optional record ID.
+     *
+     * @return void
      */
-    public static function handle(string $modelName, ?string $id = null): void
-    {
+    public static function handle(string $modelName, ?string $id = null): void {
         $method = $_SERVER['REQUEST_METHOD'];
         if (empty($modelName) || $modelName === 'status') {
-             self::render('ok', null);
+            self::render('ok', null);
             return;
         }
 
@@ -90,12 +90,13 @@ class ApiController extends Controller
     }
 
     /**
-     * List records with pagination
+     * List records with pagination.
      *
-     * @param string $className
+     * @param string $className Model class name.
+     *
+     * @return void
      */
-    private static function listAll(string $className): void
-    {
+    private static function listAll(string $className): void {
         $page = (int) ($_GET['page'] ?? 1);
         $limit = (int) ($_GET['limit'] ?? 20);
 
@@ -106,13 +107,14 @@ class ApiController extends Controller
     }
 
     /**
-     * Get one record by ID
+     * Get one record by ID.
      *
-     * @param string $className
-     * @param int $id
+     * @param string  $className Model class name.
+     * @param integer $id        Record ID.
+     *
+     * @return void
      */
-    private static function getOne(string $className, int $id): void
-    {
+    private static function getOne(string $className, int $id): void {
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
@@ -123,12 +125,13 @@ class ApiController extends Controller
     }
 
     /**
-     * Create new record
+     * Create new record.
      *
-     * @param string $className
+     * @param string $className Model class name.
+     *
+     * @return void
      */
-    private static function create(string $className): void
-    {
+    private static function create(string $className): void {
         $data = self::params();
         $model = $className::create($data);
         $id = $model->save();
@@ -143,13 +146,14 @@ class ApiController extends Controller
     }
 
     /**
-     * Update existing record
+     * Update existing record.
      *
-     * @param string $className
-     * @param int $id
+     * @param string  $className Model class name.
+     * @param integer $id        Record ID.
+     *
+     * @return void
      */
-    private static function update(string $className, int $id): void
-    {
+    private static function update(string $className, int $id): void {
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
@@ -171,13 +175,14 @@ class ApiController extends Controller
     }
 
     /**
-     * Remove record
+     * Remove record.
      *
-     * @param string $className
-     * @param int $id
+     * @param string  $className Model class name.
+     * @param integer $id        Record ID.
+     *
+     * @return void
      */
-    private static function remove(string $className, int $id): void
-    {
+    private static function remove(string $className, int $id): void {
         $model = $className::find($id);
         if (!$model) {
             self::status(404);
@@ -190,23 +195,22 @@ class ApiController extends Controller
     }
 
     /**
-     * Map model name from URL to class name
-     * Example: "dummy" -> "DummyModel"
+     * Map model name from URL to class name.
      *
-     * @param string $name
-     * @return string|null
+     * @param string $name Model name from URL.
+     *
+     * @return string|null Class name or null if not found.
      */
-    private static function getModelClass(string $name): ?string
-    {
-        // Simple mapping: capitalize first letter + "Model"
-        // If "DummyModel" exists, use it.
+    private static function getModelClass(string $name): ?string {
+
+        // Simple mapping: capitalize first letter + Model
         $class = ucfirst(strtolower($name)) . 'Model';
 
         if (class_exists($class)) {
             return $class;
         }
 
-        // Fallback: try just capitalized (e.g. "User")
+        // Fallback: try just capitalized
         $class = ucfirst(strtolower($name));
         if (class_exists($class)) {
             return $class;
@@ -214,16 +218,23 @@ class ApiController extends Controller
 
         return null;
     }
+
     /**
-     * Standardized API response
+     * Standardized API response.
      *
-     * @param string $status 'ok' or 'error'
-     * @param mixed $result Data to return
-     * @param array $errors List of errors
-     * @param array|null $pagination Pagination info
+     * @param string     $status     Status ok or error.
+     * @param mixed      $result     Data to return.
+     * @param array      $errors     List of errors.
+     * @param array|null $pagination Pagination info.
+     *
+     * @return void
      */
-    protected static function render(string $status, $result = null, array $errors = [], ?array $pagination = null): void
-    {
+    protected static function render(
+        string $status,
+        $result = null,
+        array $errors = [],
+        ?array $pagination = null
+    ): void {
         echo self::json([
             'status' => $status,
             'result' => $result,

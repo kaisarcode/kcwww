@@ -1,7 +1,7 @@
 <?php
 /**
  * Route - Minimalistic HTTP router
- * Summary: Matches request method and URI path, automatically halts on first matching route
+ * Summary: Matches request method and URI path with auto halt on match.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -15,38 +15,57 @@
 
 /**
  * Minimalistic HTTP router that matches request method and URI path.
- * Automatically halts on first matching route unless the callback returns false.
- *
- * Usage:
- * Route::get('/path', function() { return 'Hello'; });
- * Route::all('/.*', function() { return false; });
- *
- * Returned values from route callbacks:
- * - false -> continue to next route
- * - true -> stop, no output
- * - string or number -> echoed as response
- * - array or object -> JSON-encoded and echoed
+ * Automatically halts on first matching route unless callback returns false.
  */
-class Route
-{
+class Route {
+    /**
+     * Matched flag.
+     *
+     * @var boolean
+     */
     public static $matched = false;
+
+    /**
+     * Error handler callback.
+     *
+     * @var callable|null
+     */
     private static $errorHandler = null;
+
+    /**
+     * Error registered flag.
+     *
+     * @var boolean
+     */
     private static $errorRegistered = false;
+
+    /**
+     * Input cache.
+     *
+     * @var string|null
+     */
     private static $inputCache = null;
+
+    /**
+     * Auth parameter name.
+     *
+     * @var string
+     */
     private static $authParam = 'routepassword';
 
     /**
      * Registers a route for a specific HTTP method.
      *
-     * @param string $mth HTTP method (GET, POST, etc.)
-     * @param string $pth URI pattern, simple or regex-like
-     * @param callable $cb Callback to execute if matched
+     * @param string   $mth HTTP method GET POST etc.
+     * @param string   $pth URI pattern simple or regex.
+     * @param callable $cb  Callback to execute if matched.
+     *
      * @return void
      */
-    public static function add($mth, $pth, $cb)
-    {
-        if (self::$matched)
+    public static function add(string $mth, string $pth, callable $cb): void {
+        if (self::$matched) {
             return;
+        }
         $mth = strtoupper(trim($mth));
         $mthd = $_SERVER['REQUEST_METHOD'];
         $rawUri = $_SERVER['REQUEST_URI'];
@@ -67,8 +86,9 @@ class Route
             $patt = str_replace('/', '\\/', $pth);
             if (preg_match("/^$patt$/", $normalizedPath, $mtch)) {
                 $res = $cb($mtch);
-                if ($res === false)
+                if ($res === false) {
                     return;
+                }
                 if (is_string($res) || is_numeric($res)) {
                     echo $res;
                 } elseif (is_array($res) || is_object($res)) {
@@ -82,81 +102,84 @@ class Route
     /**
      * Registers a route for any HTTP method.
      *
-     * @param string $pth
-     * @param callable $cb
+     * @param string   $pth URI pattern.
+     * @param callable $cb  Callback.
+     *
      * @return void
      */
-    public static function all($pth, $cb)
-    {
+    public static function all(string $pth, callable $cb): void {
         self::add('all', $pth, $cb);
     }
 
     /**
      * Registers a GET route.
      *
-     * @param string $pth
-     * @param callable $cb
+     * @param string   $pth URI pattern.
+     * @param callable $cb  Callback.
+     *
      * @return void
      */
-    public static function get($pth, $cb)
-    {
+    public static function get(string $pth, callable $cb): void {
         self::add('get', $pth, $cb);
     }
 
     /**
      * Registers a POST route.
      *
-     * @param string $pth
-     * @param callable $cb
+     * @param string   $pth URI pattern.
+     * @param callable $cb  Callback.
+     *
      * @return void
      */
-    public static function post($pth, $cb)
-    {
+    public static function post(string $pth, callable $cb): void {
         self::add('post', $pth, $cb);
     }
 
     /**
      * Registers a PUT route.
      *
-     * @param string $pth
-     * @param callable $cb
+     * @param string   $pth URI pattern.
+     * @param callable $cb  Callback.
+     *
      * @return void
      */
-    public static function put($pth, $cb)
-    {
+    public static function put(string $pth, callable $cb): void {
         self::add('put', $pth, $cb);
     }
 
     /**
      * Registers a DELETE route.
      *
-     * @param string $pth
-     * @param callable $cb
+     * @param string   $pth URI pattern.
+     * @param callable $cb  Callback.
+     *
      * @return void
      */
-    public static function delete($pth, $cb)
-    {
+    public static function delete(string $pth, callable $cb): void {
         self::add('delete', $pth, $cb);
     }
 
     /**
-     * Registers automatic error callback executed if no route matches.
+     * Registers error callback executed if no route matches.
      *
-     * @param callable $cb
+     * @param callable $cb Error handler callback.
+     *
      * @return void
      */
-    public static function error(callable $cb): void
-    {
+    public static function error(callable $cb): void {
         self::$errorHandler = $cb;
-        if (self::$errorRegistered)
+        if (self::$errorRegistered) {
             return;
+        }
         self::$errorRegistered = true;
         register_shutdown_function(function () {
             $handler = Route::$errorHandler;
-            if (!$handler)
+            if (!$handler) {
                 return;
-            if (headers_sent())
+            }
+            if (headers_sent()) {
                 return;
+            }
             $code = http_response_code();
             if (!Route::$matched) {
                 $code = 404;
@@ -171,16 +194,15 @@ class Route
     }
 
     /**
-     * Protects a route with a simple password check. If the password matches,
-     * routing continues to the next matching route; otherwise responds 401.
+     * Protects a route with simple password check.
      *
-     * @param string $mth HTTP method
-     * @param string $pth URI pattern
-     * @param string $pwd Required password
+     * @param string $mth HTTP method.
+     * @param string $pth URI pattern.
+     * @param string $pwd Required password.
+     *
      * @return void
      */
-    public static function protect($mth, $pth, $pwd)
-    {
+    public static function protect(string $mth, string $pth, string $pwd): void {
         self::add($mth, $pth, function ($mtch) use ($pwd) {
             $provided = self::readPassword();
             if ($provided !== $pwd) {
@@ -195,37 +217,40 @@ class Route
     /**
      * Sets the parameter name used for authentication.
      *
-     * @param string $name
+     * @param string $name Parameter name.
+     *
      * @return void
      */
-    public static function setAuthParam(string $name)
-    {
+    public static function setAuthParam(string $name): void {
         self::$authParam = $name;
     }
 
     /**
-     * Extracts password provided by the user from query, form, or raw payload.
+     * Extracts password from query form or raw payload.
      *
-     * @return string|null
+     * @return string|null Password or null.
      */
-    private static function readPassword(): ?string
-    {
+    private static function readPassword(): ?string {
         $p = self::$authParam;
-        if (isset($_REQUEST[$p]))
+        if (isset($_REQUEST[$p])) {
             return (string) $_REQUEST[$p];
-        if (isset($_COOKIE[$p]))
+        }
+        if (isset($_COOKIE[$p])) {
             return (string) $_COOKIE[$p];
+        }
 
         $raw = self::readRawInput();
         if ($raw !== '') {
             parse_str($raw, $parsed);
-            if (isset($parsed[$p]))
+            if (isset($parsed[$p])) {
                 return (string) $parsed[$p];
+            }
 
             $json = json_decode($raw, true);
             if (is_array($json)) {
-                if (isset($json[$p]))
+                if (isset($json[$p])) {
                     return (string) $json[$p];
+                }
             }
         }
 
@@ -235,10 +260,9 @@ class Route
     /**
      * Reads raw request body once and caches it.
      *
-     * @return string
+     * @return string Request body.
      */
-    private static function readRawInput(): string
-    {
+    private static function readRawInput(): string {
         if (self::$inputCache !== null) {
             return self::$inputCache;
         }

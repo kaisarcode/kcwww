@@ -20,9 +20,7 @@
  * Supports caching, includes, inheritance, scoped blocks, and variable injection.
  * Designed for minimalism and full control without external dependencies.
  */
-class Template
-{
-
+class Template {
     public string $cache_dir;
     public bool $cache_enabled;
     public bool $trace_files;
@@ -34,8 +32,7 @@ class Template
      *
      * @param array|object $conf Optional configuration: cache_dir, cache_enabled, trace_files
      */
-    public function __construct(array|object $conf = [])
-    {
+    public function __construct(array|object $conf = []) {
         $conf = (array) $conf;
         $this->cache_dir = $conf['cache_dir'] ?? sys_get_temp_dir();
         $this->cache_enabled = $conf['cache_enabled'] ?? true;
@@ -46,8 +43,7 @@ class Template
     /**
      * @return array List of registered clause types
      */
-    private function getClauseNames(): array
-    {
+    private function getClauseNames(): array {
         $names = [];
         foreach ($this->clauses as $k => $v) {
             $names[] = $k;
@@ -60,8 +56,7 @@ class Template
      *
      * @param array $base_clauses List of clause types to register
      */
-    private function setClauses(): void
-    {
+    private function setClauses(): void {
         $this->clauses['include'] = "/{{@\s*(include)\s+([^\s\}]+)(?:\s+(.*?))?\s*}}/is";
         $this->clauses['var'] = "/{{@\s*(var)\s+([^\s\}]+)(?:\s+(.*?))?\s*}}/is";
         $this->clauses['setblock'] = "/{{@\s*(setblock)\b(.*?)}}(.*?){{@\s*endsetblock\b}}/is";
@@ -75,8 +70,7 @@ class Template
      * @param string $code Raw template code
      * @return array Matched clause definitions
      */
-    private function matchClause(string $type, string $code): array
-    {
+    private function matchClause(string $type, string $code): array {
         if (str_starts_with($type, 'set')) {
             $core = substr($type, 3);
             return $this->matchNestedClause($core, $code);
@@ -91,12 +85,11 @@ class Template
     /**
      * Parses and renders a template file.
      *
-     * @param string $file Template path
+     * @param string       $file Template path
      * @param array|object $data Data context
      * @return string Rendered output
      */
-    public function parse(string $file, array|object $data = []): string
-    {
+    public function parse(string $file, array|object $data = []): string {
         $data = (array) $data;
         $data = json_encode($data);
         $data = json_decode($data);
@@ -119,12 +112,11 @@ class Template
      * - .expanded.html: template with all includes resolved
      * - .php: fully compiled PHP template
      *
-     * @param string $file Absolute path to the template file
+     * @param string       $file Absolute path to the template file
      * @param array|object $data Contextual data available to the compiler
      * @return string Path to the compiled PHP file
      */
-    private function load(string $file, array|object $data): string
-    {
+    private function load(string $file, array|object $data): string {
         $blocks = [];
         $cdir = rtrim($this->cache_dir, '/');
         $cbase = str_replace('/', '_', $file);
@@ -153,14 +145,13 @@ class Template
     /**
      * Resolves all @include clauses recursively before compilation.
      *
-     * @param string $code Template code
+     * @param string       $code Template code
      * @param array|object $data Template variables
-     * @param string $file Current file path for error messages
+     * @param string       $file Current file path for error messages
      * @return string Template code with all includes inlined
      * @throws \RuntimeException If any include file is missing
      */
-    private function expandIncludes(string $code, array|object $data, string $file): string
-    {
+    private function expandIncludes(string $code, array|object $data, string $file): string {
         $matches = $this->matchClause('include', $code);
         foreach ($matches as $tag) {
             $expr = $tag[2];
@@ -181,13 +172,12 @@ class Template
      * Compiles template code into PHP.
      * Skips @include clauses (already resolved in expandIncludes).
      *
-     * @param string $code Template source code
-     * @param array|object $data Template variables
-     * @param array $blocks Block definitions for scoped context
+     * @param string       $code   Template source code
+     * @param array|object $data   Template variables
+     * @param array        $blocks Block definitions for scoped context
      * @return string PHP code
      */
-    private function compile(string $code, array|object $data, array &$blocks, string $file = '', array $stack = [], ?string $parent_id = null): string
-    {
+    private function compile(string $code, array|object $data, array &$blocks, string $file = '', array $stack = [], ?string $parent_id = null): string {
         $defs = [];
         foreach (array_keys($this->clauses) as $k) {
             if (str_starts_with($k, 'set')) {
@@ -221,15 +211,14 @@ class Template
      * Compiles an @include clause.
      * Throws if the target file does not exist.
      *
-     * @param string $code Current template code
-     * @param array|object $data Template data
-     * @param array $blocks Block context (unused here)
-     * @param array $tag Clause tokens
+     * @param string       $code   Current template code
+     * @param array|object $data   Template data
+     * @param array        $blocks Block context (unused here)
+     * @param array        $tag    Clause tokens
      * @return string Modified code with raw include content
      * @throws \RuntimeException When the include file is missing
      */
-    private function compileInclude(string $code, array|object $data, array &$blocks, array $tag, string $file): string
-    {
+    private function compileInclude(string $code, array|object $data, array &$blocks, array $tag, string $file): string {
         $expr = $tag[2];
         $clau = strtolower($tag[1]);
         $ifile = $this->evald($expr, $data);
@@ -249,14 +238,13 @@ class Template
      * Compiles a @setblock clause and stores it in scoped context.
      * Supports {{@parent}} placeholder for inheritance.
      *
-     * @param string $code Template code
-     * @param array|object $data Template data
-     * @param array $blocks Scoped block context
-     * @param array $tag Clause tokens
+     * @param string       $code   Template code
+     * @param array|object $data   Template data
+     * @param array        $blocks Scoped block context
+     * @param array        $tag    Clause tokens
      * @return string Code with clause removed
      */
-    private function compileSetblock(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = []): string
-    {
+    private function compileSetblock(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = []): string {
         $name = $tag[2] ?? '';
         $content = $tag[3] ?? '';
         $clau = strtolower($tag[1]);
@@ -272,15 +260,14 @@ class Template
      * Compiles a @block clause using scoped context only.
      * Tracks parent block context and assigns unique ID per invocation.
      *
-     * @param string $code Template code
-     * @param array|object $data Template data
-     * @param array $blocks Scoped block context
-     * @param array $tag Clause tokens
+     * @param string       $code   Template code
+     * @param array|object $data   Template data
+     * @param array        $blocks Scoped block context
+     * @param array        $tag    Clause tokens
      * @return string Code with compiled block content
      * @throws \RuntimeException If the block is not defined
      */
-    private function compileBlock(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = [], ?string $parent_id = null): string
-    {
+    private function compileBlock(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = [], ?string $parent_id = null): string {
         $name = $tag[2] ?? '';
         $expr = $tag[3] ?? '';
         $clau = strtolower($tag[1]);
@@ -302,14 +289,13 @@ class Template
     /**
      * Wraps compiled code in an isolated closure with block-aware variable scoping.
      *
-     * @param string $code Compiled template code to scope
-     * @param string $expr Variable expression string (e.g., ['c' => $a])
-     * @param string|null $block_id Unique block ID (optional)
+     * @param string      $code      Compiled template code to scope
+     * @param string      $expr      Variable expression string (e.g., ['c' => $a])
+     * @param string|null $block_id  Unique block ID (optional)
      * @param string|null $parent_id Parent block ID or null (optional)
      * @return string PHP closure-wrapped block
      */
-    private function scopeBlock(string $code, string $expr = '', ?string $block_id = null, ?string $parent_id = null): string
-    {
+    private function scopeBlock(string $code, string $expr = '', ?string $block_id = null, ?string $parent_id = null): string {
         $expr = $this->sanitize($expr);
         $id = $this->id_context;
         $out = [];
@@ -333,13 +319,12 @@ class Template
     /**
      * Replaces all inline block references with scoped closures.
      *
-     * @param string $code Template source code
-     * @param array $stack Current block stack
-     * @param array $blocks All defined blocks
+     * @param string $code   Template source code
+     * @param array  $stack  Current block stack
+     * @param array  $blocks All defined blocks
      * @return string Code with block references compiled
      */
-    private function compileBlockRef(string $code, array $stack, array &$blocks): string
-    {
+    private function compileBlockRef(string $code, array $stack, array &$blocks): string {
         $offset = 0;
         while (($at = strpos($code, '@', $offset)) !== false) {
             if (!preg_match('/@([a-zA-Z_][a-zA-Z0-9_]*)/', $code, $m, 0, $at)) {
@@ -369,13 +354,12 @@ class Template
     /**
      * Extracts array Block ref expressions and its args.
      *
-     * @param string $code Full template code
-     * @param int $start Offset where match starts (used to extract full)
-     * @param int $name Position where block starts (e.g., @foo)
+     * @param string  $code  Full template code
+     * @param integer $start Offset where match starts (used to extract full)
+     * @param integer $name  Position where block starts (e.g., @foo)
      * @return array [$full, $args]
      */
-    private function extractBlockRef(string $code, int $start, int $name): array
-    {
+    private function extractBlockRef(string $code, int $start, int $name): array {
         $block = '';
         $i = $name;
         $len = strlen($code);
@@ -418,13 +402,12 @@ class Template
      * Used in compileBlockRef to inject a block call as a closure expression.
      * Wraps the block call with its own scoped variable context using $argsPhp.
      *
-     * @param string $path Resolved block path
-     * @param string $key Parameter key used in the parent block
+     * @param string $path    Resolved block path
+     * @param string $key     Parameter key used in the parent block
      * @param string $argsPhp Argument array expression (already sanitized)
      * @return string PHP expression that renders the block output
      */
-    private function scopeBlockRef(string $path, string $key, string $argsPhp): string
-    {
+    private function scopeBlockRef(string $path, string $key, string $argsPhp): string {
         return ($key !== 'block' ? "'$key' => " : '') . "(function() use (\${$this->id_context}) {
         ob_start(); extract(\${$this->id_context}, EXTR_SKIP);
         \$__data = array_merge(\${$this->id_context}, $argsPhp);
@@ -435,14 +418,13 @@ class Template
     /**
      * Compiles a @var clause and injects it into the scoped block context.
      *
-     * @param string $code Template code
-     * @param array|object $data Template data
-     * @param array $blocks Block context
-     * @param array $tag Clause tokens
+     * @param string       $code   Template code
+     * @param array|object $data   Template data
+     * @param array        $blocks Block context
+     * @param array        $tag    Clause tokens
      * @return string Code with variable assignment injected
      */
-    private function compileVar(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = [], ?string $parent_id = null): string
-    {
+    private function compileVar(string $code, array|object $data, array &$blocks, array $tag, string $file = '', array $stack = [], ?string $parent_id = null): string {
         $name = $tag[2] ?? '';
         $expr = $tag[3] ?? "''";
         $block_id = $parent_id ??
@@ -459,8 +441,7 @@ class Template
      * @param string $code Template code
      * @return string PHP-transformed code
      */
-    private function compilePhp(string $code): string
-    {
+    private function compilePhp(string $code): string {
         $rx = $this->getClauseNames();
         $rx = implode('|', array_map(function ($c) {
             return "$c\\b";
@@ -478,8 +459,7 @@ class Template
      * @param string $code Template code
      * @return string Code with echo statements
      */
-    private function compileEcho(string $code): string
-    {
+    private function compileEcho(string $code): string {
         $rx = $this->getClauseNames();
         $rx = implode('|', array_map(function ($c) {
             return "$c\\b";
@@ -495,8 +475,9 @@ class Template
             $parts = explode('.', $expr);
             $base = '$' . array_shift($parts);
             foreach ($parts as $p) {
-                if ($p === '')
+                if ($p === '') {
                     continue;
+                }
                 $base .= ctype_digit($p) ? '[' . $p . ']' : '->' . $p;
             }
             return "<?php echo $base ?>";
@@ -510,8 +491,7 @@ class Template
      * @param string $code Template source code
      * @return array Matched nested clause blocks
      */
-    private function matchNestedClause(string $type, string $code): array
-    {
+    private function matchNestedClause(string $type, string $code): array {
         $offset = 0;
         $matches = [];
         $rx_open = '/{{@\s*set' . $type . '\b(.*?)}}/i';
@@ -537,13 +517,12 @@ class Template
     /**
      * Finds the next opening clause tag.
      *
-     * @param string $code Template source code
-     * @param string $rx_open Regex for opening clause
-     * @param int &$offset Offset for scanning (updated)
+     * @param string  $code    Template source code
+     * @param string  $rx_open Regex for opening clause
+     * @param integer &$offset Offset for scanning (updated)
      * @return array|null Match tuple or null if not found
      */
-    private function findOpenTag(string $code, string $rx_open, int &$offset): ?array
-    {
+    private function findOpenTag(string $code, string $rx_open, int &$offset): ?array {
         if (!preg_match($rx_open, $code, $open, PREG_OFFSET_CAPTURE, $offset)) {
             return null;
         }
@@ -557,13 +536,12 @@ class Template
     /**
      * Finds the matching end clause tag.
      *
-     * @param string $code Template source code
-     * @param string $rx_tag Regex for both open/close tags
-     * @param int &$offset Offset for scanning (updated)
+     * @param string  $code    Template source code
+     * @param string  $rx_tag  Regex for both open/close tags
+     * @param integer &$offset Offset for scanning (updated)
      * @return array|null Tuple [tag_length, depth] or null
      */
-    private function findEndTag(string $code, string $rx_tag, int &$offset): ?array
-    {
+    private function findEndTag(string $code, string $rx_tag, int &$offset): ?array {
         $depth = 1;
         while ($depth > 0 && preg_match($rx_tag, $code, $tag, PREG_OFFSET_CAPTURE, $offset)) {
             $tag_name = strtolower(trim($tag[1][0]));
@@ -577,12 +555,11 @@ class Template
     /**
      * Resolves the block path by traversing scope hierarchy upwards.
      *
-     * @param array $blocks All defined blocks
-     * @param string $name Block name being requested
+     * @param array  $blocks All defined blocks
+     * @param string $name   Block name being requested
      * @return string|null Fully resolved block path or null if not found
      */
-    private function resolveBlockPath(array $blocks, string $name, array $stack): ?string
-    {
+    private function resolveBlockPath(array $blocks, string $name, array $stack): ?string {
         $name = trim($name, '/');
         while (true) {
             $path = array_merge($stack, [$name]);
@@ -603,8 +580,7 @@ class Template
      *
      * @return string Current block path
      */
-    private function getCurrentBlockPath(array $stack): string
-    {
+    private function getCurrentBlockPath(array $stack): string {
         $parts = array_filter($stack);
         return '/' . implode('/', $parts);
     }
@@ -615,8 +591,7 @@ class Template
      * @param string $expr Raw expression
      * @return string Sanitized expression
      */
-    private function sanitize(string $expr): string
-    {
+    private function sanitize(string $expr): string {
         $rx = '/<\?(php|=)?|{{@/';
         $unsafe = preg_match($rx, $expr);
         if ($unsafe) {
@@ -628,17 +603,16 @@ class Template
     /**
      * Evaluates a PHP expression within a given context.
      *
-     * @param string $expr PHP expression
+     * @param string       $expr PHP expression
      * @param array|object $data Variables context
      * @return mixed Evaluated result
      */
-    private function evald(string $expr, array|object $data)
-    {
+    private function evald(string $expr, array|object $data) {
         $res = '';
         $expr = $this->sanitize($expr);
         extract((array) $data, EXTR_SKIP);
         try {
-            $res = eval ("return $expr;");
+            $res = eval("return $expr;");
         } catch (\Throwable $e) {
             $res = '';
         }
@@ -651,8 +625,7 @@ class Template
      * @param mixed $item
      * @return mixed
      */
-    private function toArray(mixed $item): mixed
-    {
+    private function toArray(mixed $item): mixed {
         if (is_object($item)) {
             return $this->toArray((array) $item);
         }
@@ -672,12 +645,10 @@ class Template
      * @param string $next Optional content to append after the trace
      * @return string Trace comment followed by the given content
      */
-    private function trace(string $name, string $desc, string $next = ''): string
-    {
+    private function trace(string $name, string $desc, string $next = ''): string {
         $trace = '';
         $this->trace_files &&
             $trace = "<!-- @$name: $desc -->\n";
         return $trace . $next;
     }
-
 }

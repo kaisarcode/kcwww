@@ -3,22 +3,19 @@
  * Test suite for Img utility
  */
 
-require_once __DIR__.'/../Img.php';
+require_once __DIR__ . '/../Img.php';
 
-class ImgTest
-{
+class ImgTest {
     private int $passed = 0;
     private int $failed = 0;
     private string $tempDir;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->tempDir = sys_get_temp_dir() . '/core_img_test_' . uniqid();
         mkdir($this->tempDir);
     }
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->checkRequirements();
         $this->testResizePng();
         // SVG testing requires rsvg-convert, might not be present.
@@ -29,33 +26,28 @@ class ImgTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function skip(string $msg): void
-    {
+    private function skip(string $msg): void {
         echo "\033[1;33m[SKIP]\033[0m $msg\n";
     }
 
-    private function checkRequirements(): void
-    {
+    private function checkRequirements(): void {
         if (!extension_loaded('imagick') && !extension_loaded('gd')) {
             $this->fail("No ImageMagick or GD extension found");
             exit(1);
         }
     }
 
-    private function testResizePng(): void
-    {
+    private function testResizePng(): void {
         if (!extension_loaded('gd')) {
             $this->skip("GD not loaded, skipping generation of test image");
             return;
@@ -99,8 +91,7 @@ class ImgTest
         }
     }
 
-    private function cleanup(): void
-    {
+    private function cleanup(): void {
         // Recursive delete temp dir
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($this->tempDir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -115,8 +106,7 @@ class ImgTest
         rmdir($this->tempDir);
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

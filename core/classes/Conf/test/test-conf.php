@@ -3,15 +3,13 @@
  * Test suite for Conf utility
  */
 
-require_once __DIR__.'/../Conf.php';
+require_once __DIR__ . '/../Conf.php';
 
-class ConfTest
-{
+class ConfTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testSetGet();
         $this->testNested();
         $this->testDefault();
@@ -22,20 +20,17 @@ class ConfTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testSetGet(): void
-    {
+    private function testSetGet(): void {
         Conf::set('test.key', 'value');
         $val = Conf::get('test.key');
 
@@ -46,8 +41,7 @@ class ConfTest
         }
     }
 
-    private function testNested(): void
-    {
+    private function testNested(): void {
         Conf::set('app.db.host', 'localhost');
         Conf::set('app.db.port', 3306);
 
@@ -61,8 +55,7 @@ class ConfTest
         }
     }
 
-    private function testDefault(): void
-    {
+    private function testDefault(): void {
         $val = Conf::get('nonexistent', 'default');
 
         if ($val === 'default') {
@@ -72,8 +65,7 @@ class ConfTest
         }
     }
 
-    private function testDelete(): void
-    {
+    private function testDelete(): void {
         Conf::set('temp.key', 'temp');
         Conf::del('temp.key');
         $val = Conf::get('temp.key');
@@ -85,8 +77,7 @@ class ConfTest
         }
     }
 
-    private function testHidden(): void
-    {
+    private function testHidden(): void {
         Conf::set('secret', 'password', true);
         $all = Conf::all();
         $allWithHidden = Conf::all(true);
@@ -98,8 +89,7 @@ class ConfTest
         }
     }
 
-    private function testArray(): void
-    {
+    private function testArray(): void {
         Conf::set(['key1' => 'val1', 'key2' => 'val2']);
 
         $val1 = Conf::get('key1');
@@ -112,8 +102,7 @@ class ConfTest
         }
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

@@ -1,7 +1,7 @@
 <?php
 /**
  * Bundler - Asset bundling utility
- * Summary: Provides methods to bundle and inline CSS and JavaScript files, resolving dependencies recursively.
+ * Summary: Provides methods to bundle and inline CSS and JavaScript files.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,37 +14,32 @@
  */
 
 /**
- * Asset bundling utility
+ * Asset bundling utility.
  */
-class Bundler
-{
+class Bundler {
     /**
-     * Bundles CSS files by resolving @import statements and CSS variables.
-     * Replaces @import url("file.css") with file content recursively.
-     * Replaces var(--name) with :root definitions.
+     * Bundles CSS files by resolving @import and CSS variables.
      *
-     * @param string $file Path to entry CSS file
-     * @return string Bundled CSS content
+     * @param string $file Path to entry CSS file.
+     *
+     * @return string Bundled CSS content.
      */
-    public static function css(string $file): string
-    {
+    public static function css(string $file): string {
         $content = self::inlineCssImports($file);
         return self::resolveCssVars($content);
     }
 
     /**
      * Bundles JS files by resolving ES module imports.
-     * Recursively replaces "import ... from 'file.js'" with file contents.
-     * Strips "export default X" to create a single script.
      *
-     * @param string $file Path to entry JS file
-     * @return string Bundled JS content
+     * @param string $file Path to entry JS file.
+     *
+     * @return string Bundled JS content.
      */
-    public static function js(string $file): string
-    {
+    public static function js(string $file): string {
         $baseDir = dirname($file);
         $str = file_get_contents($file);
-        $pattern = '/import\s+[^;]*?["\'](.*?)["\']\s*;/';
+        $pattern = '/import\s+[^;]*?["\'](.+?)["\']\s*;/';
 
         $str = preg_replace_callback(
             $pattern,
@@ -53,48 +48,51 @@ class Bundler
                 if (!$importPath || !is_file($importPath)) {
                     return '';
                 }
-                // Recursively call js() on imported file to resolve its own imports
-                // Note: The original Js implementation called self::replaceImports (recursive).
-                // We need to allow recursion here, but 'js' strips exports too.
-                // To be safe, let's process imports first, then strip exports at the end level?
-                // Actually, the previous implementation did recursion on the REPLACEMENT logic.
-                // We should separate the recursive inlining from the top-level specific processing if needed.
-                // BUT, looking at the logic: each file needs imports resolved.
-                // So calling self::js($importPath) works recursively.
                 return self::js($importPath);
             },
             $str
         );
 
         // Strip exports
-        $str = preg_replace('/export\s+default\s+[A-Za-z_][A-Za-z0-9_]*\s*;?/', '', $str);
+        $str = preg_replace(
+            '/export\s+default\s+[A-Za-z_][A-Za-z0-9_]*\s*;?/',
+            '',
+            $str
+        );
         return $str;
     }
 
     /**
-     * Internal: Inline CSS imports recursively
+     * Internal inline CSS imports recursively.
+     *
+     * @param string $file Path to CSS file.
+     *
+     * @return string Inlined CSS content.
      */
-    private static function inlineCssImports(string $file): string
-    {
+    private static function inlineCssImports(string $file): string {
         $baseDir = dirname($file);
         $str = file_get_contents($file);
-        $pattern = '/@import\s+url\(["\']?(.*?)["\']?\)\s*;/';
+        $pattern = '/@import\s+url\(["\']?(.+?)["\']?\)\s*;/';
 
         return preg_replace_callback($pattern, function ($m) use ($baseDir) {
             $importPath = realpath($baseDir . '/' . $m[1]);
-            if (!$importPath || !is_file($importPath))
+            if (!$importPath || !is_file($importPath)) {
                 return '';
+            }
             return self::inlineCssImports($importPath);
         }, $str);
     }
 
     /**
-     * Internal: Resolve CSS variables from :root
+     * Internal resolve CSS variables from root.
+     *
+     * @param string $str CSS content.
+     *
+     * @return string Resolved CSS content.
      */
-    private static function resolveCssVars(string $str): string
-    {
+    private static function resolveCssVars(string $str): string {
         $vars = [];
-        $rootBlockPattern = '/:root\s*{(.*?)}/s';
+        $rootBlockPattern = '/:root\s*{(.+?)}/s';
         $varDefPattern = '/--([\w-]+)\s*:\s*([^;]+);/';
         $varUsePattern = '/var\(--([\w-]+)\)/';
 
@@ -105,7 +103,6 @@ class Bundler
             foreach ($definitions as $def) {
                 $vars[$def[1]] = trim($def[2]);
             }
-            // Optional: Remove :root blocks? Old implementation did.
             $str = str_replace($match[0], '', $str);
         }
 

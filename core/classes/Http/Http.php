@@ -1,7 +1,7 @@
 <?php
 /**
  * Http - HTTP utilities
- * Summary: Provides utilities for HTTP operations including headers, requests, routing, and response handling
+ * Summary: Provides utilities for HTTP operations and response handling.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,118 +14,129 @@
  */
 
 /**
- * HTTP utilities
+ * HTTP utilities.
  */
-class Http
-{
-
+class Http {
     /**
-     * Allow cross-origin requests
+     * Allow cross-origin requests.
      *
-     * @param string $origin
+     * @param string $origin Origin to allow.
+     *
+     * @return void
      */
-    static function allowOrigin(string $origin = '*'): void
-    {
+    public static function allowOrigin(string $origin = '*'): void {
         header("Access-Control-Allow-Origin: $origin");
         header('Access-Control-Allow-Headers: Content-Type');
     }
 
     /**
-     * Set response header to JSON
+     * Set response header to JSON.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderJson(string $charset = 'utf-8')
-    {
+    public static function setHeaderJson(string $charset = 'utf-8'): void {
         header("Content-Type: application/json; charset=$charset");
     }
 
     /**
-     * Set response header to HTML
+     * Set response header to HTML.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderHtml(string $charset = 'utf-8')
-    {
+    public static function setHeaderHtml(string $charset = 'utf-8'): void {
         header("Content-Type: text/html; charset=$charset");
     }
 
     /**
-     * Set response header to XML
+     * Set response header to XML.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderXml(string $charset = 'utf-8')
-    {
+    public static function setHeaderXml(string $charset = 'utf-8'): void {
         header("Content-Type: text/xml; charset=$charset");
     }
 
     /**
-     * Set response header to plain text
+     * Set response header to plain text.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderText(string $charset = 'utf-8')
-    {
+    public static function setHeaderText(string $charset = 'utf-8'): void {
         header("Content-Type: text/plain; charset=$charset");
     }
 
     /**
-     * Set response header to JavaScript
+     * Set response header to JavaScript.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderJs(string $charset = 'utf-8')
-    {
+    public static function setHeaderJs(string $charset = 'utf-8'): void {
         header("Content-Type: text/javascript; charset=$charset");
     }
 
     /**
-     * Set response header to CSS
+     * Set response header to CSS.
      *
-     * @param string $charset
+     * @param string $charset Character set.
+     *
+     * @return void
      */
-    static function setHeaderCss(string $charset = 'utf-8')
-    {
+    public static function setHeaderCss(string $charset = 'utf-8'): void {
         header("Content-Type: text/css; charset=$charset");
     }
 
     /**
-     * Set response header to PNG image
+     * Set response header to PNG image.
+     *
+     * @return void
      */
-    static function setHeaderPng(): void
-    {
+    public static function setHeaderPng(): void {
         header("Content-Type: image/png;");
     }
 
     /**
-     * Set response header to WebP image
+     * Set response header to WebP image.
+     *
+     * @return void
      */
-    static function setHeaderWebp(): void
-    {
+    public static function setHeaderWebp(): void {
         header("Content-Type: image/webp;");
     }
 
     /**
-     * Set cache control headers
+     * Set cache control headers.
      *
-     * @param int $ttl
+     * @param integer $ttl Time to live in seconds.
+     *
+     * @return void
      */
-    static function setHeaderCache(int $ttl = 0): void
-    {
-        $ttl === 0 ?
-            header("Cache-Control: no-cache") :
+    public static function setHeaderCache(int $ttl = 0): void {
+        if ($ttl === 0) {
+            header("Cache-Control: no-cache");
+        } else {
             header("Cache-Control: max-age=$ttl");
+        }
     }
 
     /**
-     * Set Content Security Policy headers
+     * Set Content Security Policy headers.
      *
-     * @param array $custom Custom directives (e.g. ['img-src' => 'https://example.com'])
-     * @param bool $strict Enable strict mode
+     * @param boolean $strict Enable strict mode.
+     * @param array   $custom Custom directives.
+     *
+     * @return void
      */
-    static function setHeaderCsp(bool $strict = false, array $custom = []): void
-    {
+    public static function setHeaderCsp(bool $strict = false, array $custom = []): void {
         $policy = [
             'default-src' => ["'self'"],
             'script-src' => ["'self'"],
@@ -156,105 +167,117 @@ class Http
     }
 
     /**
-     * Set HSTS security header
+     * Set HSTS security header.
+     *
+     * @param integer $ttl Time to live in seconds.
+     *
+     * @return void
      */
-    static function setHeaderHsts(int $ttl = 31536000): void
-    {
+    public static function setHeaderHsts(int $ttl = 31536000): void {
         header("Strict-Transport-Security: max-age=$ttl; includeSubDomains; preload");
     }
 
     /**
-     * Set Cross-Origin-Opener-Policy header
+     * Set Cross-Origin-Opener-Policy header.
+     *
+     * @return void
      */
-    static function setHeaderCoop(): void
-    {
+    public static function setHeaderCoop(): void {
         header('Cross-Origin-Opener-Policy: same-origin');
     }
 
     /**
-     * Prevent page from being embedded in iframes
+     * Prevent page from being embedded in iframes.
+     *
+     * @return void
      */
-    static function setHeaderXfo(): void
-    {
+    public static function setHeaderXfo(): void {
         header('X-Frame-Options: DENY');
     }
 
     /**
-     * Prevent indexing by robots
+     * Prevent indexing by robots.
+     *
+     * @return void
      */
-    static function noRobots(): void
-    {
+    public static function noRobots(): void {
         header('X-Robots-Tag: noindex, nofollow');
     }
 
     /**
-     * Set 404 Not Found response
+     * Set 404 Not Found response.
+     *
+     * @return void
      */
-    static function set404(): void
-    {
+    public static function set404(): void {
         header('HTTP/1.1 404 Not Found', true, 404);
     }
 
     /**
-     * Set 403 Forbidden response
+     * Set 403 Forbidden response.
+     *
+     * @return void
      */
-    static function set403(): void
-    {
+    public static function set403(): void {
         header('HTTP/1.1 403 Forbidden', true, 403);
     }
 
     /**
-     * Set 401 Unauthorized response
+     * Set 401 Unauthorized response.
+     *
+     * @return void
      */
-    static function set401(): void
-    {
+    public static function set401(): void {
         header('HTTP/1.1 401 Unauthorized', true, 401);
     }
 
     /**
-     * Set 400 Bad Request response
+     * Set 400 Bad Request response.
+     *
+     * @return void
      */
-    static function set400(): void
-    {
+    public static function set400(): void {
         header('HTTP/1.1 400 Bad Request', true, 400);
     }
 
     /**
-     * Set 200 OK response
+     * Set 200 OK response.
+     *
+     * @return void
      */
-    static function set200(): void
-    {
+    public static function set200(): void {
         header('HTTP/1.1 200 OK', true, 200);
     }
 
     /**
-     * Set HTTP response code
+     * Set HTTP response code.
      *
-     * @param int $code
+     * @param integer $code HTTP status code.
+     *
+     * @return void
      */
-    static function setResponseCode(int $code): void
-    {
+    public static function setResponseCode(int $code): void {
         http_response_code($code);
     }
 
     /**
-     * Get current HTTP response code
+     * Get current HTTP response code.
      *
-     * @return int
+     * @return integer Response code.
      */
-    static function getResponseCode(): int
-    {
+    public static function getResponseCode(): int {
         return http_response_code() ?: 200;
     }
 
     /**
-     * Redirect to a URL
+     * Redirect to a URL.
      *
-     * @param string $url
-     * @param bool $is301
+     * @param string  $url   Destination URL.
+     * @param boolean $is301 Use permanent redirect.
+     *
+     * @return void
      */
-    static function redirect(string $url, bool $is301 = false): void
-    {
+    public static function redirect(string $url, bool $is301 = false): void {
         $url = self::cleanPath($url);
         if ($is301) {
             header('HTTP/1.1 301 Moved Permanently');
@@ -264,18 +287,20 @@ class Http
     }
 
     /**
-     * Reload the current page
+     * Reload the current page.
+     *
+     * @return void
      */
-    static function refresh(): void
-    {
+    public static function refresh(): void {
         header("Refresh:0");
     }
 
     /**
-     * Force HTTPS redirection
+     * Force HTTPS redirection.
+     *
+     * @return void
      */
-    static function forceHttps(): void
-    {
+    public static function forceHttps(): void {
         if (
             (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') &&
             @fsockopen($_SERVER['HTTP_HOST'], 443, $e, $s, 1)
@@ -287,15 +312,17 @@ class Http
     }
 
     /**
-     * Force download of a file
+     * Force download of a file.
      *
-     * @param string $path
-     * @param string $mime
+     * @param string $path Path to file.
+     * @param string $mime MIME type.
+     *
+     * @return void
      */
-    static function downloadFile(string $path, string $mime): void
-    {
-        if (!file_exists($path))
+    public static function downloadFile(string $path, string $mime): void {
+        if (!file_exists($path)) {
             return;
+        }
         $filename = basename($path);
         $size = filesize($path);
         header("Content-Type: $mime");
@@ -306,10 +333,11 @@ class Http
     }
 
     /**
-     * Clear browser cache
+     * Clear browser cache.
+     *
+     * @return void
      */
-    static function clearBrowserCache(): void
-    {
+    public static function clearBrowserCache(): void {
         header('Pragma: no-cache');
         header('Cache: no-cache');
         header('Expires: Mon, 01 Jan 1970 00:00:00 GMT');
@@ -318,66 +346,66 @@ class Http
     }
 
     /**
-     * Get base URI
+     * Get base URI.
      *
-     * @return string
+     * @return string Base URI with protocol.
      */
-    static function getBaseUri(): string
-    {
-        $scheme = (isset($_SERVER['HTTPS']) &&
-            $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+    public static function getBaseUri(): string {
+        $scheme = 'http';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $scheme = 'https';
+        }
         return $scheme . '://' . $_SERVER['HTTP_HOST'];
     }
 
     /**
-     * Get URI path
+     * Get URI path.
      *
-     * @return string
+     * @return string Path component.
      */
-    static function getPathUri(): string
-    {
+    public static function getPathUri(): string {
         $url = $_SERVER['REQUEST_URI'] ?? '/';
         $parsedUrl = parse_url($url);
-        if (!is_array($parsedUrl) || !isset($parsedUrl['path']))
+        if (!is_array($parsedUrl) || !isset($parsedUrl['path'])) {
             return '/';
+        }
         $cleanPath = self::cleanPath($parsedUrl['path']);
         $cleanPath = rtrim($cleanPath, '/');
         return $cleanPath === '' ? '/' : $cleanPath;
     }
 
     /**
-     * Get the previous path segment link
+     * Get the previous path segment link.
      *
-     * @return string
+     * @return string Parent path.
      */
-    static function getPathBack(): string
-    {
+    public static function getPathBack(): string {
         $path = self::getPathUri();
-        if ($path === '/')
+        if ($path === '/') {
             return '';
+        }
         $segments = explode('/', trim($path, '/'));
         array_pop($segments);
         return $segments ? '/' . implode('/', $segments) : '/';
     }
 
     /**
-     * Get URI
+     * Get URI.
      *
-     * @return string
+     * @return string Full URI.
      */
-    static function getUri(): string
-    {
+    public static function getUri(): string {
         return self::getBaseUri() . self::getPathUri();
     }
 
     /**
-     * Get browser language
+     * Get browser language.
      *
-     * @param string $df
-     * @return string
+     * @param string $df Default language.
+     *
+     * @return string Language code.
      */
-    static function getBrowserLang(string $df = 'en'): string
-    {
+    public static function getBrowserLang(string $df = 'en'): string {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $al = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
             return substr($al, 0, 2);
@@ -386,34 +414,35 @@ class Http
     }
 
     /**
-     * Get HTTP method
+     * Get HTTP method.
      *
-     * @return string
+     * @return string Request method.
      */
-    static function getHttpMethod(): string
-    {
+    public static function getHttpMethod(): string {
         return $_SERVER['REQUEST_METHOD'] ?? 'GET';
     }
 
     /**
-     * Get raw request body
+     * Get raw request body.
      *
-     * @return string
+     * @param boolean $decode Decode as JSON.
+     *
+     * @return string Request body.
      */
-    static function getHttpBody(bool $decode = false): string
-    {
+    public static function getHttpBody(bool $decode = false): string {
         $out = file_get_contents('php://input');
-        $decode && $out = json_decode($out);
+        if ($decode) {
+            $out = json_decode($out);
+        }
         return $out;
     }
 
     /**
-     * Get GET, POST, COOKIE variables
+     * Get GET POST COOKIE variables.
      *
-     * @return array
+     * @return array Merged variables.
      */
-    static function getHttpVars(): array
-    {
+    public static function getHttpVars(): array {
         $out = [];
         foreach ($_POST as $k => $v) {
             $out[$k] = $v;
@@ -432,12 +461,11 @@ class Http
     }
 
     /**
-     * Get merged HTTP parameters from JSON body and GET/POST
+     * Get merged HTTP parameters from JSON body and GET POST.
      *
-     * @return array
+     * @return array Merged parameters.
      */
-    static function getHttpParams(): array
-    {
+    public static function getHttpParams(): array {
         $body = json_decode(self::getHttpBody(), true);
         $body = is_array($body) ? $body : [];
         $vars = self::getHttpVars();
@@ -445,47 +473,52 @@ class Http
     }
 
     /**
-     * Get a single HTTP var by key
+     * Get a single HTTP var by key.
      *
-     * @param string $k
-     * @param mixed $default
-     * @return mixed
+     * @param string $k       Variable key.
+     * @param mixed  $default Default value.
+     *
+     * @return mixed Variable value.
      */
-    static function getHttpVar(string $k = '', $default = '')
-    {
-        if ($k === '')
+    public static function getHttpVar(string $k = '', mixed $default = '') {
+        if ($k === '') {
             return $default;
-        if (isset($_GET[$k]))
+        }
+        if (isset($_GET[$k])) {
             return $_GET[$k];
-        if (isset($_POST[$k]))
+        }
+        if (isset($_POST[$k])) {
             return $_POST[$k];
-        if (isset($_COOKIE[$k]))
+        }
+        if (isset($_COOKIE[$k])) {
             return $_COOKIE[$k];
+        }
         return $default;
     }
 
     /**
-     * Check if a single HTTP var exists
+     * Check if a single HTTP var exists.
      *
-     * @param string $k
-     * @return bool
+     * @param string $k Variable key.
+     *
+     * @return boolean True if exists.
      */
-    static function issetHttpVar(string $k = ''): bool
-    {
-        if ($k === '')
+    public static function issetHttpVar(string $k = ''): bool {
+        if ($k === '') {
             return false;
-        if (isset($_POST[$k]) || isset($_GET[$k]) || isset($_COOKIE[$k]))
+        }
+        if (isset($_POST[$k]) || isset($_GET[$k]) || isset($_COOKIE[$k])) {
             return true;
+        }
         return false;
     }
 
     /**
-     * Get bearer token from Authorization header
+     * Get bearer token from Authorization header.
      *
-     * @return string
+     * @return string Bearer token.
      */
-    static function getBearerToken(): string
-    {
+    public static function getBearerToken(): string {
         $header = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
         if (!$header && function_exists('getallheaders')) {
             $headers = getallheaders();
@@ -498,14 +531,13 @@ class Http
     }
 
     /**
-     * Get query string from $_GET, excluding 'q' and allowing overrides.
-     * Returns only the raw query (no leading '?'), HTML-escaped.
+     * Get query string from GET excluding q and allowing overrides.
      *
-     * @param array $override
-     * @return string
+     * @param array $override Override parameters.
+     *
+     * @return string Query string.
      */
-    static function getQueryString(array $override = []): string
-    {
+    public static function getQueryString(array $override = []): string {
         $params = $_GET;
         unset($params['q']);
         foreach ($override as $key => $value) {
@@ -516,23 +548,22 @@ class Http
     }
 
     /**
-     * Clean redundant slashes in a path or URL, preserving protocol double slashes
+     * Clean redundant slashes in a path or URL.
      *
-     * @param string $path
-     * @return string
+     * @param string $path Path to clean.
+     *
+     * @return string Cleaned path.
      */
-    static function cleanPath(string $path): string
-    {
+    public static function cleanPath(string $path): string {
         return preg_replace('#(?<!:)//+#', '/', $path);
     }
 
     /**
-     * Detect if request is from a mobile browser
+     * Detect if request is from a mobile browser.
      *
-     * @return bool
+     * @return boolean True if mobile.
      */
-    static function isMobile(): bool
-    {
+    public static function isMobile(): bool {
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return false;
         }
@@ -555,10 +586,15 @@ class Http
         return false;
     }
 
-    static function isStandardBrowser(): bool
-    {
-        if (!isset($_SERVER['HTTP_USER_AGENT']))
+    /**
+     * Detect if request is from a standard browser.
+     *
+     * @return boolean True if standard browser.
+     */
+    public static function isStandardBrowser(): bool {
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return false;
+        }
         $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
         $standard = [
             'chrome',
@@ -576,5 +612,4 @@ class Http
         }
         return false;
     }
-
 }

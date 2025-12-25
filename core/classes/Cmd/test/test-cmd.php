@@ -3,22 +3,19 @@
  * Test suite for Cmd utility
  */
 
-require_once __DIR__.'/../Cmd.php';
+require_once __DIR__ . '/../Cmd.php';
 
-class CmdTest
-{
+class CmdTest {
     private int $passed = 0;
     private int $failed = 0;
     private string $testCmd;
 
-    public function __construct()
-    {
+    public function __construct() {
         // Use /bin/echo as a safe test command
         $this->testCmd = '/bin/echo';
     }
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testRegister();
         $this->testExec();
         $this->testRun();
@@ -30,20 +27,17 @@ class CmdTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testRegister(): void
-    {
+    private function testRegister(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd);
 
@@ -54,8 +48,7 @@ class CmdTest
         }
     }
 
-    private function testExec(): void
-    {
+    private function testExec(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd);
 
@@ -68,8 +61,7 @@ class CmdTest
         }
     }
 
-    private function testRun(): void
-    {
+    private function testRun(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd);
 
@@ -82,8 +74,7 @@ class CmdTest
         }
     }
 
-    private function testTest(): void
-    {
+    private function testTest(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd);
 
@@ -96,8 +87,7 @@ class CmdTest
         }
     }
 
-    private function testWhitelist(): void
-    {
+    private function testWhitelist(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd);
         Cmd::register('test', '/bin/test');
@@ -111,8 +101,7 @@ class CmdTest
         }
     }
 
-    private function testArgumentValidation(): void
-    {
+    private function testArgumentValidation(): void {
         Cmd::clearWhitelist();
         Cmd::register('echo', $this->testCmd, ['allowed']);
 
@@ -132,8 +121,7 @@ class CmdTest
         }
     }
 
-    private function testInvalidCommand(): void
-    {
+    private function testInvalidCommand(): void {
         Cmd::clearWhitelist();
 
         try {
@@ -144,8 +132,7 @@ class CmdTest
         }
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

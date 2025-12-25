@@ -1,7 +1,7 @@
 <?php
 /**
  * Fs - Filesystem utilities
- * Summary: Provides utilities for file and directory operations
+ * Summary: Provides utilities for file and directory operations.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,63 +14,63 @@
  */
 
 /**
- * Filesystem utilities
+ * Filesystem utilities.
  */
-class Fs
-{
-
+class Fs {
     /**
-     * File get contents wrapper
+     * File get contents wrapper.
      *
-     * @param string $fl
-     * @param mixed $default value returned if file cannot be read
-     * @return string|mixed
+     * @param string $fl      File path.
+     * @param mixed  $default Value returned if file cannot be read.
+     *
+     * @return string|mixed File contents or default.
      */
-    static function get(string $fl, $default = null)
-    {
+    public static function get(string $fl, mixed $default = null) {
         $res = @file_get_contents($fl);
         return $res === false ? $default : $res;
     }
 
     /**
-     * List folders in directory
+     * List folders in directory.
      *
-     * @param string $dir
-     * @param int $rec
-     * @return array
+     * @param string  $dir Directory path.
+     * @param integer $rec Recursion flag.
+     *
+     * @return array Array of directory paths.
      */
-    static function lsDirs(string $dir, int $rec = 0): array
-    {
-        $arr = array();
-        $dir = new \DirectoryIterator($dir);
-        foreach ($dir as $d) {
+    public static function lsDirs(string $dir, int $rec = 0): array {
+        $arr = [];
+        $dirIterator = new \DirectoryIterator($dir);
+        foreach ($dirIterator as $d) {
             $pth = $d->getPathname();
-            $d->isDir() && !$d->isDot()
-                && array_push($arr, $pth) &&
-                $rec && $arr = array_merge
-                ($arr, self::lsDirs($pth));
+            if ($d->isDir() && !$d->isDot()) {
+                $arr[] = $pth;
+                if ($rec) {
+                    $arr = array_merge($arr, self::lsDirs($pth));
+                }
+            }
         }
         return $arr;
     }
 
     /**
-     * List files in directory
+     * List files in directory.
      *
-     * @param string $dir
-     * @param bool $rec
-     * @return array
+     * @param string  $dir Directory path.
+     * @param boolean $rec Recursive flag.
+     *
+     * @return array Array of file paths.
      */
-    static function lsFiles(string $dir, bool $rec = false): array
-    {
-        $arr = array();
+    public static function lsFiles(string $dir, bool $rec = false): array {
+        $arr = [];
         if (!is_dir($dir)) {
             return $arr;
         }
-        $dir = new \DirectoryIterator($dir);
-        foreach ($dir as $d) {
+        $dirIterator = new \DirectoryIterator($dir);
+        foreach ($dirIterator as $d) {
             $pth = $d->getPathname();
             if ($d->isFile()) {
-                array_push($arr, $pth);
+                $arr[] = $pth;
             } elseif ($d->isDir() && !$d->isDot() && $rec) {
                 $arr = array_merge($arr, self::lsFiles($pth, $rec));
             }
@@ -79,14 +79,14 @@ class Fs
     }
 
     /**
-     * Recursively create directory with permissions
+     * Recursively create directory with permissions.
      *
-     * @param string $dir
-     * @param int|null $perms
-     * @return bool
+     * @param string       $dir   Directory path.
+     * @param integer|null $perms Permissions.
+     *
+     * @return boolean True on success.
      */
-    static function mkdirp(string $dir, ?int $perms = null): bool
-    {
+    public static function mkdirp(string $dir, ?int $perms = null): bool {
         if (is_dir($dir)) {
             return true;
         }
@@ -100,7 +100,8 @@ class Fs
                     $path .= DIRECTORY_SEPARATOR;
                     continue;
                 }
-                $path .= ($path === DIRECTORY_SEPARATOR ? '' : DIRECTORY_SEPARATOR) . $part;
+                $sep = $path === DIRECTORY_SEPARATOR ? '' : DIRECTORY_SEPARATOR;
+                $path .= $sep . $part;
                 if (is_dir($path)) {
                     @chmod($path, $perms);
                 }
@@ -110,16 +111,21 @@ class Fs
     }
 
     /**
-     * Write contents to file, always using default permissions if not set
+     * Write contents to file with default permissions.
      *
-     * @param string $file
-     * @param string $contents
-     * @param int|null $perms
-     * @param bool $append
-     * @return bool
+     * @param string       $file     File path.
+     * @param string       $contents File contents.
+     * @param integer|null $perms    Permissions.
+     * @param boolean      $append   Append mode.
+     *
+     * @return boolean True on success.
      */
-    static function put(string $file, string $contents, ?int $perms = null, bool $append = false): bool
-    {
+    public static function put(
+        string $file,
+        string $contents,
+        ?int $perms = null,
+        bool $append = false
+    ): bool {
         $perms = $perms ?? 0777;
         $dir = dirname($file);
         self::mkdirp($dir, $perms);

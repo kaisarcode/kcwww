@@ -90,6 +90,6 @@ This project is the reference implementation for **KaisarCode Software Standards
 ---
 
 **Author:** KaisarCode  
-**Website:** [https://kaisarcode.com](https://kaisarcode.com)  
+**Website:** [kaisarcode.com](https://kaisarcode.com)  
 **License:** GNU GPL v3.0  
 © 2025 KaisarCode

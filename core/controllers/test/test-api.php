@@ -17,13 +17,11 @@ class TestModel extends Model {
     protected static string $table = 'testitems';
 }
 
-class ApiTest
-{
+class ApiTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         // Mock request environment
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
@@ -41,20 +39,17 @@ class ApiTest
         return $this->failed > 0 ? 1 : 0;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         printf("\033[0;32m[PASS]\033[0m %s\n", $msg);
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         printf("\033[0;31m[FAIL]\033[0m %s\n", $msg);
         $this->failed++;
     }
 
-    private function testListDummy(): void
-    {
+    private function testListDummy(): void {
         // Add a record first so we have data
         TestModel::create(['name' => 'API List Test'])->save();
 
@@ -74,8 +69,7 @@ class ApiTest
         }
     }
 
-    private function testCreateDummy(): void
-    {
+    private function testCreateDummy(): void {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['name'] = 'API Create Test';
 
@@ -98,8 +92,7 @@ class ApiTest
         unset($_POST['name']);
     }
 
-    private function testNotFound(): void
-    {
+    private function testNotFound(): void {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         ob_start();
         ApiController::handle('non_existent_model');

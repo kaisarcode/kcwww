@@ -1,7 +1,7 @@
 <?php
 /**
  * Cmd - Secure command execution adapter
- * Summary: Executes whitelisted system commands with argument validation
+ * Summary: Executes whitelisted system commands with argument validation.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -15,35 +15,31 @@
 
 /**
  * Secure command execution adapter with whitelisting.
- * 
- * Provides safe access to system commands (kcap/kcai apps) by:
- * - Whitelisting allowed commands
- * - Validating arguments
- * - Preventing command injection
- * - Capturing output and exit codes
  */
-class Cmd
-{
-
+class Cmd {
     /**
-     * Whitelist of allowed commands
-     * 
-     * @var array<string, array{path: string, args?: array<string>}>
+     * Whitelist of allowed commands.
+     *
+     * @var array
      */
     private static array $whitelist = [];
 
     /**
-     * Register a command in the whitelist
+     * Register a command in the whitelist.
      *
-     * @param string $name Command alias (e.g., 'nixi', 'kcai-search')
-     * @param string $path Full path to executable
-     * @param array<string> $allowedArgs Optional list of allowed arguments
+     * @param string $name        Command alias.
+     * @param string $path        Full path to executable.
+     * @param array  $allowedArgs Optional list of allowed arguments.
+     *
      * @return void
      */
-    public static function register(string $name, string $path, array $allowedArgs = []): void
-    {
+    public static function register(
+        string $name,
+        string $path,
+        array $allowedArgs = []
+    ): void {
         if (!file_exists($path) || !is_executable($path)) {
-            throw new \RuntimeException("Command not found or not executable: $path");
+            throw new \RuntimeException("Command not found: $path");
         }
 
         self::$whitelist[$name] = [
@@ -53,16 +49,19 @@ class Cmd
     }
 
     /**
-     * Execute a whitelisted command
+     * Execute a whitelisted command.
      *
-     * @param string $name Command alias
-     * @param array<string> $args Command arguments
-     * @param bool $captureOutput Whether to capture output (default: true)
-     * @return array{output: string, exit_code: int}
-     * @throws \RuntimeException If command not whitelisted or args invalid
+     * @param string  $name          Command alias.
+     * @param array   $args          Command arguments.
+     * @param boolean $captureOutput Whether to capture output.
+     *
+     * @return array Output and exit code.
      */
-    public static function exec(string $name, array $args = [], bool $captureOutput = true): array
-    {
+    public static function exec(
+        string $name,
+        array $args = [],
+        bool $captureOutput = true
+    ): array {
         if (!isset(self::$whitelist[$name])) {
             throw new \RuntimeException("Command not whitelisted: $name");
         }
@@ -102,58 +101,56 @@ class Cmd
     }
 
     /**
-     * Check if a command is whitelisted
+     * Check if a command is whitelisted.
      *
-     * @param string $name Command alias
-     * @return bool
+     * @param string $name Command alias.
+     *
+     * @return boolean True if whitelisted.
      */
-    public static function isWhitelisted(string $name): bool
-    {
+    public static function isWhitelisted(string $name): bool {
         return isset(self::$whitelist[$name]);
     }
 
     /**
-     * Get list of whitelisted commands
+     * Get list of whitelisted commands.
      *
-     * @return array<string>
+     * @return array List of command names.
      */
-    public static function getWhitelist(): array
-    {
+    public static function getWhitelist(): array {
         return array_keys(self::$whitelist);
     }
 
     /**
-     * Clear the whitelist
+     * Clear the whitelist.
      *
      * @return void
      */
-    public static function clearWhitelist(): void
-    {
+    public static function clearWhitelist(): void {
         self::$whitelist = [];
     }
 
     /**
-     * Execute command and return only output
+     * Execute command and return only output.
      *
-     * @param string $name Command alias
-     * @param array<string> $args Command arguments
-     * @return string Command output
+     * @param string $name Command alias.
+     * @param array  $args Command arguments.
+     *
+     * @return string Command output.
      */
-    public static function run(string $name, array $args = []): string
-    {
+    public static function run(string $name, array $args = []): string {
         $result = self::exec($name, $args);
         return $result['output'];
     }
 
     /**
-     * Execute command and check if successful (exit code 0)
+     * Execute command and check if successful.
      *
-     * @param string $name Command alias
-     * @param array<string> $args Command arguments
-     * @return bool True if exit code is 0
+     * @param string $name Command alias.
+     * @param array  $args Command arguments.
+     *
+     * @return boolean True if exit code is 0.
      */
-    public static function test(string $name, array $args = []): bool
-    {
+    public static function test(string $name, array $args = []): bool {
         $result = self::exec($name, $args);
         return $result['exit_code'] === 0;
     }

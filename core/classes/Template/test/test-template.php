@@ -3,18 +3,16 @@
  * Test suite for Template utility
  */
 
-require_once __DIR__.'/../Template.php';
+require_once __DIR__ . '/../Template.php';
 
-class TemplateTest
-{
+class TemplateTest {
     private int $passed = 0;
     private int $failed = 0;
     private string $fixturesDir;
     private string $cacheDir;
     private Template $tpl;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->fixturesDir = __DIR__ . '/fixtures';
         $this->cacheDir = '/tmp/core-template-test-' . uniqid();
         mkdir($this->cacheDir, 0755, true);
@@ -31,8 +29,7 @@ class TemplateTest
         ]);
     }
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testSimpleVariables();
         $this->testIncludes();
         $this->testBlocks();
@@ -44,20 +41,17 @@ class TemplateTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\003[0m $msg\n";
         $this->failed++;
     }
 
-    private function testSimpleVariables(): void
-    {
+    private function testSimpleVariables(): void {
         $output = $this->tpl->parse($this->fixturesDir . '/simple.html', [
             'title' => 'Test Title',
             'description' => 'Test Description'
@@ -73,8 +67,7 @@ class TemplateTest
         }
     }
 
-    private function testIncludes(): void
-    {
+    private function testIncludes(): void {
         $output = $this->tpl->parse($this->fixturesDir . '/with-includes.html', [
             'fixturesDir' => $this->fixturesDir,
             'title' => 'Page Title',
@@ -94,8 +87,7 @@ class TemplateTest
         }
     }
 
-    private function testBlocks(): void
-    {
+    private function testBlocks(): void {
         $output = $this->tpl->parse($this->fixturesDir . '/with-blocks.html', []);
 
         if (
@@ -109,8 +101,7 @@ class TemplateTest
         }
     }
 
-    private function testBlockArgs(): void
-    {
+    private function testBlockArgs(): void {
         $output = $this->tpl->parse($this->fixturesDir . '/block-args.html', []);
 
         if (
@@ -125,8 +116,7 @@ class TemplateTest
         }
     }
 
-    private function testCaching(): void
-    {
+    private function testCaching(): void {
         // First parse - creates cache
         $this->tpl->parse($this->fixturesDir . '/simple.html', ['title' => 'Test', 'description' => 'Test']);
 
@@ -140,8 +130,7 @@ class TemplateTest
         }
     }
 
-    private function testMissingFile(): void
-    {
+    private function testMissingFile(): void {
         try {
             $this->tpl->parse($this->fixturesDir . '/nonexistent.html', []);
             $this->fail('Missing file check failed (should have thrown exception)');
@@ -150,8 +139,7 @@ class TemplateTest
         }
     }
 
-    private function cleanup(): void
-    {
+    private function cleanup(): void {
         // Clean up cache directory
         $files = glob($this->cacheDir . '/*');
         foreach ($files as $file) {
@@ -162,8 +150,7 @@ class TemplateTest
         rmdir($this->cacheDir);
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

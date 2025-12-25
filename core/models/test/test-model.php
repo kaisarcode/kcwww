@@ -26,18 +26,15 @@ autoload([
 ]);
 
 // Create test model dynamically
-class TestModel extends Model
-{
+class TestModel extends Model {
     protected static string $table = 'testitems';
 }
 
-class ModelTest
-{
+class ModelTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         // Initialize with in-memory database
         TestModel::init('sqlite::memory:');
 
@@ -74,20 +71,17 @@ class ModelTest
         return $this->failed > 0 ? 1 : 0;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         printf("\033[0;32m[PASS]\033[0m %s\n", $msg);
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         printf("\033[0;31m[FAIL]\033[0m %s\n", $msg);
         $this->failed++;
     }
 
-    private function testSave(): void
-    {
+    private function testSave(): void {
         $model = TestModel::create(['name' => 'Test Item']);
         $id = $model->save();
 
@@ -98,8 +92,7 @@ class ModelTest
         }
     }
 
-    private function testFind(): void
-    {
+    private function testFind(): void {
         $model = TestModel::create(['name' => 'Find Me']);
         $id = $model->save();
 
@@ -111,8 +104,7 @@ class ModelTest
         }
     }
 
-    private function testAll(): void
-    {
+    private function testAll(): void {
         $all = TestModel::all();
         if (count($all) >= 2) {
             $this->pass("Model::all() returns multiple records");
@@ -121,15 +113,14 @@ class ModelTest
         }
     }
 
-    private function testPaginate(): void
-    {
+    private function testPaginate(): void {
         // Add more items to have enough for pagination testing
         for ($i = 0; $i < 5; $i++) {
             TestModel::create(['name' => "Item $i"])->save();
         }
 
         $result = TestModel::paginate(1, 2);
-        
+
         if (count($result['result']) === 2 && $result['pagination']['total'] >= 7) {
             $this->pass("Model::paginate() returns correct number of items and metadata");
         } else {
@@ -144,8 +135,7 @@ class ModelTest
         }
     }
 
-    private function testDelete(): void
-    {
+    private function testDelete(): void {
         $model = TestModel::create(['name' => 'Delete Me']);
         $id = $model->save();
         $model->delete();

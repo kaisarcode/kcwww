@@ -12,13 +12,11 @@ autoload([
     $root . '/models',
 ]);
 
-class ControllerTest
-{
+class ControllerTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testControllerExists();
         $this->testAssetsController();
         $this->testErrorController();
@@ -29,20 +27,17 @@ class ControllerTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testControllerExists(): void
-    {
+    private function testControllerExists(): void {
         if (class_exists('Controller')) {
             $this->pass('Controller base class exists');
         } else {
@@ -50,8 +45,7 @@ class ControllerTest
         }
     }
 
-    private function testAssetsController(): void
-    {
+    private function testAssetsController(): void {
         if (class_exists('AssetsController')) {
             $this->pass('AssetsController class exists');
         } else {
@@ -79,8 +73,7 @@ class ControllerTest
         }
     }
 
-    private function testErrorController(): void
-    {
+    private function testErrorController(): void {
         if (class_exists('ErrorController')) {
             $this->pass('ErrorController class exists');
         } else {
@@ -108,8 +101,7 @@ class ControllerTest
         }
     }
 
-    private function testPwaController(): void
-    {
+    private function testPwaController(): void {
         if (class_exists('PwaController')) {
             $this->pass('PwaController class exists');
         } else {
@@ -143,8 +135,7 @@ class ControllerTest
         }
     }
 
-    private function testImagesController(): void
-    {
+    private function testImagesController(): void {
         if (class_exists('ImagesController')) {
             $this->pass('ImagesController class exists');
         } else {
@@ -166,8 +157,7 @@ class ControllerTest
         }
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

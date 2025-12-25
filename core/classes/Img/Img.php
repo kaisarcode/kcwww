@@ -1,7 +1,7 @@
 <?php
 /**
  * Img - Image manipulation utilities
- * Summary: Provides image resizing and format conversion using Imagick and GD
+ * Summary: Provides image resizing and format conversion using Imagick and GD.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,22 +14,25 @@
  */
 
 /**
- * Image manipulation utilities
+ * Image manipulation utilities.
  */
-class Img
-{
-
+class Img {
     /**
      * Resize and optionally extend an image while preserving aspect ratio.
      *
-     * @param string $url Image source URL or path.
-     * @param int $w Target width.
-     * @param int|null $h Target height; if null, maintain aspect ratio.
-     * @param string $fmt Preferred output format (default: 'png').
+     * @param string       $url Image source URL or path.
+     * @param integer      $w   Target width.
+     * @param integer|null $h   Target height or null for aspect ratio.
+     * @param string       $fmt Preferred output format.
+     *
      * @return string Binary image blob.
      */
-    static function proc(string $url, int $w, ?int $h = null, string $fmt = 'png'): string
-    {
+    public static function proc(
+        string $url,
+        int $w,
+        ?int $h = null,
+        string $fmt = 'png'
+    ): string {
         $data = file_get_contents($url);
         $ext = strtolower(pathinfo($url, PATHINFO_EXTENSION));
 
@@ -47,8 +50,9 @@ class Img
             } else {
                 $blob = '';
             }
-            if (file_exists($tmpIn))
+            if (file_exists($tmpIn)) {
                 unlink($tmpIn);
+            }
             return $blob;
         }
 

@@ -3,22 +3,19 @@
  * Test suite for Bundler utility
  */
 
-require_once __DIR__.'/../Bundler.php';
+require_once __DIR__ . '/../Bundler.php';
 
-class BundlerTest
-{
+class BundlerTest {
     private int $passed = 0;
     private int $failed = 0;
     private string $tempDir;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->tempDir = sys_get_temp_dir() . '/core_bundler_test_' . uniqid();
         mkdir($this->tempDir);
     }
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testCssBundling();
         $this->testJsBundling();
 
@@ -27,20 +24,17 @@ class BundlerTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testCssBundling(): void
-    {
+    private function testCssBundling(): void {
         $mainFile = $this->tempDir . '/style.css';
         $impFile = $this->tempDir . '/import.css';
 
@@ -63,8 +57,7 @@ class BundlerTest
         }
     }
 
-    private function testJsBundling(): void
-    {
+    private function testJsBundling(): void {
         $mainFile = $this->tempDir . '/app.js';
         $modFile = $this->tempDir . '/mod.js';
 
@@ -89,8 +82,7 @@ class BundlerTest
         }
     }
 
-    private function cleanup(): void
-    {
+    private function cleanup(): void {
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($this->tempDir, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::CHILD_FIRST
@@ -104,8 +96,7 @@ class BundlerTest
         rmdir($this->tempDir);
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

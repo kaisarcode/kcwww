@@ -1,7 +1,7 @@
 <?php
 /**
  * Autoloader - Flexible class autoloader
- * Summary: Scans directories for class files with PSR-4 and recursive fallback
+ * Summary: Scans directories for class files with PSR-4 and recursive fallback.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -18,13 +18,14 @@
  *
  * Scans multiple base directories in two phases:
  * 1. Attempts direct PSR-4-style loading.
- * 2. If that fails, and recursive is true, searches recursively for a matching class file.
+ * 2. If that fails and recursive is true searches recursively.
  *
- * @param array<int, string> $baseDirs List of root paths to search in.
- * @param bool $recursive Whether to enable recursive fallback search
+ * @param array   $baseDirs  List of root paths to search in.
+ * @param boolean $recursive Whether to enable recursive fallback search.
+ *
+ * @return void
  */
-function autoload(array $baseDirs, bool $recursive = true): void
-{
+function autoload(array $baseDirs, bool $recursive = true): void {
     $ds = DIRECTORY_SEPARATOR;
     $baseDirs = array_map(
         fn(string $dir): string => rtrim($dir, $ds),

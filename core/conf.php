@@ -59,6 +59,7 @@ Conf::set([
             'form_factor' => 'narrow'
         ]
     ],
+
     // API Security
     'api.secret' => getenv('KC_API_SECRET') ?: 'changeme'
 ]);

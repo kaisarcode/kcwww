@@ -3,22 +3,19 @@
  * Test suite for Fs utility
  */
 
-require_once __DIR__.'/../Fs.php';
+require_once __DIR__ . '/../Fs.php';
 
-class FsTest
-{
+class FsTest {
     private int $passed = 0;
     private int $failed = 0;
     private string $tempDir;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->tempDir = sys_get_temp_dir() . '/core_fs_test_' . uniqid();
         mkdir($this->tempDir);
     }
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testPutGet();
         $this->testMkdirp();
         $this->testLsFiles();
@@ -29,20 +26,17 @@ class FsTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testPutGet(): void
-    {
+    private function testPutGet(): void {
         $file = $this->tempDir . '/test.txt';
         $content = 'Hello Fs';
 
@@ -79,8 +73,7 @@ class FsTest
         }
     }
 
-    private function testMkdirp(): void
-    {
+    private function testMkdirp(): void {
         $deepDir = $this->tempDir . '/a/b/c';
 
         if (Fs::mkdirp($deepDir)) {
@@ -96,8 +89,7 @@ class FsTest
         }
     }
 
-    private function testLsFiles(): void
-    {
+    private function testLsFiles(): void {
         $dir = $this->tempDir . '/ls_files';
         Fs::mkdirp($dir . '/sub');
         Fs::put($dir . '/f1.txt', '');
@@ -119,8 +111,7 @@ class FsTest
         }
     }
 
-    private function testLsDirs(): void
-    {
+    private function testLsDirs(): void {
         $dir = $this->tempDir . '/ls_dirs';
         Fs::mkdirp($dir . '/d1');
         Fs::mkdirp($dir . '/d2');
@@ -143,8 +134,7 @@ class FsTest
         }
     }
 
-    private function cleanup(): void
-    {
+    private function cleanup(): void {
         // Recursive delete temp dir
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($this->tempDir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -159,8 +149,7 @@ class FsTest
         rmdir($this->tempDir);
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

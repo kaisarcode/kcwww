@@ -3,19 +3,17 @@
  * Test suite for Cookie utility
  */
 
-require_once __DIR__.'/../Cookie.php';
+require_once __DIR__ . '/../Cookie.php';
 
 // Mocking setcookie for CLI environment if needed, or rely on PHP behavior
 // In CLI, setcookie doesn't do much but might warn.
 // We can override it in the namespace if needed, but let's see if we can just suppress warnings.
 
-class CookieTest
-{
+class CookieTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testSetGet();
         $this->testDelete();
         $this->testEncryption();
@@ -24,20 +22,17 @@ class CookieTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testSetGet(): void
-    {
+    private function testSetGet(): void {
         // Suppress "Cannot modify header information" warning in CLI
         @Cookie::set('test_cookie', 'test_value');
 
@@ -61,8 +56,7 @@ class CookieTest
         }
     }
 
-    private function testDelete(): void
-    {
+    private function testDelete(): void {
         @Cookie::set('del_cookie', 'del_val');
         @Cookie::delete('del_cookie');
 
@@ -73,8 +67,7 @@ class CookieTest
         }
     }
 
-    private function testEncryption(): void
-    {
+    private function testEncryption(): void {
         $key = 'secret_key_123';
         $original = 'sensitive_data';
 
@@ -104,8 +97,7 @@ class CookieTest
         }
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

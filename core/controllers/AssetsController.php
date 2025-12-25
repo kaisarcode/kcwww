@@ -16,15 +16,13 @@
 /**
  * Asset bundling controller
  */
-class AssetsController extends Controller
-{
+class AssetsController extends Controller {
     /**
      * Serve bundled CSS
      *
      * @return string
      */
-    public static function styles(): string
-    {
+    public static function styles(): string {
         self::noRobots();
         Http::setHeaderCss();
 
@@ -43,8 +41,7 @@ class AssetsController extends Controller
      *
      * @return string
      */
-    public static function script(): string
-    {
+    public static function script(): string {
         self::noRobots();
         Http::setHeaderJs();
 
@@ -64,8 +61,7 @@ class AssetsController extends Controller
      * @param string $path
      * @return string
      */
-    public static function file(string $path): string
-    {
+    public static function file(string $path): string {
         self::noRobots();
 
         $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));

@@ -3,15 +3,13 @@
  * Test suite for Str utility
  */
 
-require_once __DIR__.'/../Str.php';
+require_once __DIR__ . '/../Str.php';
 
-class StrTest
-{
+class StrTest {
     private int $passed = 0;
     private int $failed = 0;
 
-    public function run(): int
-    {
+    public function run(): int {
         $this->testSanitize();
         $this->testTruncate();
         $this->testSlug();
@@ -22,20 +20,17 @@ class StrTest
         return $this->failed;
     }
 
-    private function pass(string $msg): void
-    {
+    private function pass(string $msg): void {
         echo "\033[0;32m[PASS]\033[0m $msg\n";
         $this->passed++;
     }
 
-    private function fail(string $msg): void
-    {
+    private function fail(string $msg): void {
         echo "\033[0;31m[FAIL]\033[0m $msg\n";
         $this->failed++;
     }
 
-    private function testSanitize(): void
-    {
+    private function testSanitize(): void {
         $safe = Str::sanitize('<script>alert("xss")</script>');
 
         if (strpos($safe, '<script>') === false) {
@@ -45,8 +40,7 @@ class StrTest
         }
     }
 
-    private function testTruncate(): void
-    {
+    private function testTruncate(): void {
         $short = Str::truncate('This is a very long text', 10);
 
         if ($short === 'This is a ...') {
@@ -56,8 +50,7 @@ class StrTest
         }
     }
 
-    private function testSlug(): void
-    {
+    private function testSlug(): void {
         $slug = Str::slug('Hello World! 123');
 
         if ($slug === 'hello-world-123') {
@@ -67,8 +60,7 @@ class StrTest
         }
     }
 
-    private function testRandom(): void
-    {
+    private function testRandom(): void {
         $random = Str::random(32);
 
         if (strlen($random) === 32) {
@@ -78,8 +70,7 @@ class StrTest
         }
     }
 
-    private function testMin(): void
-    {
+    private function testMin(): void {
         $min = Str::min("Hello    World");
 
         if ($min === 'Hello World') {
@@ -89,8 +80,7 @@ class StrTest
         }
     }
 
-    private function testNormalize(): void
-    {
+    private function testNormalize(): void {
         $norm = Str::normalize('Test');
 
         if ($norm === 'Test') {
@@ -100,8 +90,7 @@ class StrTest
         }
     }
 
-    public function summary(): void
-    {
+    public function summary(): void {
         echo "\n";
         echo "Total: " . ($this->passed + $this->failed) . " | ";
         echo "\033[0;32mPassed: {$this->passed}\033[0m | ";

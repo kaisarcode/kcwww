@@ -1,7 +1,7 @@
 <?php
 /**
  * ImagesController - Dynamic image processing
- * Summary: Handles image resizing, format conversion, and caching
+ * Summary: Handles image resizing, format conversion, and caching.
  *
  * Author:  KaisarCode
  * Website: https://kaisarcode.com
@@ -14,21 +14,20 @@
  */
 
 /**
- * Dynamic image processing controller
+ * Dynamic image processing controller.
  */
-class ImagesController extends Controller
-{
+class ImagesController extends Controller {
     /**
-     * Process and serve dynamic image
+     * Process and serve dynamic image.
      *
-     * Pattern: /img/{path/to/name}-{dims}.{format}
+     * Pattern: /img/path/to/name-dims.format
      * Dims: w100, h200, w100h200
      *
-     * @param array $matches Regex matches from route
-     * @return string Image binary data
+     * @param array $matches Regex matches from route.
+     *
+     * @return string Image binary data.
      */
-    public static function process(array $matches): string
-    {
+    public static function process(array $matches): string {
         if (!isset($matches[3])) {
             self::status(404);
             return '';
@@ -74,17 +73,29 @@ class ImagesController extends Controller
     }
 
     /**
-     * Find source file with any allowed extension
+     * Find source file with any allowed extension.
+     *
+     * @param string $srcDir      Source directory path.
+     * @param string $allowedBase Allowed base directory.
+     * @param string $name        Image name without extension.
+     *
+     * @return string Full path or empty string.
      */
-    private static function findSourceFile(string $srcDir, string $allowedBase, string $name): string
-    {
-        $searchExts = Conf::get('app.image.allowed_extensions', ['png', 'jpg', 'jpeg', 'webp', 'svg']);
+    private static function findSourceFile(
+        string $srcDir,
+        string $allowedBase,
+        string $name
+    ): string {
+        $searchExts = Conf::get(
+            'app.image.allowed_extensions',
+            ['png', 'jpg', 'jpeg', 'webp', 'svg']
+        );
 
         foreach ($searchExts as $search) {
             $candidate = "$srcDir/$name.$search";
             $realPath = realpath($candidate);
 
-            // Security: Verify path is within allowed base (prevent traversal)
+            // Security: Verify path is within allowed base
             if ($realPath && strpos($realPath, $allowedBase) === 0) {
                 return $realPath;
             }
@@ -94,10 +105,13 @@ class ImagesController extends Controller
     }
 
     /**
-     * Parse dimension string into width and height
+     * Parse dimension string into width and height.
+     *
+     * @param string $dimStr Dimension string like w100h200.
+     *
+     * @return array Width and height as integers.
      */
-    private static function parseDimensions(string $dimStr): array
-    {
+    private static function parseDimensions(string $dimStr): array {
         $w = 0;
         $h = 0;
 
@@ -112,11 +126,18 @@ class ImagesController extends Controller
     }
 
     /**
-     * Validate dimensions against allowed sizes
+     * Validate dimensions against allowed sizes.
+     *
+     * @param integer $w Width value.
+     * @param integer $h Height value.
+     *
+     * @return boolean True if dimensions are valid.
      */
-    private static function validateDimensions(int $w, int $h): bool
-    {
-        $allowedSizes = Conf::get('app.image.allowed_sizes', [50, 100, 200, 300, 400, 500, 800, 1200]);
+    private static function validateDimensions(int $w, int $h): bool {
+        $allowedSizes = Conf::get(
+            'app.image.allowed_sizes',
+            [50, 100, 200, 300, 400, 500, 800, 1200]
+        );
 
         if ($w > 0 && !in_array($w, $allowedSizes)) {
             return false;
@@ -129,10 +150,23 @@ class ImagesController extends Controller
     }
 
     /**
-     * Get cached image or generate and cache
+     * Get cached image or generate and cache.
+     *
+     * @param string  $srcFile Source file path.
+     * @param integer $w       Target width.
+     * @param integer $h       Target height.
+     * @param string  $ext     Output extension.
+     * @param string  $dimStr  Original dimension string.
+     *
+     * @return string Image binary data.
      */
-    private static function getCachedImage(string $srcFile, int $w, int $h, string $ext, string $dimStr): string
-    {
+    private static function getCachedImage(
+        string $srcFile,
+        int $w,
+        int $h,
+        string $ext,
+        string $dimStr
+    ): string {
         $cacheDir = Conf::get('app.image.cache_dir', sys_get_temp_dir());
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir, 0775, true);
@@ -162,10 +196,19 @@ class ImagesController extends Controller
     }
 
     /**
-     * Calculate missing dimension maintaining aspect ratio
+     * Calculate missing dimension maintaining aspect ratio.
+     *
+     * @param string  $srcFile Source file path.
+     * @param integer $w       Width value.
+     * @param integer $h       Height value.
+     *
+     * @return array Calculated width and height.
      */
-    private static function calculateMissingDimension(string $srcFile, int $w, int $h): array
-    {
+    private static function calculateMissingDimension(
+        string $srcFile,
+        int $w,
+        int $h
+    ): array {
         if (($w === 0 || $h === 0) && !($w === 0 && $h === 0)) {
             $sizes = @getimagesize($srcFile);
             if ($sizes) {
@@ -190,10 +233,13 @@ class ImagesController extends Controller
     }
 
     /**
-     * Set appropriate Content-Type header for image
+     * Set appropriate Content-Type header for image.
+     *
+     * @param string $ext File extension.
+     *
+     * @return void
      */
-    private static function setImageHeader(string $ext): void
-    {
+    private static function setImageHeader(string $ext): void {
         $mimes = [
             'png' => 'image/png',
             'jpg' => 'image/jpeg',
