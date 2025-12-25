@@ -474,7 +474,7 @@ main > section > section article:not(:has(header)) section a {
 
 main > section > section article:not(:has(header)) section a:hover {
     color: inherit;
-    filter: brightness(1.2);
+
 }
 
 main > section > section article:not(:has(header))::before,
@@ -512,13 +512,6 @@ article a {
     color: var(--tx-lnk);
     text-decoration: none;
 }
-
-a:hover:not(header a):not(footer a),
-article a:hover {
-    text-decoration: none;
-    filter: brightness(1.2);
-}
-
 
 /* Explore item section text */
 main > section > section article section {
