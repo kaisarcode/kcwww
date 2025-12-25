@@ -33,6 +33,7 @@ $autoloadPaths[] = DIR_CORE . '/classes';
 $autoloadPaths[] = DIR_CORE . '/controllers';
 $autoloadPaths[] = DIR_CORE . '/models';
 autoload($autoloadPaths);
+Route::$authParam = 'token';
 
 // Initialize environment directories
 define('DIR_VAR', DIR_APP . '/var');

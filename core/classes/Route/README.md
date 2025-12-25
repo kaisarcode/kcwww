@@ -86,7 +86,7 @@ Register error handler for 404/500 errors.
 
 ### `Route::setAuthParam(string $name): void`
 
-Set parameter name for authentication (default: 'routepassw').
+Set parameter name for authentication (default: 'routepassword').
 
 ## Callback Return Values
 

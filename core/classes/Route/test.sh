@@ -73,5 +73,54 @@ if [ "$output" != '{"status":"ok"}' ]; then
 fi
 pass "JSON response works"
 
+# Test protect with default routepassword
+# shellcheck disable=SC2016
+output=$(php -r '
+$_SERVER["REQUEST_METHOD"] = "GET";
+$_SERVER["REQUEST_URI"] = "/secret";
+$_REQUEST["routepassword"] = "correct";
+require_once "'"$SCRIPT_DIR"'/Route.php";
+Route::protect("GET", "/secret", "correct");
+Route::get("/secret", function() { return "SECRET_ACCESS"; });
+')
+
+if [ "$output" != "SECRET_ACCESS" ]; then
+    fail "Protect failed with correct routepassword"
+fi
+pass "Protect works with default routepassword"
+
+# Test protect manually changing public authParam to 'token'
+# shellcheck disable=SC2016
+output=$(php -r '
+$_SERVER["REQUEST_METHOD"] = "GET";
+$_SERVER["REQUEST_URI"] = "/token-secret";
+$_REQUEST["token"] = "valid-token";
+require_once "'"$SCRIPT_DIR"'/Route.php";
+Route::$authParam = "token";
+Route::protect("GET", "/token-secret", "valid-token");
+Route::get("/token-secret", function() { return "TOKEN_ACCESS"; });
+')
+
+if [ "$output" != "TOKEN_ACCESS" ]; then
+    fail "Protect failed after changing public authParam to token"
+fi
+pass "Protect works after changing public authParam to token"
+
+# Test protect with WRONG password
+# shellcheck disable=SC2016
+output=$(php -r '
+$_SERVER["REQUEST_METHOD"] = "GET";
+$_SERVER["REQUEST_URI"] = "/secret";
+$_REQUEST["routepassword"] = "wrong";
+require_once "'"$SCRIPT_DIR"'/Route.php";
+Route::protect("GET", "/secret", "correct");
+Route::get("/secret", function() { return "SECRET_ACCESS"; });
+')
+
+if [ "$output" = "SECRET_ACCESS" ]; then
+    fail "Protect FAILED to block wrong password"
+fi
+pass "Protect blocks wrong password"
+
 printf "\n%bAll tests passed%b\n" "${GREEN}" "${NC}"
 
