@@ -11,7 +11,6 @@ import core from '../../../core/views/js/script.js';
 
 (function() {
     'use strict';
-
     document.addEventListener('click', function(e) {
         var article = e.target.closest('article[data-href]');
         if (article) {
